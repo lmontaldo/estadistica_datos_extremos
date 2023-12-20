@@ -1,0 +1,113 @@
+---
+title: "Entrega Extremales"
+author: "laura montaldo"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+rm(list = ls())
+```
+
+
+```{r include=FALSE}
+if (!require(lubridate)) {
+    install.packages("lubridate")
+}
+library(lubridate)
+if (!require(dplyr)) {
+    install.packages("dplyr")
+}
+library(dplyr)
+if (!require(ggplot2)) {
+    install.packages("ggplot2")
+}
+library(ggplot2)
+```
+
+
+```{r include=FALSE}
+df = read.csv('data/sp500_Closing_values.csv')
+```
+
+
+```{r include=FALSE}
+head(df)
+```
+
+
+```{r include=FALSE}
+# Convert the column to datetime format
+df$Date <- ymd_hms(df$Date)
+# Extract just the date part
+df$Date <- as.Date(df$Date)
+```
+
+```{r include=FALSE}
+head(df)
+```
+
+
+```{r include=FALSE}
+str(df)
+```
+
+
+```{r include=FALSE}
+# Create a new column 'relacion' with yesterday's price over today's price
+df <- df %>%
+  mutate(relacion = lag(Close) / Close)
+```
+
+
+```{r include=FALSE}
+head(df)
+```
+
+Se busca crear un indicador de una posible crisis bursátil. Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy $Indicador=Precio_{t-1}/Precio_t$.
+
+
+```{r include=FALSE}
+# Remove the first row
+df <- df[-1, ]
+```
+
+
+```{r echo=FALSE}
+# Check for any NA or non-finite values in Date or Close
+df <- na.omit(df)
+
+# Determine the range of dates
+date_range <- range(df$Date, na.rm = TRUE)
+
+# Create the plot with x-axis limits set to the date range
+ggplot(df, aes(x = Date, y = Close)) +
+  geom_line() +
+  ggtitle("S&P 500 Historical Closing Values") +
+  xlab("Date") +
+  ylab("Close Price") +
+  scale_x_date(limits = date_range)
+```
+
+
+
+```{r echo=FALSE}
+# Create the plot
+ggplot(df, aes(x = Date, y = relacion)) +
+  geom_line() +
+  ggtitle("S&P500: Historical Yerterday/Today Closing Values") +
+  xlab("Date") +
+  ylab("S&P500: Historical Yerterday/Today Closing Values") +
+  scale_x_date(limits = date_range)
+```
+
+
+
+
