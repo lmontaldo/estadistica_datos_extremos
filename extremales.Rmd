@@ -1,11 +1,15 @@
 ---
-title: "Entrega Extremales"
-author: "laura montaldo"
+title: "Entrega: curso de datos extremales"
+author: "Laura Montaldo, CI: 3.512.962-7"
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
+    includes:
+      in_header: header.tex
+documentclass: article
+classoption: 12pt
 ---
 
 ```{r setup, include=FALSE}
@@ -31,6 +35,11 @@ if (!require(ggplot2)) {
 }
 library(ggplot2)
 ```
+
+
+
+\newpage
+
 
 
 ```{r include=FALSE}
@@ -71,8 +80,11 @@ df <- df %>%
 head(df)
 ```
 
+# Motivación del estudio
+
 Se busca crear un indicador de una posible crisis bursátil. Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy $Indicador=Precio_{t-1}/Precio_t$.
 
+\vspace{1cm}
 
 ```{r include=FALSE}
 # Remove the first row
@@ -107,7 +119,100 @@ ggplot(df, aes(x = Date, y = relacion)) +
   ylab("S&P500: Historical Yerterday/Today Closing Values") +
   scale_x_date(limits = date_range)
 ```
+\newpage
 
+# Marco Teórico
+
+## Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción
+
+Siguiendo las notas del curso, se dice que tenemos datos extremos cuando cada
+dato corresponde al máximo o mínimo de varios
+registros. Son un caso particular de evento raro o gran 
+desviación respecto a la media.
+
+Asumiremos que nuestros datos son iid
+(independientes e idénticamente distribuidos, son
+dos suposiciones juntas). Esta doble suposición
+suele no ser realista en aplicaciones concretas
+( ninguna de sus dos componentes, incluso) pero
+para comenzar a entender la teoría clásica, la
+utilizaremos por un tiempo.
+
+Si tenemos datos $X_1,...,X_n$ $iid$
+con distribución $F$, entonces $X_n^* = max (X_1,...,X_n)$ tiene distribución $F_n^*$ dada por
+$F_n^* (t)= F(t)_n$. Si conocemos la distribución $F$ conoceríamos la 
+distribución $F_n^*$
+, pero en algunos casos la lectura 
+que queda registrada es la del dato máximo y no la 
+de cada observación que dio lugar al mismo, por lo 
+que a veces ni siquiera es viable estimar $F$.
+Pero aún en los casos en que $F$ es conocida o 
+estimable, si $n$ es grande, la fórmula de $F_n^*$ puede 
+resultar prácticamente inmanejable. En una línea de trabajo similar a la que aporta el Teorema 
+Central del Límite en la estadística de valores 
+medios, un teorema nos va a permitir aproximar 
+$F_n^*$ por distribuciones más sencillas. Este es el 
+Teorema de Fischer-Tippet-Gnedenko (FTG, para 
+abreviar) que presentaremos en breve.
+
+
+Como $X_1,...,X_n$ iid, definimos 
+$Y_i = -X_i$ para todo valor de $i$, entonces $Y_1,...,Y_n$ iid y
+además
+$min(X_1,...,X_n) = - max(Y_1,...,Y_n)$
+la teoría asintótica de los mínimos de datos iid
+se reduce a la de los máximos, razón por la que 
+nos concentramos aquí en estudiar el 
+comportamiento asintótico de los máximos 
+exclusivamente.
+
+## Las distribuciones extremales
+
+Las distribuciones extremales son tres: la
+distribución de Gumbel; la distribución de Weibull; 
+la distribución de Fréchet.
+
+### Distribución de Gumbel
+
+Se dice que una variable tiene distribución de 
+Gumbel si su distribución es: 
+
+$$ \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} $$
+
+
+### Distribución de Weibull
+
+Se dice que una variable tiene distribución de 
+Weibull de orden $\alpha>0$ si su distribución es:
+
+$$\Psi_{\alpha}(x)=\begin{cases}
+exp{-(-x)^{\alpha}} & si\;x<0\\
+1 & \text{en otro caso}
+\end{cases}$$
+
+### Distribución de Fréchet
+
+Se dice que una variable tiene distribución de 
+Fréchet de orden $\alpha>0$ si su distribución es:
+
+$$
+\Phi_{\alpha}(x)=\begin{cases}
+exp\{-x^{-\alpha}\} & si\;x>0\\
+0 & \text{en otro caso}
+\end{cases}
+$$
+\newpage
+
+### Teorema 1: Relaciones entre las versiones standard de las distribuciones extremales.
+
+$X$ tiene distribución $\Phi_{\alpha}(x)$ si y sólo si $(-1/X)$ tiene 
+distribución $\Psi_{\alpha}(x)$ si y sólo si $log(X^{\alpha})$ tiene 
+distribución $\Lambda$.
+
+
+A estas versiones standard se las puede extender 
+agregando un parámetro de recentramiento (μ) y 
+un parámetro de escala (β).
 
 
 
