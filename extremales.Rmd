@@ -10,7 +10,9 @@ output:
       in_header: header.tex
 documentclass: article
 classoption: 12pt
+lang: es
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -35,10 +37,31 @@ if (!require(ggplot2)) {
 }
 library(ggplot2)
 ```
+\newpage
 
+<!-- titulo-->
 
+\thispagestyle{empty}
+
+\maketitle
 
 \newpage
+
+<!-- indice -->
+
+\tableofcontents
+
+\newpage
+
+<!-- abstract -->
+
+# Resumen
+
+Your abstract goes here.
+
+\newpage
+
+
 
 
 
@@ -80,9 +103,18 @@ df <- df %>%
 head(df)
 ```
 
-# Motivación del estudio
+# Motivación y objetivo del estudio
 
+Los índices de $S\&P$ son una familia de índices de renta variable\footnote{En inglés se llaman equity indices} diseñados para medir el rendimiento del mercado de acciones en Estados Unidos que cotizan en bolsas estadounidenses. Ésta familia de índices está compuesta por una amplia variedad de índices basados en tamaño, sector y estilo. Los índices están ponderados por el criterio \textit{float-adjusted market capitalization} (FMC). Además, se disponen de índices ponderados de manera equitativa y con límite de capitalización de mercado, como es el caso del $S\&P\:500$. Este este sentido, el $S\&P 500$ entraría en el conjunto de índices ponderados por capitalización bursátil ajustada a la flotación (ver \href{http://www.overleaf.com}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}). El mismo  mide el rendimiento del segmento de gran capitalización del mercado estadounidense. Es considerado como un indicador representativo del mercado de renta variable de los Estados Unidos, y está compuesto por 500 empresas constituyentes.
+ 
 Se busca crear un indicador de una posible crisis bursátil. Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy $Indicador=Precio_{t-1}/Precio_t$.
+
+Interpretación del Indicador:
+
+\begin{itemize}
+\item Si el indicador es menor a 1, el precio de cierre de hoy es mayor que el de ayer, lo cual podría ser considerado un signo positivo.
+\item Si el indicador es mayor a 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
+\end{itemize}
 
 \vspace{1cm}
 
@@ -203,16 +235,26 @@ exp\{-x^{-\alpha}\} & si\;x>0\\
 $$
 \newpage
 
-### Teorema 1: Relaciones entre las versiones standard de las distribuciones extremales.
+### Teorema 1: Relaciones entre las versiones standard de las distribuciones extremales
 
 $X$ tiene distribución $\Phi_{\alpha}(x)$ si y sólo si $(-1/X)$ tiene 
 distribución $\Psi_{\alpha}(x)$ si y sólo si $log(X^{\alpha})$ tiene 
 distribución $\Lambda$.
 
 
-A estas versiones standard se las puede extender 
-agregando un parámetro de recentramiento (μ) y 
-un parámetro de escala (β).
+### Teorema 2: Algunos datos de las distribuciones extremales
+#### Parte 1.
+Si $X$ tiene distribución $\Lambda^{(\mu,\beta)}$ entonces tiene:
+
+\begin{itemize}
+  \item[a)] Valor esperado $E(X) = \mu + \beta\gamma$, donde $\gamma$ es la constante de Euler-Mascheroni, cuyo valor aproximado es $0.5772156649$.
+  \item[b)] Moda: $\mu$
+  \item[c)] Mediana: $\mu - \beta \log(\log 2) \approx \mu - 0.36651 \beta$
+  \item[d)] Desviación estándar: $\beta \pi \sqrt{6} \approx 1.2825 \beta$
+  \item[e)] Si $X^+ = \max(X,0)$, entonces $E(X+k)$ es finito para todo valor de $k$ natural.
+  \item[f)] Para simular computacionalmente $X$, se puede tomar $U$ uniforme en $(0,1)$ y hacer $X = \mu - \beta \log(-\log U)$.
+\end{itemize}
+
 
 
 
