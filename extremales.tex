@@ -93,7 +93,7 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-01-11}
+\date{2024-01-12}
 
 \begin{document}
 \maketitle
@@ -121,32 +121,36 @@ Your abstract goes here.
 \section{Motivación y objetivo del
 estudio}\label{motivaciuxf3n-y-objetivo-del-estudio}}
 
-Los índices de \(S\&P\) constituyen una familia de índices de renta
-variable\footnote{En inglés se les denomina equity indices} diseñados
-para evaluar el rendimiento del mercado de acciones de empresas
-estadounidenses que cotizan en bolsas de Estados Unidos. Esta familia de
-índices abarca una amplia variedad de categorías basadas en tamaño,
-sector y estilo. La ponderación de los índices se realiza conforme a la
-capitalización bursátil ajustada al \textit{free float} (FMC). Además,
-se dispone de índices ponderados de manera equitativa y con límite de
-capitalización de mercado, como es el caso del \(S\&P:500\). En este
-contexto, el \(S\&P 500\) forma parte de los índices ponderados por
-capitalización bursátil ajustada a la flotación (consultar
+Los índices de \(S\&P\) son una familia de índices de renta
+variable\footnote{En inglés se llaman equity indices} diseñados para
+medir el rendimiento del mercado de acciones en Estados Unidos que
+cotizan en bolsas estadounidenses. Ésta familia de índices está
+compuesta por una amplia variedad de índices basados en tamaño, sector y
+estilo. Los índices están ponderados por el criterio
+\textit{float-adjusted market capitalization} (FMC). Además, se disponen
+de índices ponderados de manera equitativa y con límite de
+capitalización de mercado, como es el caso del \(S\&P\:500\). Este este
+sentido, el \(S\&P 500\) entraría en el conjunto de índices ponderados
+por capitalización bursátil ajustada a la flotación (ver
 \href{http://www.overleaf.com}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}).
-Este índice mide el rendimiento del segmento de gran capitalización del
-mercado estadounidense y es considerado un indicador representativo del
-mercado de renta variable en Estados Unidos, compuesto por 500 empresas
-constituyentes.
+El mismo mide el rendimiento del segmento de gran capitalización del
+mercado estadounidense. Es considerado como un indicador representativo
+del mercado de renta variable de los Estados Unidos, y está compuesto
+por 500 empresas constituyentes.
 
 Se busca crear un indicador de una posible crisis bursátil. Como
 variable de referencia de toma la relación de precios al cierre de ayer
-sobre la de hoy \(Indicador=Precio_{t-1}/Precio_t\).
+sobre la de hoy
+
+\begin{equation}
+Indicador_t=\frac{Precio_{t-1}}{Precio_t},\quad\text{para}\; t=1,...,T \label{eq:ind}
+\end{equation} \vspace{0.5cm}
 
 Interpretación del Indicador:
 
 \begin{itemize}
-\item Si el indicador es menor a 1, el precio de cierre de hoy es mayor que el de ayer, lo cual podría ser considerado un signo positivo.
-\item Si el indicador es mayor a 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
+\item Si el $Indicador$   \eqref{eq:ind}  $\leq$ 1, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
+\item Si el $Indicador$ \eqref{eq:ind}  > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
 \end{itemize}
 
 \vspace{1cm}
