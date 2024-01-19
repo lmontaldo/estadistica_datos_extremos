@@ -167,11 +167,11 @@ dato corresponde al máximo o mínimo de varios
 registros. Son un caso particular de evento raro o gran 
 desviación respecto a la media.
 
-Asumiremos que nuestros datos son iid
+Asumiremos que nuestros datos son $iid$
 (independientes e idénticamente distribuidos, son
 dos suposiciones juntas). Esta doble suposición
 suele no ser realista en aplicaciones concretas
-( ninguna de sus dos componentes, incluso) pero
+(ninguna de sus dos componentes, incluso) pero
 para comenzar a entender la teoría clásica, la
 utilizaremos por un tiempo.
 
@@ -202,6 +202,8 @@ se reduce a la de los máximos, razón por la que
 nos concentramos aquí en estudiar el 
 comportamiento asintótico de los máximos 
 exclusivamente.
+
+\newpage
 
 ## Las distribuciones extremales
 
@@ -248,17 +250,57 @@ distribución $\Lambda$.
 
 
 ### Teorema 2: Algunos datos de las distribuciones extremales
-#### Parte 1.
+#### Parte 1
 Si $X$ tiene distribución $\Lambda^{(\mu,\beta)}$ entonces tiene:
 
 \begin{itemize}
-  \item[a)] Valor esperado $E(X) = \mu + \beta\gamma$, donde $\gamma$ es la constante de Euler-Mascheroni, cuyo valor aproximado es $0.5772156649$.
+  \item[a)] Valor esperado: $E(X) = \mu + \beta\gamma$, donde $\gamma$ es la constante de Euler-Mascheroni, cuyo valor aproximado es $0.5772156649$.
   \item[b)] Moda: $\mu$
-  \item[c)] Mediana: $\mu - \beta \log(\log 2) \approx \mu - 0.36651 \beta$
-  \item[d)] Desviación estándar: $\beta \pi \sqrt{6} \approx 1.2825 \beta$
+  \item[c)] Mediana: $\mu - \beta \log(\log 2) \approx \mu - 0.36651 \beta$.
+  \item[d)] Desviación estándar: $\beta \pi \sqrt{6} \approx 1.2825 \beta$.
   \item[e)] Si $X^+ = \max(X,0)$, entonces $E(X+k)$ es finito para todo valor de $k$ natural.
   \item[f)] Para simular computacionalmente $X$, se puede tomar $U$ uniforme en $(0,1)$ y hacer $X = \mu - \beta \log(-\log U)$.
 \end{itemize}
+
+#### Parte 2
+
+Si $X$ tiene distribución $\Psi_{\alpha}^{(\mu,\beta)}$ entonces tiene: 
+
+\begin{itemize}
+  \item[a)] Valor esperado: $E(X) = \mu + \beta\Gamma(1+1/\alpha)$.
+  \item[b)] Moda: $\mu$ si $\alpha\leq 1$ y $\mu-\beta\{(\alpha-1)/\alpha\}^{(1/\alpha)}$ si $\alpha>1$.
+  \item[c)] Mediana: $\mu - \beta \log(2)^{(1/\alpha)}$.
+  \item[d)] Desviación estándar: $\beta\{\Gamma(1+2/\alpha)-\Gamma(1+1/\alpha)^2\}^{1/2}$.
+\end{itemize}
+
+#### Parte 2
+
+Si $X$ tiene una distribución $\Phi_{\alpha}^{(\mu, \beta)}$ entonces se tiene:
+
+\begin{itemize}
+  \item[a)] Valor esperado: $E(X) = \mu + \beta\Gamma(1-1/\alpha)$ si $\alpha > 1$, $\infty$ en caso contrario.
+  \item[b)] Moda: $\mu + \beta\Gamma(1-1/\alpha)$ si $\alpha>1$.
+  \item[c)] Mediana: $\mu + \beta \log(2)^{(-1/\alpha)}$.
+  \item[d)] Desviación estándar: $\beta|\Gamma(1-2/\alpha)-\Gamma(1-1/\alpha)^2|$ si $\alpha>2$, $\infty$ si $1<\alpha \leq 2$.
+\end{itemize}
+
+
+\newpage
+
+### Teorema 3: Fischer-Tippet-Gnedenko (FTG)
+
+
+Si $X_1,...,X_n\quad iid$ con distribución $F$ "continua", llamamos $F_n^*$ a la distribución de $max(X_1,...,X_n)$ y $n$ es grande, entonces existen $\mu$ real y $\beta>0$ tales que alguna de las siguientes tres afirmaciones es correcta:
+
+\begin{itemize}
+  \item[1)] $F_n^*$ se puede apromixar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Lambda$.
+  \item[2)] Existe $\alpha>0$ tal que $F_n^*$ se puede aproximar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Phi_{\alpha}$. 
+  \item[3)] Existe $\alpha>0$ tal que $F_n^*$ se puede aproximar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Phi_{\alpha}$.
+\end{itemize}
+
+Lo anterior equivale a decir que la distribución del máximo de datos "continuos" e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. 
+
+
 
 
 
