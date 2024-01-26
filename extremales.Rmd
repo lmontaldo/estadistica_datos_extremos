@@ -129,7 +129,9 @@ df <- df[-1, ]
 ```
 
 
-```{r echo=FALSE}
+En las siguiente figura  \@ref(fig:plot1) se muestra la evolución histórica desde la fecha 03/01/1928 hasta 08/12/2023 del precio al cierre del día del indicar S&P 500.
+
+```{r, label='plot1',echo=FALSE}
 # Check for any NA or non-finite values in Date or Close
 df <- na.omit(df)
 
@@ -139,22 +141,29 @@ date_range <- range(df$Date, na.rm = TRUE)
 # Create the plot with x-axis limits set to the date range
 ggplot(df, aes(x = Date, y = Close)) +
   geom_line() +
-  ggtitle("S&P 500 Historical Closing Values") +
-  xlab("Date") +
-  ylab("Close Price") +
-  scale_x_date(limits = date_range)
+  ggtitle("S&P 500: valores diarios históricos al cierre (03/01/1928-08/12/2023)") +
+  xlab("fecha") +
+  ylab("Precio de cierre") +
+  scale_x_date(limits = date_range)+
+theme(
+  axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+  axis.title.y = element_text(margin = margin(r = 20, l = 40))
+)
 ```
 
 
 
-```{r echo=FALSE}
-# Create the plot
+```{r, label='plot2',echo=FALSE}
 ggplot(df, aes(x = Date, y = relacion)) +
   geom_line() +
-  ggtitle("S&P500: Historical Yerterday/Today Closing Values") +
-  xlab("Date") +
-  ylab("S&P500: Historical Yerterday/Today Closing Values") +
-  scale_x_date(limits = date_range)
+  ggtitle("S&P500: valores históricos del Indicar (03/01/1928-08/12/2023)") +
+  xlab("fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range)+
+theme(
+  axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+  axis.title.y = element_text(margin = margin(r = 20, l = 40))
+)
 ```
 \newpage
 
@@ -298,7 +307,8 @@ Si $X_1,...,X_n\quad iid$ con distribución $F$ "continua", llamamos $F_n^*$ a l
   \item[3)] Existe $\alpha>0$ tal que $F_n^*$ se puede aproximar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Phi_{\alpha}$.
 \end{itemize}
 
-Lo anterior equivale a decir que la distribución del máximo de datos "continuos" e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. 
+Lo anterior equivale a decir que la distribución del máximo de datos "continuos" e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. Una aproximación será válida dependiendo de la distribución de $F$. En este sentido, cuando $F$ sea normal entonces $F_n^*$ se puede aproximar como una Gumbel. Cuando $F$ sea uniforme, se puede aproximar $F_n^*$ como una Weibull y cuando $F$ sea Cauchy entonces $F_n^*$ se puede aproximar por una Fréchet. 
+
 
 
 
