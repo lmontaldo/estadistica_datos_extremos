@@ -53,6 +53,29 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -67,17 +90,20 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{atbegshi}
+
 \AtBeginDocument{
-	\AtBeginShipoutNext{
-		\AtBeginShipoutUpperLeft{
-			\put(\dimexpr\paperwidth/2-\textwidth/2\relax, -650){
-				\makebox[\textwidth]{\includegraphics[width=10cm]{logoMEDIA.jpeg}}
-			}
-		}
-	}
+    \AtBeginShipoutNext{
+        \AtBeginShipoutUpperLeft{
+            \put(\dimexpr\paperwidth/2-\textwidth/2\relax, -650){
+                \makebox[\textwidth]{
+                    \includegraphics[width=0.45\textwidth]{cure_udelar.png}  % Adjust width as needed
+                    \hfill
+                    \includegraphics[width=0.45\textwidth]{logoMEDIA.jpeg} % Adjust width as needed
+                }
+            }
+        }
+    }
 }
-
-
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -93,7 +119,7 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-01-19}
+\date{2024-02-06}
 
 \begin{document}
 \maketitle
@@ -121,12 +147,12 @@ Your abstract goes here.
 \section{Motivación y objetivo del
 estudio}\label{motivaciuxf3n-y-objetivo-del-estudio}}
 
-Los índices de \(S\&P\) son una familia de índices de renta
-variable\footnote{En inglés se llaman equity indices} diseñados para
-medir el rendimiento del mercado de acciones en Estados Unidos que
-cotizan en bolsas estadounidenses. Ésta familia de índices está
-compuesta por una amplia variedad de índices basados en tamaño, sector y
-estilo. Los índices están ponderados por el criterio
+(Gonzalo y Segura 2024) Los índices de \(S\&P\) son una familia de
+índices de renta variable\footnote{En inglés se llaman equity indices}
+diseñados para medir el rendimiento del mercado de acciones en Estados
+Unidos que cotizan en bolsas estadounidenses. Ésta familia de índices
+está compuesta por una amplia variedad de índices basados en tamaño,
+sector y estilo. Los índices están ponderados por el criterio
 \textit{float-adjusted market capitalization} (FMC). Además, se disponen
 de índices ponderados de manera equitativa y con límite de
 capitalización de mercado, como es el caso del \(S\&P\:500\). Este este
@@ -149,8 +175,8 @@ Indicador_t=\frac{Precio_{t-1}}{Precio_t},\quad\text{para}\; t=1,...,T \label{eq
 Interpretación del Indicador:
 
 \begin{itemize}
-\item Si el $Indicador$   \eqref{eq:ind}  $\leq$ 1, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
-\item Si el $Indicador$ \eqref{eq:ind}  > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
+\item Si el $Indicador_t$    $\leq$ 1, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
+\item Si el $Indicador_t$ > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
 \end{itemize}
 
 \vspace{1cm}
@@ -171,7 +197,7 @@ cierre del día del indicar S\&P 500.
 sus dominios de
 atracción}\label{teoruxeda-asintuxf3tica-cluxe1sica-y-las-distribuciones-extremales-y-sus-dominios-de-atracciuxf3n}}
 
-Siguiendo las notas del curso, se dice que tenemos datos extremos cuando
+Siguiendo \cite{notas_curso} se dice que tenemos datos extremos cuando
 cada dato corresponde al máximo o mínimo de varios registros. Son un
 caso particular de evento raro o gran desviación respecto a la media.
 
@@ -317,6 +343,20 @@ las siguientes tres afirmaciones es correcta:
 
 Lo anterior equivale a decir que la distribución del máximo de datos
 ``continuos'' e \(iid\), si \(n\) es grande, puede aproximarse por una
-Gumbel, una Fréchet o una Weibull.
+Gumbel, una Fréchet o una Weibull. Una aproximación será válida
+dependiendo de la distribución de \(F\). En este sentido, cuando \(F\)
+sea normal entonces \(F_n^*\) se puede aproximar como una Gumbel. Cuando
+\(F\) sea uniforme, se puede aproximar \(F_n^*\) como una Weibull y
+cuando \(F\) sea Cauchy entonces \(F_n^*\) se puede aproximar por una
+Fréchet.
+
+\newpage
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-notas_curso}{}}%
+Gonzalo, Perera, y Angel Segura. 2024. \emph{Notas del curso}.
+
+\end{CSLReferences}
 
 \end{document}

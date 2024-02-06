@@ -1,0 +1,19 @@
+\usepackage{makeidx}
+\makeindex
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{atbegshi}
+
+\AtBeginDocument{
+    \AtBeginShipoutNext{
+        \AtBeginShipoutUpperLeft{
+            \put(\dimexpr\paperwidth/2-\textwidth/2\relax, -650){
+                \makebox[\textwidth]{
+                    \includegraphics[width=0.45\textwidth]{cure_udelar.png}  % Adjust width as needed
+                    \hfill
+                    \includegraphics[width=0.45\textwidth]{logoMEDIA.jpeg} % Adjust width as needed
+                }
+            }
+        }
+    }
+}
