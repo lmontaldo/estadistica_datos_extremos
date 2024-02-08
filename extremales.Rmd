@@ -322,6 +322,28 @@ Si $X_1,...,X_n\quad iid$ con distribución $F$ "continua", llamamos $F_n^*$ a l
 
 Lo anterior equivale a decir que la distribución del máximo de datos "continuos" e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. Una aproximación será válida dependiendo de la distribución de $F$. En este sentido, cuando $F$ sea normal entonces $F_n^*$ se puede aproximar como una Gumbel. Cuando $F$ sea uniforme, se puede aproximar $F_n^*$ como una Weibull y cuando $F$ sea Cauchy entonces $F_n^*$ se puede aproximar por una Fréchet. 
 
+Más precisamente, cuál de las tres aproximaciones es la aplicable depende de la cola de $F$ (los valores de $F(t)$ para valores grandes de $t$).
+En concreto, Weibull aparece cuando $F$ es la distribución de una variable acotada por arriba (como la Uniforme), Gumbel para distribuciones de variables no acotadas por arriba pero con colas muy livianas (caso Exponencial y Normal) y Fréchet para colas pesadas (caso Cauchy)\footnote{Si bien  la hipótesis de continuidad de $F$ no es esencial, si $F$ tiene
+la distribución Binomial o Poisson, por ejemplo, no se puede aplicar ninguna de las tres aproximaciones anteriores.}.
+
+Como consecuencia del $FTG$ cuando se tengan datos máximos, las distribuciones maximales podrían ser candidatas de uno de los ajustes si
+
+\begin{itemize}
+\item la cantidad de registros es lo suficientemente grande
+\item los registros son $iid$ aunque con versiones más generales del $FTG$ este supuesto puede no cumplirse
+\end{itemize}
+
+Como la mayoría de tests de ajustes suponen datos $iid$, se van a realizar dos tests de aleatoriedad\footnote{En inglés se expresa como \textit{randomness}} a los datos:
+
+\begin{itemize}
+\item  Runs up and down 
+\item  Spearman correlation of ranks 
+\end{itemize}
+
+Se emplea la prueba de ajuste $\chi^2$ que requiere seleccionar una partición más o menos arbitraria de la recta real de intervalos siendo importante que en cada intervalo haya una cantidad lo suficientemente importante de datos de la muestra. En este sentido, se pueden tomar como extremos de los intervalos los quintiles empíricos de la muestra. Cabe mencionar que este test requiere estimar parámetros por el método de Máxia Verosimilitud Categórica.
+
+Cabe mencionar que para este estudio la distribución de la variable a incorporar en este estudio no tiene que ser degenerada, es decir $H(t)=0$ ó $H(t)=1$.
+
 
 \newpage
 
