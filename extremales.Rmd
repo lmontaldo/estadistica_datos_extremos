@@ -114,6 +114,8 @@ head(df)
 
 # Motivación y objetivo del estudio
 
+
+
 Los índices de $S\&P$ son una familia de índices de renta variable\footnote{En inglés se llaman equity indices} diseñados para medir el rendimiento del mercado de acciones en Estados Unidos que cotizan en bolsas estadounidenses. Ésta familia de índices está compuesta por una amplia variedad de índices basados en tamaño, sector y estilo. Los índices están ponderados por el criterio \textit{float-adjusted market capitalization} (FMC). Además, se disponen de índices ponderados de manera equitativa y con límite de capitalización de mercado, como es el caso del $S\&P\:500$. Este este sentido, el $S\&P 500$ entraría en el conjunto de índices ponderados por capitalización bursátil ajustada a la flotación (ver \href{http://www.overleaf.com}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}). El mismo  mide el rendimiento del segmento de gran capitalización del mercado estadounidense. Es considerado como un indicador representativo del mercado de renta variable de los Estados Unidos, y está compuesto por 500 empresas constituyentes.
  
 Se busca crear un indicador de una posible crisis bursátil. Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy 
@@ -183,7 +185,7 @@ ggplot(df, aes(x = Date, y = relacion)) +
 
 ## Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción
 
-Siguiendo @notas_curso
+Siguiendo a @notas_curso
  se dice que tenemos datos extremos cuando cada
 dato corresponde al máximo o mínimo de varios
 registros. Son un caso particular de evento raro o gran 
@@ -227,13 +229,13 @@ exclusivamente.
 
 \newpage
 
-## Las distribuciones extremales
+### Definición 1: Las distribuciones extremales
 
 Las distribuciones extremales son tres: la
 distribución de Gumbel; la distribución de Weibull; 
 la distribución de Fréchet.
 
-### Distribución de Gumbel
+#### Distribución de Gumbel
 
 Se dice que una variable tiene distribución de 
 Gumbel si su distribución es: 
@@ -241,7 +243,7 @@ Gumbel si su distribución es:
 $$ \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} $$
 
 
-### Distribución de Weibull
+#### Distribución de Weibull
 
 Se dice que una variable tiene distribución de 
 Weibull de orden $\alpha>0$ si su distribución es:
@@ -251,7 +253,7 @@ exp{-(-x)^{\alpha}} & si\;x<0\\
 1 & \text{en otro caso}
 \end{cases}$$
 
-### Distribución de Fréchet
+#### Distribución de Fréchet
 
 Se dice que una variable tiene distribución de 
 Fréchet de orden $\alpha>0$ si su distribución es:
@@ -264,15 +266,15 @@ exp\{-x^{-\alpha}\} & si\;x>0\\
 $$
 \newpage
 
-### Teorema 1: Relaciones entre las versiones standard de las distribuciones extremales
+##### Teorema 1: Relaciones entre las versiones standard de las distribuciones extremales
 
 $X$ tiene distribución $\Phi_{\alpha}(x)$ si y sólo si $(-1/X)$ tiene 
 distribución $\Psi_{\alpha}(x)$ si y sólo si $log(X^{\alpha})$ tiene 
 distribución $\Lambda$.
 
 
-### Teorema 2: Algunos datos de las distribuciones extremales
-#### Parte 1
+##### Teorema 2: Algunos datos de las distribuciones extremales
+##### Parte 1
 Si $X$ tiene distribución $\Lambda^{(\mu,\beta)}$ entonces tiene:
 
 \begin{itemize}
@@ -309,7 +311,7 @@ Si $X$ tiene una distribución $\Phi_{\alpha}^{(\mu, \beta)}$ entonces se tiene:
 
 \newpage
 
-### Teorema 3: Fischer-Tippet-Gnedenko (FTG)
+##### Teorema 3: Fischer-Tippet-Gnedenko (FTG)
 
 
 Si $X_1,...,X_n\quad iid$ con distribución $F$ "continua", llamamos $F_n^*$ a la distribución de $max(X_1,...,X_n)$ y $n$ es grande, entonces existen $\mu$ real y $\beta>0$ tales que alguna de las siguientes tres afirmaciones es correcta:
@@ -320,7 +322,7 @@ Si $X_1,...,X_n\quad iid$ con distribución $F$ "continua", llamamos $F_n^*$ a l
   \item[3)] Existe $\alpha>0$ tal que $F_n^*$ se puede aproximar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Phi_{\alpha}$.
 \end{itemize}
 
-Lo anterior equivale a decir que la distribución del máximo de datos "continuos" e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. Una aproximación será válida dependiendo de la distribución de $F$. En este sentido, cuando $F$ sea normal entonces $F_n^*$ se puede aproximar como una Gumbel. Cuando $F$ sea uniforme, se puede aproximar $F_n^*$ como una Weibull y cuando $F$ sea Cauchy entonces $F_n^*$ se puede aproximar por una Fréchet. 
+Lo anterior equivale a decir que la distribución del máximo de datos \textit{continuos} e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. Una aproximación será válida dependiendo de la distribución de $F$. En este sentido, cuando $F$ sea normal entonces $F_n^*$ se puede aproximar como una Gumbel. Cuando $F$ sea uniforme, se puede aproximar $F_n^*$ como una Weibull y cuando $F$ sea Cauchy entonces $F_n^*$ se puede aproximar por una Fréchet. 
 
 Más precisamente, cuál de las tres aproximaciones es la aplicable depende de la cola de $F$ (los valores de $F(t)$ para valores grandes de $t$).
 En concreto, Weibull aparece cuando $F$ es la distribución de una variable acotada por arriba (como la Uniforme), Gumbel para distribuciones de variables no acotadas por arriba pero con colas muy livianas (caso Exponencial y Normal) y Fréchet para colas pesadas (caso Cauchy)\footnote{Si bien  la hipótesis de continuidad de $F$ no es esencial, si $F$ tiene
@@ -343,6 +345,140 @@ Como la mayoría de tests de ajustes suponen datos $iid$, se van a realizar dos 
 Se emplea la prueba de ajuste $\chi^2$ que requiere seleccionar una partición más o menos arbitraria de la recta real de intervalos siendo importante que en cada intervalo haya una cantidad lo suficientemente importante de datos de la muestra. En este sentido, se pueden tomar como extremos de los intervalos los quintiles empíricos de la muestra. Cabe mencionar que este test requiere estimar parámetros por el método de Máxia Verosimilitud Categórica.
 
 Cabe mencionar que para este estudio la distribución de la variable a incorporar en este estudio no tiene que ser degenerada, es decir $H(t)=0$ ó $H(t)=1$.
+
+\newpage
+
+### Definición 2: Distribución extremal asintótica
+
+Si $X_1,...,X_n$  es $iid$ con distribución $F$ diremos que $H$ no-degenerada es la Distribución Extremal Asintótica (DEA) de $F$\footnote{Lo que equivale a decir que $F$ tiene $DEA\;H$.}, si existen dos sucesiones de números reales, $d_n$ y $c_n>0$, tales que la distribución de
+
+\begin{equation}
+\frac{max(X_1,...,X_n)- d_n}{c_n}\label{eq:max}
+\end{equation}
+
+tiende a $H$ cuando $n$ tiende a infinito.
+
+
+### Definición 3: Supremo esencial de una variable aleatoria o distribución
+
+Si $X$ tiene distribución $F$, se llama supremo esencial de $X$, denotado como $M_X$ o, indistintamente, supremo esencial de $F$, denotado $MF$ a
+
+\begin{equation}
+M_X=M_F= sup\{t / F(t)<1\}\label{eq:Mx}
+\end{equation}
+
+Observación:
+\begin{itemize}
+\item Si $F$ es $U(a,b)$, $M_F=b$
+\item Si $F$ es $Bin(m,p)$, $M_F=m$
+\item Si $F$ es Normal, Exponencial, Cauchy o Poisson, $M_F$ es infinito.
+\end{itemize}
+
+##### Teorema 4
+
+Si $X_1,...,X_n$ es $iid$ con distribución $F$ cualquiera, entonces, para $n$ tendiendo a infinito,
+
+\begin{equation}
+X^*_n=M_F= max(X_1,...,X_n)\;tiende\;a\;M_F\label{eq:Xast}
+\end{equation}
+
+Observación:
+
+El resultado anterior vale incluso si $M_F$ es infinito, pero si $M_F$ es finito, como $X^*n - M_F$ tiende a cero, por analogía con el Teorema Central del Límite para promedios, buscaríamos una sucesión $c_n>0$ y que tienda a cero de modo tal que $(X^*n- M_F )/ c_n$ tienda a una distribución no-degenerada y de allí surge buscar la DEA.
+
+
+##### Teorema 5
+
+
+Si $F$ es una distribución con $M_F$ finito, y para $X$ con distribución $F$ se cumple que
+
+$$
+P(X=M_F)>0 
+$$
+
+entonces $F$ NO admite DEA.
+
+Observación:
+
+Si $F$ es $Bin(m,p)$, $M_F=m$. Si $X$ tiene distribución $F$, entonces
+$P( X=M_F)= P( X=m)= p_m>0$,
+asi que la distribucion $Bin(m,p)$ NO admite DEA, no se puede aproximar la distribución del máximo de una muestra $iid$ de variables $Bin(m,p)$.
+
+El Teorema anterior es un caso particular del próximo.
+
+
+##### Teorema 6
+
+Si $F$ es una distribución con $M_F$ finito o infinito que admite DEA, y $X$ tiene distribución $F$, entonces el límite cuando $t$ tiende a $M_F$ por izquierda de
+$P(X>t)/P(X \geq t)$ debe ser 1.
+
+
+Observación:
+
+\begin{itemize}
+\item Si $F$ es una distribución de Poisson de parámetro $\lambda>0$, $M_F$ es infinito. 
+\item Si $k$ es un natural, entonces:
+\begin{eqnarray}
+\frac{P(X>k)}{P(X\geq k)} &=& \frac{P(X \geq k+1)}{P(X\geq k)} \\ \nonumber
+&=& 1-\frac{P(X=k)}{P(X \geq k)} \approx 1-\left(1- \frac{\lambda}{k}\right) 
+\end{eqnarray}
+que tiende a $0$ cuando $k$ tiende a infinito, por lo cual $F$ NO admite DEA, o sea que no se puede aproximar el máximo de una sucesión $iid$ de variables de Poisson.
+\end{itemize}
+
+Observación:
+
+El Teorema 6 brinda una condición NECESARIA pero NO SUFICIENTE para DEA. Un ejemplo de ello lo aportó Von Mises, mostrando que la distribución
+
+$$F(x)= 1- e^{(-x-sen(x))}$$
+cumple con la condicion del Teorema 6 pero no admite DEA.
+
+### Definición 4: Distribución max-estables
+
+Si dada una $F$ distribución, $X$ con distribución $F$, $k$ natural arbitrario y $X_1,...,X_k$ es $iid$ con distribución $F$, existen reales $a_k$, $b_k$ tales que $max(X_1,...,X_k)$ tiene la misma distribución que $a_k X+ b_k$, $F$ se dice \textit{max-estable}.
+
+El Teorema FTG resulta de superponer los dos siguientes teoremas:
+
+##### Teorema 7
+
+\begin{itemize}
+  \item[a)] Si $F$ admite $DEA\;H$, entonces $H$ es max-estable.
+  \item[b)] Si $H$ es max-estable, es la DEA de sí misma.
+\end{itemize}
+
+##### Teorema 8
+
+Una distribución es max-estable si y solo si es extremal\footnote{O sea Gumbel, Weibull o Fréchet}.
+El Teorema 7 es bastante intuitivo y análogo a los teoremas de Lévy sobre distribuciones estables en aproximaciones asintóticas de las distribuciones de sumas. Para el Teorema 8 haremos enseguida un ejercicio sencillo que nos ayudará a hacerlo creíble.
+Luego precisaremos, para terminar con esta parte, cómo son las distribuciones que tienen por DEA cada uno de los tres tipos de distribuciones extremales. Para eso precisamos recordar algunas definiciones, como la siguiente.
+
+
+Obsrvación:
+
+Si $F$ y $G$ son dos distribuciones, tienen colas equivalentes si $M_F=M_G$ y cuando $t$ tiende a $M_F$ por izquierda, $(1-F(t))/(1-G(t))$ tiende a un valor $c>0$.
+Recordando ahora cómo se calcula la distribución del máximo de dos variables independientes, es muy sencillo calcular la distribución del $max\{X,Y\}$, cuando $X$ e $Y$ son independientes y cada una de ellas es una distribución extremal. 
+
+Se tiene el siguiente resultado:
+
+| $X$ | $Y$| $max(X,Y)$ |
+|-------|-------|--------------|
+| \textcolor{red}{Weibull} | \textcolor{red}{Weibull} | \textcolor{red}{Weibull} |
+| \textcolor[rgb]{0.0,0.5,0.0}{Weibull} | \textcolor[rgb]{0.0,0.5,0.0}{Gumbel} | \textcolor[rgb]{0.0,0.5,0.0}{Cola equivalente Gumbel} |
+| \textcolor{blue}{Weibull} | \textcolor{blue}{Fréchet} | \textcolor{blue}{Fréchet} |
+| \textcolor[rgb]{0.0,0.5,0.0}{Gumbel} | \textcolor[rgb]{0.0,0.5,0.0}{Weibull} | \textcolor[rgb]{0.0,0.5,0.0}{Cola equivalente Gumbel} |
+| \textcolor{red}{Gumbel} | \textcolor{red}{Gumbel} | \textcolor{red}{Gumbel} |
+| \textcolor{blue}{Gumbel} | \textcolor{blue}{Fréchet} | \textcolor{blue}{Cola equivalente Fréchet} |
+| \textcolor{blue}{Fréchet} | \textcolor{blue}{Weibull} | \textcolor{blue}{Fréchet} |
+| \textcolor{blue}{Fréchet} | \textcolor{blue}{Gumbel} | \textcolor{blue}{Cola equivalente Fréchet} |
+| \textcolor{red}{Fréchet} | \textcolor{red}{Fréchet}| \textcolor{red}{Fréchet} |
+
+
+\textcolor{red}{\rule{1em}{1em} Las extremales son max-estables: tomar máximos de dos del mismo tipo queda en el mismo tipo.}
+
+
+\textcolor[rgb]{0.0,0.5,0.0}{\rule{1em}{1em} Gumbel es más pesada que Weibull. En la cola, que es lo que cuenta para máximos, prima Gumbel.}
+
+
+\textcolor{blue}{\rule{1em}{1em} Fréchet es más pesada que Gumbel y mucho más pesada que Weibull.}
 
 
 \newpage
