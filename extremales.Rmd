@@ -479,6 +479,55 @@ Se tiene el siguiente resultado:
 
 
 \textcolor{blue}{\rule{1em}{1em} Fréchet es más pesada que Gumbel y mucho más pesada que Weibull.}
+\vspace{1cm}
+
+Además, de la tabla se deduce que 
+
+##### Teorema 9 
+
+Si $X_1,...,X_n$ independientes y cada $X_i$ tiene uno de los tres tipos de distribución extremal, entonces la distribución del $max(X_1,...,X_n)$ es:
+\begin{itemize}
+\item[a)] Cola equivalente a Fréchet, si alguna de las variables es Fréchet y alguna otra es Gumbel.
+\item[b)]  Fréchet, si alguna es Fréchet y ninguna es Gumbel.
+\item[c)]  Cola equivalente Gumbel ninguna es Fréchet pero algunas son Gumbel y otras Weibull.
+\item[d)] Gumbel si todas son Gumbel.
+\item[e)]  Weibull si todas son Weibull.
+\end{itemize}
+
+Observación:
+
+Si $F$ es una distribución, se dice que tiene \textit{cola de variación regular de orden} $-\alpha$, para $\alpha \geq 0$, si para todo $t>0$, $(1-F(tx))/(1-F(x))$ tiende
+a $t^{-\alpha}$ si $x \rightarrow  \infty$. Para abreviar se dirá que $F$ es $R_{-\alpha}$. Por ejemplo, para $\alpha=3$, un caso de una tal $F$ es $F(u)=1- 1/u^3$.
+
+
+Por otra parte se dice que $L$ es una \textit{función de variación lenta} si, para todo $t>0$, $L(tx)/L(x)$ tiende a 1 cuando $x \rightarrow  \infty$. Por ejemplo, $L(u)=log(u)$.
+
+\newpage
+
+### Definición 4: Dominio de atracción maximal
+
+Si $H$ es una distribución extremal (Gumbel, Weibull o Fréchet) su Dominio de Atracción Maximal ($DAM(H)$) está constituído por todas las distribuciones $F$ que tienen $DEA\;H$.
+
+##### Teorema 9: DAM de la Fréchet
+
+$F$ pertenece a la DAM de $\Phi_{\alpha}$ si y sólo si
+$1-F(x)=x-\alpha L(x)$ para alguna $L$ de variación lenta,
+lo cual es equivalente a decir que $F$ es $R_{-\alpha}$.
+
+
+##### Corolario 1: DAM de la Fréchet
+Si $F$ es una distribución con densidad $f$ que cumple que $xf(x)/(1-F(x))$ tiende a $\alpha$ cuando $x \rightarrow  \infty$
+se dice que $F$ cumple la Condición de Von Mises I. En tal caso, $F$ pertenece a la DAM de $\Phi_{\alpha}$ y mas aún, la DAM de $\Phi_{\alpha}$ son todas las distribuciones que tienen cola equivalente a alguna distribución que cumpla la Condición de Von Mises I.
+Del DAM Fréchet y Teorema 1, surge lo siguiente.
+
+
+##### Teorema 10: DAM de la Weibull
+\begin{itemize}
+\item [a)] $F$ pertenece a la DAM de $\Psi_{\alpha}$ si y solo si $M_F$ es finito y además $$1-F(M_F -1/x)=x^{-\alpha} L(x)$$ para alguna
+$L$ de variación lenta, es decir que pertenece a $R_{-\alpha}$. Observar que con el cambio de variable $u=M_F -1/x$,
+resulta que $1-F(u)=(^{-}MF -u)^{\alpha} L(1/(M_F -u))$ para alguna $L$ de variación lenta, para $u< M_F$. Además puede tomarse $d_n= M_F$ y $c_n= n-\alpha$.
+\item [b)] Si $F$ distribución con densidad $f$ positiva en $(a,M_F)$ para algun $a< M_F$ y $(M_F -x)f(x)/(1-F(x))$ tiende a $\alpha$ cuando $x\rightarrow M_F$, se dice que $F$ cumple la Condición de Von Mises II. En tal caso $F$ pertenece a la DAM de $\Psi_{\alpha}$ y mas aún, la DAM de $\Psi_{\alpha}$ son todas las distribuciones que tienen cola equivalente a alguna distribución que cumpla la Condición de Von Mises II.
+\end{itemize}
 
 
 \newpage
