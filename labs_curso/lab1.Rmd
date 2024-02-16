@@ -1,0 +1,26 @@
+---
+title: "LAB1"
+author: "CURE-MEDIA"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción
+En este práctico veremos la forma de las diferentes distribuciones extremales mencionadas en el teórico y luego una simulación para observar la convergencia de una serie de datos simulados a las distribuciones extremales.
+
+## Distrubiciones extremales
+Veremos a continuación las distribuciones extremales trabajadas en el teórico.
+
+### Weibull
+Recordemos que cuando tomamos los máximos de las variables iid con un rango acotado, la distribución resultante por la cual se puede aproximar es la de Weibull. En este caso, y en el resto del LAB, exp() y e son la función exponencial. La función de orden α
+ es:
+Ψα(x)=exp(−(−x)α)    para todo   x<0
+Por una única vez, calculemos la distribución de forma “manual” en el R para convencernos de la forma de la función de distribución de Weibull (Ψ
+). Para eso generaremos un vector auxiliar de valores “x” y la distribución (“F(x)”). En R la definición de la distribución es sutilmente diferente a la que vimos en el teórico (definida para positivos), pero totalmente convertible con dos cambios de signo. La función que calcula la probabilidad de una distribución Weibull es pweibull(). Pueden ver la definición de R utilizando help(pweibull) o ?pweibull.En R podemos saber la forma y valores de esta distribución con una función implementada en un paquete base {stats}. La función es pweibull y lleva como argumentos un vector de cuantiles ( q ), un argumento de forma ( shape ) y otro de escala ( scale ). Recordemos que la función plot utiliza 2 argumentos centrales ( x e y ) y podemos fijar los límites del gráfico ( xlim e ylim), el tipo de gráfico ( type) y las etiquetas de los ejes X e Y ( xlab e ylab).
+
+Primero generaremos un vector de numeros auxiliares equiespaciados y lo nombraremos (“x_aux”). Luego definiremos un orden (alpha=α
+) de la Weibull y graficaremos la función.
