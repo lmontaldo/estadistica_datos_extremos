@@ -295,40 +295,27 @@ Se dice que una variable tiene distribución de Gumbel si su distribución
 es:
 
 \[ \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} \]
+
 Cuando tomamos los máximos de variables no acotadas pero que tienen
 colas livianas (ej. la distribución tiene probabilidades muy bajas de
 tomar valores lejos de la media) los mismos convergen a una distribución
-asintótica extremal de Gumbel. Para simular distribuciones de Gumbel,
-utilizamos el paquete \textbf{evd} que instalamos una vez y luego lo
-llamamos con la función \{require\}. Si no lo tenemos instalado, por una
-única vez, debemos llamar la función install.packages().
+asintótica extremal de Gumbel.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{x\_aux}\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{, }\AttributeTok{length=}\DecValTok{1000}\NormalTok{)}
-
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\FunctionTok{pgumbel}\NormalTok{(}\AttributeTok{q=}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\AttributeTok{loc=}\DecValTok{0}\NormalTok{, }\AttributeTok{scale=}\DecValTok{1}\NormalTok{) ,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{), }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"F(x)"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"x"}\NormalTok{, }\AttributeTok{main=}\StringTok{"Gumbel"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\FunctionTok{pgumbel}\NormalTok{(}\AttributeTok{q=}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\AttributeTok{loc=}\DecValTok{0}\NormalTok{, }\AttributeTok{scale=}\DecValTok{2}\NormalTok{), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-
-\FunctionTok{plot}\NormalTok{(x\_aux, }\FunctionTok{dgumbel}\NormalTok{(}\AttributeTok{x=}\NormalTok{x\_aux, }\AttributeTok{loc=}\DecValTok{0}\NormalTok{, }\AttributeTok{scale=}\DecValTok{1}\NormalTok{, }\AttributeTok{log =} \ConstantTok{FALSE}\NormalTok{) ,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{), }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"f(x)"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"x"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(x\_aux, }\FunctionTok{dgumbel}\NormalTok{(}\AttributeTok{x=}\NormalTok{x\_aux, }\AttributeTok{loc=}\DecValTok{0}\NormalTok{, }\AttributeTok{scale=}\DecValTok{2}\NormalTok{, }\AttributeTok{log =} \ConstantTok{FALSE}\NormalTok{), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{) }\CommentTok{\# Cambio la escala de la Gumbel}
-\end{Highlighting}
-\end{Shaded}
+Para simular distribuciones de Gumbel, utilizamos el paquete
+\textbf{evd} y en particular la función \textbf{pgumbel}. A continuación
+se simulan números aleatorios de una distribución de Gumbel utilizando
+la mencionada función.
 
 \includegraphics{extremales_files/figure-latex/unnamed-chunk-12-1.pdf}
 
-De la misma manera, podemos simular números aleatorios de una
-distribución de Gumbel utilizando la función rgumbel. Si calculamos el
-valor esperado y el desvío estandard de estos valores observados y
-tenemos una muestra lo suficientemente grande, podremos comparar los
-resultados con los esperados de forma teórica.
+Si calculamos el valor esperado y el desvío estandard de estos valores
+observados y tenemos una muestra lo suficientemente grande, podremos
+comparar los resultados con los esperados de forma teórica.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Podemos simular 100 datos aleatorios de una distribución Gumbel}
 \NormalTok{GumbelAleatorio}\OtherTok{\textless{}{-}}\FunctionTok{rgumbel}\NormalTok{(}\DecValTok{100}\NormalTok{)}
-
 \FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(GumbelAleatorio))}
 \end{Highlighting}
 \end{Shaded}
@@ -352,7 +339,7 @@ resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5994842
+## [1] 0.5835627
 \end{verbatim}
 
 \begin{Shaded}
@@ -362,7 +349,7 @@ resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.303528
+## [1] 1.366059
 \end{verbatim}
 
 \hypertarget{distribuciuxf3n-de-weibull}{%

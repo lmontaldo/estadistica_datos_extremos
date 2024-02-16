@@ -29,8 +29,10 @@ rm(list = ls())
 
 
 
-
 ```{r include=FALSE}
+if (!require(patchwork)) {
+    install.packages("patchwork")
+}
 library(evd)
 if (!require(evd)) {
     install.packages("evd")
@@ -243,26 +245,30 @@ Se dice que una variable tiene distribución de
 Gumbel si su distribución es: 
 
 $$ \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} $$
+
 Cuando tomamos los máximos de variables no acotadas pero que tienen colas livianas (ej. la distribución tiene probabilidades muy bajas de tomar valores lejos de la media) los mismos convergen a una distribución asintótica extremal de Gumbel.
-Para simular distribuciones de Gumbel, utilizamos el paquete __evd__ que instalamos una vez y luego lo llamamos con la función {require}. Si no lo tenemos instalado, por una única vez, debemos llamar la función install.packages().
 
-```{r}
+Para simular distribuciones de Gumbel, utilizamos el paquete __evd__ y en particular la función __pgumbel__. Partiendo de una simulación de números aleatorios, se tienen las siguientes figuras.
+ 
+
+
+
+```{r echo=FALSE, ,echo=FALSE}
 x_aux<- seq(-10,10, length=1000)
-
 par(mfrow=c(3,1), mar=c(5,4,3,1))
 plot(seq(-10,10,length=100), pgumbel(q=seq(-10,10,length=100), loc=0, scale=1) ,xlim=c(-10,10), type="l", ylab="F(x)", xlab="x", main="Gumbel")
 lines(seq(-10,10,length=100), pgumbel(q=seq(-10,10,length=100), loc=0, scale=2), col="red")
-
 plot(x_aux, dgumbel(x=x_aux, loc=0, scale=1, log = FALSE) ,xlim=c(-10,10), type="l", ylab="f(x)", xlab="x")
 lines(x_aux, dgumbel(x=x_aux, loc=0, scale=2, log = FALSE), col="red") # Cambio la escala de la Gumbel
 ```
 
-De la misma manera, podemos simular números aleatorios de una distribución de Gumbel utilizando la función rgumbel. Si calculamos el valor esperado y el desvío estandard de estos valores observados y tenemos una muestra lo suficientemente grande, podremos comparar los resultados con los esperados de forma teórica.
+
+
+Si calculamos el valor esperado y el desvío estandard de estos valores observados y tenemos una muestra lo suficientemente grande, podremos comparar los resultados con los esperados de forma teórica.
 
 ```{r}
 # Podemos simular 100 datos aleatorios de una distribución Gumbel
 GumbelAleatorio<-rgumbel(100)
-
 plot(density(GumbelAleatorio))
 ```
 ```{r}
