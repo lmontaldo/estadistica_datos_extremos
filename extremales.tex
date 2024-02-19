@@ -169,7 +169,7 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-02-16}
+\date{2024-02-19}
 
 \begin{document}
 \maketitle
@@ -291,6 +291,11 @@ distribución de Weibull; la distribución de Fréchet.
 \hypertarget{distribuciuxf3n-de-gumbel}{%
 \paragraph{Distribución de Gumbel}\label{distribuciuxf3n-de-gumbel}}
 
+\begin{equation} 
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  (\#eq:binom)
+\end{equation} You may refer to it using @ref(eq:binom),
+
 Se dice que una variable tiene distribución de Gumbel si su distribución
 es:
 
@@ -302,11 +307,17 @@ tomar valores lejos de la media) los mismos convergen a una distribución
 asintótica extremal de Gumbel.
 
 Para simular distribuciones de Gumbel, utilizamos el paquete
-\textbf{evd} y en particular la función \textbf{pgumbel}. A continuación
-se simulan números aleatorios de una distribución de Gumbel utilizando
-la mencionada función.
+\textbf{evd} de Stephenson (2002) y en particular la función
+\textbf{pgumbel}. Partiendo de una simulación de números aleatorios,
+para un secuencia de 1000 números entre \([-10,10]\), se tienen las
+siguientes figuras @ref(fig:gumbel\_plots) relativas a la CDF y PDF de
+la distribución Gumbel.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-12-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{extremales_files/figure-latex/gumbel_plots-1.pdf}
+\caption{CDF and PDF for Gumbel distribution.}
+\end{figure}
 
 Si calculamos el valor esperado y el desvío estandard de estos valores
 observados y tenemos una muestra lo suficientemente grande, podremos
@@ -320,7 +331,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-13-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-12-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -339,7 +350,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5835627
+## [1] 0.6008671
 \end{verbatim}
 
 \begin{Shaded}
@@ -349,7 +360,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.366059
+## [1] 1.277852
 \end{verbatim}
 
 \hypertarget{distribuciuxf3n-de-weibull}{%
@@ -386,12 +397,12 @@ Primero generaremos un vector de numeros auxiliares equiespaciados y lo
 nombraremos (``x\_aux''). Luego definiremos un orden (alpha=α ) de la
 Weibull y graficaremos la función.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-16-1.pdf}
 Veamos ahora la forma de un par de distribuciones cambiando el parámetro
 de orden (α ), que en la función pweibull de R se nombra como shape y
 que define el orden de la distribución.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-17-1.pdf}
 En R podemos también generar numeros aleatórios (técnicamente
 pseudo-aleatorios) de una distribución extremal. Estos simuladores de
 números aleatórios son útiles para comparar contra distribuciones nulas,
@@ -404,7 +415,7 @@ rweibull, que tiene como parámetro el número de datos que se necesitan y
 la forma (shape) de la distribución. Luego haremos un grafico con la
 densidad empírica (esto es similar a un histograma) de estos vectores.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-18-1.pdf}
 
 \hypertarget{distribuciuxf3n-de-fruxe9chet}{%
 \paragraph{Distribución de
@@ -439,7 +450,7 @@ Grafiquemos esta distribución para dos valores diferentes de \(\alpha\).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 .
 
@@ -894,6 +905,10 @@ bibliográficas}\label{referencias-bibliogruxe1ficas}}
 \leavevmode\vadjust pre{\hypertarget{ref-notas_curso}{}}%
 Perera, Gonzalo, Angel Segura, y Carolina Crisci. 2021. \emph{Curso de
 estadística de datos extremales, cap. 1 a cap. 5}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-evd}{}}%
+Stephenson, A. G. 2002. {«evd: Extreme Value Distributions»}. \emph{R
+News} 2 (2): 0. \url{https://CRAN.R-project.org/doc/Rnews/}.
 
 \end{CSLReferences}
 

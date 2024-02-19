@@ -1,3 +1,4 @@
+
 ---
 title: "Entrega: curso de datos extremales"
 author: "Laura Montaldo, CI: 3.512.962-7"
@@ -14,7 +15,6 @@ documentclass: article
 classoption: 12pt
 lang: es
 ---
-
 
 
 
@@ -241,6 +241,9 @@ la distribución de Fréchet.
 
 #### Distribución de Gumbel
 
+
+
+
 Se dice que una variable tiene distribución de 
 Gumbel si su distribución es: 
 
@@ -248,18 +251,33 @@ $$ \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} $$
 
 Cuando tomamos los máximos de variables no acotadas pero que tienen colas livianas (ej. la distribución tiene probabilidades muy bajas de tomar valores lejos de la media) los mismos convergen a una distribución asintótica extremal de Gumbel.
 
-Para simular distribuciones de Gumbel, utilizamos el paquete __evd__ y en particular la función __pgumbel__. Partiendo de una simulación de números aleatorios, se tienen las siguientes figuras.
+Para simular distribuciones de Gumbel, utilizamos el paquete __evd__ de @evd y en particular la función __pgumbel__. Partiendo de una simulación de números aleatorios, para un secuencia de 1000 números entre $[-10,10]$, se tienen las siguientes figuras \@ref(fig:gumbel_plots)  relativas a la CDF y PDF de la distribución Gumbel. 
  
 
 
 
-```{r echo=FALSE, ,echo=FALSE}
-x_aux<- seq(-10,10, length=1000)
-par(mfrow=c(3,1), mar=c(5,4,3,1))
-plot(seq(-10,10,length=100), pgumbel(q=seq(-10,10,length=100), loc=0, scale=1) ,xlim=c(-10,10), type="l", ylab="F(x)", xlab="x", main="Gumbel")
-lines(seq(-10,10,length=100), pgumbel(q=seq(-10,10,length=100), loc=0, scale=2), col="red")
-plot(x_aux, dgumbel(x=x_aux, loc=0, scale=1, log = FALSE) ,xlim=c(-10,10), type="l", ylab="f(x)", xlab="x")
-lines(x_aux, dgumbel(x=x_aux, loc=0, scale=2, log = FALSE), col="red") # Cambio la escala de la Gumbel
+
+```{r gumbel_plots, fig.cap="CDF and PDF for Gumbel distribution.", echo=FALSE, ,echo=FALSE}
+# Define the sequence of x values
+x_aux <- seq(-10, 10, length = 1000)
+
+# Set up the plotting layout
+par(mfrow = c(3, 1), mar = c(5, 4, 3, 1))
+
+# Plot the cumulative distribution function (CDF) of the Gumbel distribution
+plot(seq(-10, 10, length = 100), pgumbel(q = seq(-10, 10, length = 100), loc = 0, scale = 1), 
+     xlim = c(-10, 10), type = "l", ylab = "F(x)", xlab = "x", main = "Cumulative Distribution Function (CDF)")
+lines(seq(-10, 10, length = 100), pgumbel(q = seq(-10, 10, length = 100), loc = 0, scale = 2), col = "red")
+title(main ="", sub = "Original Gumbel")
+
+# Plot the probability density function (PDF) of the Gumbel distribution
+plot(x_aux, dgumbel(x = x_aux, loc = 0, scale = 1, log = FALSE), xlim = c(-10, 10), type = "l", 
+     ylab = "f(x)", xlab = "x", main = "Probability Density Function (PDF)")
+lines(x_aux, dgumbel(x = x_aux, loc = 0, scale = 2, log = FALSE), col = "red")
+title(main = "")
+
+# Add subtitles to each plot
+title(main = "", sub = "Rescaled Gumbel", col.main = "red", col.sub = "red")
 ```
 
 
