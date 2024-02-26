@@ -10,11 +10,31 @@ output:
     keep_tex: true
     includes:
       in_header: header2.tex
-documentclass: article
-classoption: 12pt
+documentclass: book
+classoption: oneside
 lang: es
 ---
 
+
+```{css, echo=FALSE}
+body {
+  font-size: 12pt;
+}
+
+body h2 {
+  font-size: 1.2em;
+  text-transform: lowercase; /* Convert text to lowercase */
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.25em;
+}
+
+body h3 {
+  font-size: 1.1em;
+  text-transform: lowercase;
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.25em;
+}
+```
 
 
 ```{r setup, include=FALSE}
@@ -115,7 +135,7 @@ df <- df %>%
 head(df)
 ```
 
-# Motivación y objetivo del estudio
+\chapter{Motivación y objetivo del estudio} 
 
 
 
@@ -184,9 +204,9 @@ ggplot(df, aes(x = Date, y = relacion)) +
 ```
 \newpage
 
-# Marco Teórico
+\chapter{Marco Teórico}
 
-## Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción
+\section{Capítulo 1: Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
 
 Siguiendo a @notas_curso
  se dice que tenemos datos extremos cuando cada
@@ -676,9 +696,236 @@ Para terminar el capítulo presentaremos la distribución de valores extremos ge
 
 ### Definición 5: GEV
 
+Se define a la distribución de valores extremos generalizada $(GEV)$\footnote{Por sus siglas en inglés relativas a Generalized Extreme Values.} de posición $\mu$, escala $\beta$ e índice $\xi$ con
+
+$$
+G(\mu,\beta,\xi) =
+\begin{cases}
+    e^{-(1+ \xi(t-\mu)/ \beta)(-1/ \xi)} & \text{si  } \xi \neq 0, \forall\;t\;\text{donde } 1+ \xi(t-\mu)/ \beta) >0 \\
+    e^{-e^{(-(t-\mu)/ \beta)}} & \text{si  } \xi =0,\; \forall \;t \\
+\end{cases}
+$$
+\vspace{0.5cm}
+
+
+En los casos en que $\xi$ tome los siguientes valores, se tiene
+
+\begin{align*}
+ \xi=0,  & \text{ corresponde a Gumbel,} \\
+ \xi< 0, &\text{ corresponde a Weibull y } \alpha=-1/ \xi \\
+ \xi>0, &\text{ corresponde Fréchet y }  \alpha=1/ \xi
+\end{align*}
+
+En $R$ existen rutinas para estimar $\xi$ con intervalos de confianza( por máxima verosimilitud, etc.) lo cual da formas de testear si una extremal es Gumbel, Weibull o Fréchet.
+
+<!-- 
+Observación 21
+-->
+
+Observación: 
+
+En algunas situaciones datos extremales pueden ajustarse a más de un modelo. Por ejemplo, puede ocurrir que tanto ajusten los datos una Gumbel como una Weibull. Frente a estas situaciones, no hay una receta única de cómo proceder sino que quien está modelando debe tener claro si corresponde volcarse hacia cálculos más pesimistas (que dan mayor probabilidad a eventos extremos muy severos) o más optimistas.
+
+Usualmente la opción pesimista implica privilegiar la seguridad y la optimista la economía de recursos, pero insistimos en que la reflexión ante cada caso es indispensable. Un poquito más adelante veremos, al comparar un modelo Gumbel con un modelo Fréchet, que las diferencias pueden ser sumamente drásticas.
+
+
+<!-- 
+Observación 22
+-->
+
+Observación:
+
+Antes de seguir adelante, demos la respuesta a la parte $a)$ del Ejercicio 5. Es un ejercicio de Cálculo Diferencial sencillo mostrar que la cola de un $N(0,1)$, es decir $Q(t)=P(X>t)$, donde $X$ tiene distribución $N(0,1)$, es equivalente, para $t$ tendiendo a infinito, a la función $\phi(t)/t$, donde $\phi$ representa la densidad normal típica (campana de Gauss). Basándose en esto, si se considera ahora una variable log-normal $Y$, tal que $log(Y)$ es una $N(0,1)$, puede probarse que su cola $R(t)=P(Y>t)$, es equivalente, para $t$ tendiendo a infinito, a la función $\phi(log(t))/log(t)$. Con un poco más de Cálculo, esta última función puede escribirse para $a>e$ (por ejemplo $a=3$), como
+
+
+\begin{equation}
+c\times e^{-\int_{a}^{t}1/h(s)\; ds} \quad \text{para }\: t>a
+\end{equation}
+
+
+donde $c$ se expresa en función de $a$ y $h(s)=\frac{s\; log(s)}{(log(s))^2+1}$ la cual cumple las hipótesis del Teorema 11.
+
+Se concluye entonces que la log-normal está en el $DAM$ Gumbel, o lo que es lo mismo, que la log- normal admite $DEA$ Gumbel.
+
+
+<!-- 
+Observación 23
+-->
+
+Observación: Tiempos y Valores de Retorno
+
+
+En Ingeniería y Ciencias Ambientales, suele pensarse los eventos extremos (por ejemplo: observación por encima de cierto valor muy alto), en términos de tiempos de retorno (tiempo que se espere para que ocurra un evento). Bajo las hipótesis de datos $iid$, el tiempo de retorno $T$ tiene una distribución $Geo(p)$, con $p = P(evento)$, por lo cual el tiempo de retorno medio es $E(T)=1/p$ y pueden hacerse intervalos de confianza para $E(T)$, en la medida que exista información de $P(evento)$, lo cual puede obtenerse a partir de este capítulo o de los siguientes. Cabe observar que muchas veces se utiliza la expresión Tiempo de Retorno (TR) para $E(T)$.
+
+
+Más precisamente, $TR(u)$, el Tiempo de retorno del valor $u$, es el valor esperado (o la media) del tiempo que se debe esperar para que la variable en estudio supere el valor $u$, es decir que $TR(u) = 1/P(X>u)$, si $X$ es la variable en estudio.
+
+Por otro la lado, en una mirada inversa, el Valor de Retorno a tiempo $t$, $VR(t)$ es el valor de $u$ para el cual $TR(u)=t$, es decir que $TR(VR(t))=t$ (y también $VR(TR(u))=u$, es decir que $TR$ y $VR$ son, como funciones, inversas una de la otra).
+
+
+Para \textit{bajar un poco a tierra} estos conceptos, vamos a calcularlos y compararlos cuando la variable $X$ es Gumbel y cuando (con los mismos valores de posición $\mu$ y escala $\beta>0$).
+
+Comencemos por la Gumbel, recordemos que $X$ tiene distribución $\Lambda( \mu,\beta)$ si $X= \mu+\beta Y$ , donde $Y$ tiene distribución $\Lambda$.
+
+Dado entonces un valor $\mu>0$ , otro valor $t>0^*$ resulta que
+
+\begin{itemize}
+\item $P(X>u)=1-e^{-e{(u-\mu)/ β }}$
+\item $TR(u)=1/P(X>u)$
+\item $VR(t)= \mu-\beta\: log\{log\{t/(t-1)\}\}$
+\end{itemize}
+
+  (ECUACIONES G)\footnote{Cabe observar que si se supone que las observaciones son diarias (o enteras en la unidad que corresponda), los tiempos de retorno TR se redondean a enteros y los valores de $t$ en la última ecuación se toman enteros.}
+
+
+Sigamos ahora por la Fréchet, recordemos que $X$ tiene distribución $\Phi_{\alpha}^{( \mu,\beta)}$ si $X= \mu+\beta Y$, donde $Y$ tiene distribución $\Phi_{\alpha}$.
+
+Dado entonces un valor $u>0$, otro valor $t$ entero, resulta que
+
+\begin{itemize}
+\item $P(X>u)=1-e^{ -\left \{( u- \mu)/\beta\right \}^{-\alpha}}$,
+\item $TR(u)=\frac{1}{P(X>u)}$,
+\item $VR(t)= \mu+ \beta\left \{log\left \{ \frac{t}{(t-1)}\right \}\right \}-\frac{1}{\alpha}$
+\end{itemize}
+
+(ECUACIONES F)
+
+
+Para visualizar claramente estos resultados, tabularemos 
+y graficaremos los mismos usando en ambos casos:
+
+\begin{itemize}
+\item $\mu=15$
+\item $\beta=10$
+\item $\alpha=2.5$
+\item $\xi=0.4$ no muy distante del $\xi=0$ de la Gumbel
+\end{itemize}
+
+
+```{r}
+# faltan datos, ya los pedí
+```
+
+Tanto las tablas como la gráfica muestran que el modelo Fréchet da probabilidades mucho mayores a valores muy elevados (es más “pesimista”, si los valores mayores representan mayores esfuerzos o problemas).
+
+Tratemos de ver ahora los TR para uno y otro modelo. Es claro que, siguiendo la lógica anterior, es más “pesimista” el modelo que de tiempos de retorno menores en valores elevados.
+
+```{r}
+#datos
+```
+
+Se observa muy claramente que el modelo Fréchet es mucho más “pesimista”. Veamos ahora los VR. Será en este contexto más “pesimista” quien dé mayores VR.
+
+Resulta evidente el mayor “pesimismo”del modelo Fréchet.
+Finalmente, para cerrar el punto, veamos que TR y VR son efectivamente inversas.
+
+Por ejemplo, si tomamos el tiempo $t=90$ días, vemos que en Gumbel su $VR$ es $59,942$ muy ligeramente inferior a 60. En la tabla de TR, vemos que para el valor 60, Gumbel da TR= 91, casi igual a t=90. Si con este mismo $t$ vamos al modelo Fréchet, vemos que su VR es 75,537 algo superior a 74. 
+
+En la tabla de TR vemos que para el valor 75 Fréchet da TR= 89, casi igual a t=90.
+
+
+Es decir que, salvando las ligeras diferencias fruto de que las tablas son discretas y hay redondeos, etc., hemos corroborado que para $t$ días, tenemos que TR $(VR(t))=t$.
+Si tomamos ahora el valor 70, vemos que en Gumbel tiene TR=245, un poco por debajo de 270, cuyo $VR=70,966$. En Fréchet 70 tiene $TR=71$, más abajo que 90, que tiene $VR= 75,357$ bastante cercano a 70.
+Haciendo la salvedad de lo artesanal y aproximado de mirar una tabla y no calcular en continuo, queda claro que para un valor u tenemos que $VR(TR(u))=u$.
+
+<!-- 
+CHAP: 2
+-->
+
+
+\newpage
+\chapter{Un primer enfoque de datos no iid}
+
+Vamos a ver que en la realidad frecuentemente los datos no son $i.i.d$, y que hay muy diversos tipos de datos no $i.i.d$.
+
+Recordemos que si los datos no son $i.i.d$ es, o bien porque no son independientes, o bien porque la distribución no es la misma para todos los datos (o ambas cosas, obviamente).
+
+__Aclaración 1:__
+
+Dado que abordamos un curso de posgrado, y que en los cursos básicos se abordan los tests que permiten contrastar la hipótesis iid (Spearman, runs up and down, etc.) supondremos estas técnicas conocidas, pero obviamente podemos analizarlas aparte con quien lo necesite. En R, por ejemplo, se encuentran como __randtests__. Un escalón más arriba, las Series de Tiempo, su análisis espectral, etc., es tema de otros curso de segundo nivel de Estadística que ofrecemos, por lo cual no nos detendremos mayormente, pero nuevamente, estamos a disposición de quien lo requiera y en este curso al menos explicaremos brevemente los aspectos medulares que usemos.
+
+
+__Aclaración 2:__ 
+
+En la teoría de series de tiempo, se suele expresar la expresión “Ruido Blanco” para referirse a datos iid. Se caracterizan por tener espectro constante. Hay por lo tanto tests basados en el Periodograma (estimación de la medida espectral del proceso) que permiten testear si tenemos un ruido blanco, o, más en general, qué tipo de estructura de dependencia tienen los datos, permitiendo dilucidar entre alternativas que presentaremos a continuación.
+
+
+Continuando con una explicación “llana” del tema, si los datos no necesariamente son independientes pero la estructura de distribuciones es siempre la misma, se habla de datos estacionarios (o procesos estacionarios).
+
+
+Cuando los datos no son independientes pero la dependencia se va atenuando a medida que se consideran datos más lejanos (para fijar ideas, imaginemos que los datos corresponde a medidas en el tiempo, y que datos muy viejos no influirían significativamente sobre el presente, por ejemplo), se habla de datos débilmente dependientes.
+
+El caso más sencillo de esta situación es la de datos m-dependientes (donde m es un número), que corresponde a datos que si están a distancia mayor a m, son independientes. Es el caso de los procesos $MA(q)$ ( Moving Averages), que son Promedios Móviles de orden q de un ruido blanco ($m=q$ en este caso).
+
+Algunos datos bioquímicos del agua de algunas playas uruguayas que se miden diariamente suelen ser 7-dependientes, por ejemplo. Esto significa que datos que fueron tomados con más de una semana de separación, son independientes.
+En cambio, algunos datos de poblaciones o de composici;on de suelos que se van registrando a lo largo de los años, son débilmente dependientes, pero NO son m-dependientes para ningún m. Es el caso, por ejemplo, de los llamados procesos $AR(p)$ (Autoregresivos de orden $p$) donde cada dato es una combinación lineal de los p anteriores más un término aleatorio (“Ruido”) que es un ruido blanco. Son Markovianos, es decir, con memoria infinita pero donde todo el pasado es tan informativo como los últimos p datos (el carácter Markoviano es mal presentado en algunos textos y cursos, hablando confusamente de “memoria corta”).
+
+La Genética aporta excelentes ejemplos para distinguir lo Markoviano, pues algunas pocas generaciones atrás alcanzan para calcular probabilidades de muchas características de la descendencia, mientras que la memoria no es corta sino infinita: cada característica resulta de toda la fiogenética, así nos remontemos al origen de las especies. Para simplificar al extremo y usando la imagen bíblica (con todo respeto a todos los pensares), si Adán y Eva hubieran tenido otros genes, la especie podría ser diferente!!
+
+
+En la teoría clásica de series de tiempo, una estructura $AR(p)$ a partir de un ruido $MA(q)$ en lugar de un ruido blanco, da lugar a los procesos $ARMA (p,q)$, que en general son débilmente dependientes y aproximan bien a cualquier proceso estacionario débilmente dependiente, lo cual es una de las razones de su popularidad.
+Lo opuesto a dependencia débil es dependencia fuerte ( en inglés, long range dependence).
+En algunos datos de telecomunicaciones que se registran en escalas temporales muy finas, se han encontrado ejemplos de dependencia fuerte.
+
+Cuando los datos no son $i.i.d.$ pero se vuelven $i.i.d.$ al restarle una función determinística, son bastante simples de manejar. Si esta función es monótona, se habla de que los datos presentan tendencias (trends). Si en cambio la función es periódica, se dice que los datos presentan ciclos (seasonal effects).
+Se puede demostrar que si los datos se vuelven iid al restar una función determinística cualquiera (lo cual no siempre es el caso!), entonces se pueden modelar aproximadamente como
+
+$$
+\text{TENDENCIAS+CICLOS+ DATOS IID}
+$$
+Vamos a presentar a continuación como “lucen” los
+distintos tipos de datos y qué tan reconocibles son.
+Los datos se han simulado computacionalmente, por lo tanto sabemos a cuál es su real estructura.
+Empecemos por lo "básico":¿Cómo lucen datos $i.i.d.$? 
+A continuación una muestra de tamaño mil de
+datos $i.i.d.$ con distribución Gumbel.
+
+![Caption for your image](images/p1.png){width=90%}
+
+
+Lo más sobresaliente, son las muy bruscas variaciones, que hacen difícil graficar, variaciones no necesariamente equilibradas respecto a un eje horizontal, pues la Gumbel es un distribución asimétrica, “inclinada hacia la izquierda”, con valor esperado 0,577 pero mediana -0,366; si se simulara una distribución simétrica como la Normal, se vería mayor equilibrio entre los picos, etc., pero se podría perder de vista lo esencial: la oscilación fuerte y que “el grueso” de los datos no parecen tender ni a subir ni a bajar, ni a mostrar ciclos.
+
+Veamos ahora como lucen datos que son Gumbel iid, a los que se les ha sumado una tendencia parabólica y ciclos sinusoidales.
+
+![Gumbel iid con tendencia parabólica y ciclos sinusoidales.](images/p2.png){width=90%}
 
 
 
+
+Si bien hay oscilaciones aleatorias, es perceptible a simple vista una tendencia creciente y la presencia de una estructura cíclica.
+Tras un poco de análisis exploratorio uno puede percatarse que la tendencia debe ser lineal o cuadrática, por lo cual si se propone un polinomio de orden 2 + un término sinusoidal (con parámetros: amplitud, frecuencia y fase), por mínimos cuadrados se puede ajustar bien, resultando efecrivamente cuadrática la tendencia.
+Si se le restara a los datos originales los valores de las componentes determinísticas (Tendencia+Ciclo) ajustadas, los nuevos datos que resultan (llamados Residuos) deberían razonablemente superar los tests para datos iid.
+Esta es la forma más sencilla de lidiar con lo no-iid.
+Veamos ahora la gráfica de observaciones de un proceso 2-dependiente, estacionario, donde los datos tienen distribución Gumbel.
+
+Veamos qué pasa ahora si yuxtaponemos la gráfica de Gumbel iid con la de Gumbel 2-dependiente.
+
+Aún para el ojo más adiestrado es muy difícil distinguir las dos situaciones. Puede quizás percibirse mayor “inercia” en el gráfico superior, correspondiente a la 2-dependencia, pero es realmente muy difícil lograrlo (y nada seguro jugarse).
+Esto demuestra la importancia de realizar tests de hipótesis sobre la estructura subyacente y no utilizar el “ojímetro”.
+Veamos como luce ahora una serie de datos Gumbel 2-dependientes con componente cíclica.
+
+
+Se insinúa una estructura de ciclos, pero nuevamente es altanebte recomendable chequear la estructura mediante tests.
+La adición de una tendencia creciente fuerte, podría ser una técnica exploratoria que ayudara a visualizar los ciclos, como apuntó Juan Piccini en la primera edición de este curso.
+Veamos finalmente como luce la dependencia fuerte. Nuevamente el proceso es estacionario y los datos son Gumbel.
+
+
+Las oscilaciones son parecidas a los casos anteriores pero la muy parejita “poda” inferior es la que hace sospechar algo “raro”.
+De todos modos, las posibles estructuras de dependencia fuerte son muchas, complejas y verificarlas no es sencillo.
+Como resumen final, en los más próximos capítulos tomaremos direcciones no iid, en las que veremos:
+
+1. Si el proceso es estacionario y débilmente dependiente, la técnica clásica de DEA puede aplicarse esencialmente igual (Leadbetter, Lindgren, Rootzén).
+2. Si el proceso no es estacionario o no es débilmente dependiente, cumple algunas propiedades condicionales a otro proceso que le pauta la “fase”, la técnica clásica de DEA puede aplicarse, pero con modificaciones no menores.
+(En realidad veremos en el capítulo 5 un trabajo de nuestra co-autoría donde el interés está centrado en el punto 2 pero del cual, y como caso particular, surgen resultados para el punto 1)
+
+__Además:__
+3.Puede cambiarse el enfoque y mirar el número de eventos extremos en diversos lapsos, esto lleva en el caso iid a un proceso de Poisson, para estacionarios y débilmente dependientes a un Poisson Compuesto y en el marco más general del punto 2, a mezclas de Procesos de Poisson Compuestos ( Lise Bellanger-GP).
+El conteo de eventos extremos será también la base o el “pie”, para introducir una técnica muy usada, POT (Picos Sobre Umbrales) y sus variaciones más recientes que veremos al final.
+
+
+<!-- 
+REFERENCIAS 
+-->
 
 \newpage
 

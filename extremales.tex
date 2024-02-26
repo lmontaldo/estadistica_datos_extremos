@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  12pt]{article}
+  oneside]{book}
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
 \ifPDFTeX
@@ -141,6 +141,7 @@
 \usepackage{tikz}
 \usepackage{atbegshi}
 
+
 \AtBeginDocument{
     \AtBeginShipoutNext{
         \AtBeginShipoutUpperLeft{
@@ -169,11 +170,13 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-02-24}
+\date{2024-02-26}
 
 \begin{document}
+\frontmatter
 \maketitle
 
+\mainmatter
 \newpage
 
 \thispagestyle{empty}
@@ -187,15 +190,13 @@
 \newpage
 
 \hypertarget{resumen}{%
-\section{Resumen}\label{resumen}}
+\chapter{Resumen}\label{resumen}}
 
 Your abstract goes here.
 
 \newpage
 
-\hypertarget{motivaciuxf3n-y-objetivo-del-estudio}{%
-\section{Motivación y objetivo del
-estudio}\label{motivaciuxf3n-y-objetivo-del-estudio}}
+\chapter{Motivación y objetivo del estudio}
 
 Los índices de \(S\&P\) son una familia de índices de renta
 variable\footnote{En inglés se llaman equity indices} diseñados para
@@ -239,13 +240,9 @@ cierre del día del indicar S\&P 500.
 
 \includegraphics{extremales_files/figure-latex/plot2-1.pdf} \newpage
 
-\hypertarget{marco-teuxf3rico}{%
-\section{Marco Teórico}\label{marco-teuxf3rico}}
+\chapter{Marco Teórico}
 
-\hypertarget{teoruxeda-asintuxf3tica-cluxe1sica-y-las-distribuciones-extremales-y-sus-dominios-de-atracciuxf3n}{%
-\subsection{Teoría asintótica clásica y las distribuciones extremales y
-sus dominios de
-atracción}\label{teoruxeda-asintuxf3tica-cluxe1sica-y-las-distribuciones-extremales-y-sus-dominios-de-atracciuxf3n}}
+\section{Capítulo 1: Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
 
 Siguiendo a Perera, Segura, y Crisci (2021) se dice que tenemos datos
 extremos cuando cada dato corresponde al máximo o mínimo de varios
@@ -282,14 +279,14 @@ máximos exclusivamente.
 \newpage
 
 \hypertarget{definiciuxf3n-1-las-distribuciones-extremales}{%
-\subsubsection{Definición 1: Las distribuciones
+\subsection{Definición 1: Las distribuciones
 extremales}\label{definiciuxf3n-1-las-distribuciones-extremales}}
 
 Las distribuciones extremales son tres: la distribución de Gumbel; la
 distribución de Weibull; la distribución de Fréchet.
 
 \hypertarget{distribuciuxf3n-de-gumbel}{%
-\paragraph{Distribución de Gumbel}\label{distribuciuxf3n-de-gumbel}}
+\subsubsection{Distribución de Gumbel}\label{distribuciuxf3n-de-gumbel}}
 
 Se dice que una variable tiene distribución de Gumbel si su distribución
 es:
@@ -326,7 +323,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-12-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-13-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -345,7 +342,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5563899
+## [1] 0.5884223
 \end{verbatim}
 
 \begin{Shaded}
@@ -355,11 +352,12 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.236503
+## [1] 1.299118
 \end{verbatim}
 
 \hypertarget{distribuciuxf3n-de-weibull}{%
-\paragraph{Distribución de Weibull}\label{distribuciuxf3n-de-weibull}}
+\subsubsection{Distribución de
+Weibull}\label{distribuciuxf3n-de-weibull}}
 
 Se dice que una variable tiene distribución de Weibull de orden
 \(\alpha>0\) si su distribución es:
@@ -392,12 +390,12 @@ Primero generaremos un vector de numeros auxiliares equiespaciados y lo
 nombraremos (``x\_aux''). Luego definiremos un orden (alpha=α ) de la
 Weibull y graficaremos la función.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-17-1.pdf}
 Veamos ahora la forma de un par de distribuciones cambiando el parámetro
 de orden (α ), que en la función pweibull de R se nombra como shape y
 que define el orden de la distribución.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-18-1.pdf}
 En R podemos también generar numeros aleatórios (técnicamente
 pseudo-aleatorios) de una distribución extremal. Estos simuladores de
 números aleatórios son útiles para comparar contra distribuciones nulas,
@@ -410,10 +408,10 @@ rweibull, que tiene como parámetro el número de datos que se necesitan y
 la forma (shape) de la distribución. Luego haremos un grafico con la
 densidad empírica (esto es similar a un histograma) de estos vectores.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 \hypertarget{distribuciuxf3n-de-fruxe9chet}{%
-\paragraph{Distribución de
+\subsubsection{Distribución de
 Fréchet}\label{distribuciuxf3n-de-fruxe9chet}}
 
 Se dice que una variable tiene distribución de Fréchet de orden
@@ -445,14 +443,14 @@ Grafiquemos esta distribución para dos valores diferentes de \(\alpha\).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{extremales_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 .
 
 \newpage
 
 \hypertarget{teorema-1-relaciones-entre-las-versiones-standard-de-las-distribuciones-extremales}{%
-\subparagraph{Teorema 1: Relaciones entre las versiones standard de las
+\paragraph{Teorema 1: Relaciones entre las versiones standard de las
 distribuciones
 extremales}\label{teorema-1-relaciones-entre-las-versiones-standard-de-las-distribuciones-extremales}}
 
@@ -461,11 +459,11 @@ tiene distribución \(\Psi_{\alpha}(x)\) si y sólo si \(log(X^{\alpha})\)
 tiene distribución \(\Lambda\).
 
 \hypertarget{teorema-2-algunos-datos-de-las-distribuciones-extremales}{%
-\subparagraph{Teorema 2: Algunos datos de las distribuciones
+\paragraph{Teorema 2: Algunos datos de las distribuciones
 extremales}\label{teorema-2-algunos-datos-de-las-distribuciones-extremales}}
 
 \hypertarget{parte-1}{%
-\subparagraph{Parte 1}\label{parte-1}}
+\paragraph{Parte 1}\label{parte-1}}
 
 Si \(X\) tiene distribución \(\Lambda^{(\mu,\beta)}\) entonces tiene:
 
@@ -479,7 +477,7 @@ Si \(X\) tiene distribución \(\Lambda^{(\mu,\beta)}\) entonces tiene:
 \end{itemize}
 
 \hypertarget{parte-2}{%
-\paragraph{Parte 2}\label{parte-2}}
+\subsubsection{Parte 2}\label{parte-2}}
 
 Si \(X\) tiene distribución \(\Psi_{\alpha}^{(\mu,\beta)}\) entonces
 tiene:
@@ -492,7 +490,7 @@ tiene:
 \end{itemize}
 
 \hypertarget{parte-2-1}{%
-\paragraph{Parte 2}\label{parte-2-1}}
+\subsubsection{Parte 2}\label{parte-2-1}}
 
 Si \(X\) tiene una distribución \(\Phi_{\alpha}^{(\mu, \beta)}\)
 entonces se tiene:
@@ -507,7 +505,7 @@ entonces se tiene:
 \newpage
 
 \hypertarget{teorema-3-fischer-tippet-gnedenko-ftg}{%
-\subparagraph{Teorema 3: Fischer-Tippet-Gnedenko
+\paragraph{Teorema 3: Fischer-Tippet-Gnedenko
 (FTG)}\label{teorema-3-fischer-tippet-gnedenko-ftg}}
 
 Si \(X_1,...,X_n\quad iid\) con distribución \(F\) ``continua'',
@@ -573,7 +571,7 @@ incorporar en este estudio no tiene que ser degenerada, es decir
 \newpage
 
 \hypertarget{definiciuxf3n-2-distribuciuxf3n-extremal-asintuxf3tica}{%
-\subsubsection{Definición 2: Distribución extremal
+\subsection{Definición 2: Distribución extremal
 asintótica}\label{definiciuxf3n-2-distribuciuxf3n-extremal-asintuxf3tica}}
 
 Si \(X_1,...,X_n\) es \(iid\) con distribución \(F\) diremos que \(H\)
@@ -589,8 +587,7 @@ la distribución de
 tiende a \(H\) cuando \(n\) tiende a infinito.
 
 \hypertarget{definiciuxf3n-3-supremo-esencial-de-una-variable-aleatoria-o-distribuciuxf3n}{%
-\subsubsection{Definición 3: Supremo esencial de una variable aleatoria
-o
+\subsection{Definición 3: Supremo esencial de una variable aleatoria o
 distribución}\label{definiciuxf3n-3-supremo-esencial-de-una-variable-aleatoria-o-distribuciuxf3n}}
 
 Si \(X\) tiene distribución \(F\), se llama supremo esencial de \(X\),
@@ -610,7 +607,7 @@ Observación:
 \end{itemize}
 
 \hypertarget{teorema-4}{%
-\subparagraph{Teorema 4}\label{teorema-4}}
+\paragraph{Teorema 4}\label{teorema-4}}
 
 Si \(X_1,...,X_n\) es \(iid\) con distribución \(F\) cualquiera,
 entonces, para \(n\) tendiendo a infinito,
@@ -628,7 +625,7 @@ el Teorema Central del Límite para promedios, buscaríamos una sucesión
 tienda a una distribución no-degenerada y de allí surge buscar la DEA.
 
 \hypertarget{teorema-5}{%
-\subparagraph{Teorema 5}\label{teorema-5}}
+\paragraph{Teorema 5}\label{teorema-5}}
 
 Si \(F\) es una distribución con \(M_F\) finito, y para \(X\) con
 distribución \(F\) se cumple que
@@ -649,7 +646,7 @@ máximo de una muestra \(iid\) de variables \(Bin(m,p)\).
 El Teorema anterior es un caso particular del próximo.
 
 \hypertarget{teorema-6}{%
-\subparagraph{Teorema 6}\label{teorema-6}}
+\paragraph{Teorema 6}\label{teorema-6}}
 
 Si \(F\) es una distribución con \(M_F\) finito o infinito que admite
 DEA, y \(X\) tiene distribución \(F\), entonces el límite cuando \(t\)
@@ -676,7 +673,7 @@ Un ejemplo de ello lo aportó Von Mises, mostrando que la distribución
 no admite DEA.
 
 \hypertarget{definiciuxf3n-4-distribuciuxf3n-max-estables}{%
-\subsubsection{Definición 4: Distribución
+\subsection{Definición 4: Distribución
 max-estables}\label{definiciuxf3n-4-distribuciuxf3n-max-estables}}
 
 Si dada una \(F\) distribución, \(X\) con distribución \(F\), \(k\)
@@ -688,7 +685,7 @@ misma distribución que \(a_k X+ b_k\), \(F\) se dice
 El Teorema FTG resulta de superponer los dos siguientes teoremas:
 
 \hypertarget{teorema-7}{%
-\subparagraph{Teorema 7}\label{teorema-7}}
+\paragraph{Teorema 7}\label{teorema-7}}
 
 \begin{itemize}
   \item[a)] Si $F$ admite $DEA\;H$, entonces $H$ es max-estable.
@@ -696,7 +693,7 @@ El Teorema FTG resulta de superponer los dos siguientes teoremas:
 \end{itemize}
 
 \hypertarget{teorema-8}{%
-\subparagraph{Teorema 8}\label{teorema-8}}
+\paragraph{Teorema 8}\label{teorema-8}}
 
 Una distribución es max-estable si y solo si es
 extremal\footnote{O sea Gumbel, Weibull o Fréchet}. El Teorema 7 es
@@ -768,7 +765,7 @@ Se tiene el siguiente resultado:
 Además, de la tabla se deduce que
 
 \hypertarget{teorema-9}{%
-\subparagraph{Teorema 9}\label{teorema-9}}
+\paragraph{Teorema 9}\label{teorema-9}}
 
 Si \(X_1,...,X_n\) independientes y cada \(X_i\) tiene uno de los tres
 tipos de distribución extremal, entonces la distribución del
@@ -799,7 +796,7 @@ Por otra parte se dice que \(L\) es una
 \newpage
 
 \hypertarget{definiciuxf3n-4-dominio-de-atracciuxf3n-maximal}{%
-\subsubsection{Definición 4: Dominio de atracción
+\subsection{Definición 4: Dominio de atracción
 maximal}\label{definiciuxf3n-4-dominio-de-atracciuxf3n-maximal}}
 
 Si \(H\) es una distribución extremal (Gumbel, Weibull o Fréchet) su
@@ -807,7 +804,7 @@ Dominio de Atracción Maximal (\(DAM(H)\)) está constituído por todas las
 distribuciones \(F\) que tienen \(DEA\;H\).
 
 \hypertarget{teorema-9-dam-de-la-fruxe9chet}{%
-\subparagraph{Teorema 9: DAM de la
+\paragraph{Teorema 9: DAM de la
 Fréchet}\label{teorema-9-dam-de-la-fruxe9chet}}
 
 \(F\) pertenece a la DAM de \(\Phi_{\alpha}\) si y sólo si
@@ -815,7 +812,7 @@ Fréchet}\label{teorema-9-dam-de-la-fruxe9chet}}
 es equivalente a decir que \(F\) es \(R_{-\alpha}\).
 
 \hypertarget{corolario-1-dam-de-la-fruxe9chet}{%
-\subparagraph{Corolario 1: DAM de la
+\paragraph{Corolario 1: DAM de la
 Fréchet}\label{corolario-1-dam-de-la-fruxe9chet}}
 
 Si \(F\) es una distribución con densidad \(f\) que cumple que
@@ -827,7 +824,7 @@ equivalente a alguna distribución que cumpla la Condición de Von Mises
 I. Del DAM Fréchet y Teorema 1, surge lo siguiente.
 
 \hypertarget{teorema-10-dam-de-la-weibull}{%
-\subparagraph{Teorema 10: DAM de la
+\paragraph{Teorema 10: DAM de la
 Weibull}\label{teorema-10-dam-de-la-weibull}}
 
 \begin{itemize}
@@ -838,7 +835,7 @@ resulta que $1-F(u)=(^{-}MF -u)^{\alpha} L(1/(M_F -u))$ para alguna $L$ de varia
 \end{itemize}
 
 \hypertarget{teorema-11-dam-de-la-gumbel}{%
-\subparagraph{Teorema 11: DAM de la
+\paragraph{Teorema 11: DAM de la
 Gumbel}\label{teorema-11-dam-de-la-gumbel}}
 
 Una distribución \(F\) se dice una Función de Von Mises con función
@@ -867,7 +864,7 @@ Más concretamente, \(dn = F^{-1}(1-1/n)\), \(c_n = h(d_n)\), donde
 \(F^{-1}(p)= inf\{t / F(t)\geq p\}\), para \(0<p<1\).
 
 \hypertarget{corolario-2}{%
-\subsubsection{Corolario 2 :}\label{corolario-2}}
+\subsection{Corolario 2 :}\label{corolario-2}}
 
 Si \(F\) pertenece al \(DAM\) Gumbel, \(M_F\) es infinito, y se
 considera \(X\) con distribucion \(F\), entonces \(E(X+k)\) es finito
@@ -883,12 +880,375 @@ de compactar en una unica fórmula las tres distribuciones extremales,
 debida a Jenkinson-Von Mises.
 
 \hypertarget{definiciuxf3n-5-gev}{%
-\subsubsection{Definición 5: GEV}\label{definiciuxf3n-5-gev}}
+\subsection{Definición 5: GEV}\label{definiciuxf3n-5-gev}}
+
+Se define a la distribución de valores extremos generalizada
+\((GEV)\)\footnote{Por sus siglas en inglés relativas a Generalized Extreme Values.}
+de posición \(\mu\), escala \(\beta\) e índice \(\xi\) con
+
+\[
+G(\mu,\beta,\xi) =
+\begin{cases}
+    e^{-(1+ \xi(t-\mu)/ \beta)(-1/ \xi)} & \text{si  } \xi \neq 0, \forall\;t\;\text{donde } 1+ \xi(t-\mu)/ \beta) >0 \\
+    e^{-e^{(-(t-\mu)/ \beta)}} & \text{si  } \xi =0,\; \forall \;t \\
+\end{cases}
+\] \vspace{0.5cm}
+
+En los casos en que \(\xi\) tome los siguientes valores, se tiene
+
+\begin{align*}
+ \xi=0,  & \text{ corresponde a Gumbel,} \\
+ \xi< 0, &\text{ corresponde a Weibull y } \alpha=-1/ \xi \\
+ \xi>0, &\text{ corresponde Fréchet y }  \alpha=1/ \xi
+\end{align*}
+
+En \(R\) existen rutinas para estimar \(\xi\) con intervalos de
+confianza( por máxima verosimilitud, etc.) lo cual da formas de testear
+si una extremal es Gumbel, Weibull o Fréchet.
+
+Observación:
+
+En algunas situaciones datos extremales pueden ajustarse a más de un
+modelo. Por ejemplo, puede ocurrir que tanto ajusten los datos una
+Gumbel como una Weibull. Frente a estas situaciones, no hay una receta
+única de cómo proceder sino que quien está modelando debe tener claro si
+corresponde volcarse hacia cálculos más pesimistas (que dan mayor
+probabilidad a eventos extremos muy severos) o más optimistas.
+
+Usualmente la opción pesimista implica privilegiar la seguridad y la
+optimista la economía de recursos, pero insistimos en que la reflexión
+ante cada caso es indispensable. Un poquito más adelante veremos, al
+comparar un modelo Gumbel con un modelo Fréchet, que las diferencias
+pueden ser sumamente drásticas.
+
+Observación:
+
+Antes de seguir adelante, demos la respuesta a la parte \(a)\) del
+Ejercicio 5. Es un ejercicio de Cálculo Diferencial sencillo mostrar que
+la cola de un \(N(0,1)\), es decir \(Q(t)=P(X>t)\), donde \(X\) tiene
+distribución \(N(0,1)\), es equivalente, para \(t\) tendiendo a
+infinito, a la función \(\phi(t)/t\), donde \(\phi\) representa la
+densidad normal típica (campana de Gauss). Basándose en esto, si se
+considera ahora una variable log-normal \(Y\), tal que \(log(Y)\) es una
+\(N(0,1)\), puede probarse que su cola \(R(t)=P(Y>t)\), es equivalente,
+para \(t\) tendiendo a infinito, a la función \(\phi(log(t))/log(t)\).
+Con un poco más de Cálculo, esta última función puede escribirse para
+\(a>e\) (por ejemplo \(a=3\)), como
+
+\begin{equation}
+c\times e^{-\int_{a}^{t}1/h(s)\; ds} \quad \text{para }\: t>a
+\end{equation}
+
+donde \(c\) se expresa en función de \(a\) y
+\(h(s)=\frac{s\; log(s)}{(log(s))^2+1}\) la cual cumple las hipótesis
+del Teorema 11.
+
+Se concluye entonces que la log-normal está en el \(DAM\) Gumbel, o lo
+que es lo mismo, que la log- normal admite \(DEA\) Gumbel.
+
+Observación: Tiempos y Valores de Retorno
+
+En Ingeniería y Ciencias Ambientales, suele pensarse los eventos
+extremos (por ejemplo: observación por encima de cierto valor muy alto),
+en términos de tiempos de retorno (tiempo que se espere para que ocurra
+un evento). Bajo las hipótesis de datos \(iid\), el tiempo de retorno
+\(T\) tiene una distribución \(Geo(p)\), con \(p = P(evento)\), por lo
+cual el tiempo de retorno medio es \(E(T)=1/p\) y pueden hacerse
+intervalos de confianza para \(E(T)\), en la medida que exista
+información de \(P(evento)\), lo cual puede obtenerse a partir de este
+capítulo o de los siguientes. Cabe observar que muchas veces se utiliza
+la expresión Tiempo de Retorno (TR) para \(E(T)\).
+
+Más precisamente, \(TR(u)\), el Tiempo de retorno del valor \(u\), es el
+valor esperado (o la media) del tiempo que se debe esperar para que la
+variable en estudio supere el valor \(u\), es decir que
+\(TR(u) = 1/P(X>u)\), si \(X\) es la variable en estudio.
+
+Por otro la lado, en una mirada inversa, el Valor de Retorno a tiempo
+\(t\), \(VR(t)\) es el valor de \(u\) para el cual \(TR(u)=t\), es decir
+que \(TR(VR(t))=t\) (y también \(VR(TR(u))=u\), es decir que \(TR\) y
+\(VR\) son, como funciones, inversas una de la otra).
+
+Para \textit{bajar un poco a tierra} estos conceptos, vamos a
+calcularlos y compararlos cuando la variable \(X\) es Gumbel y cuando
+(con los mismos valores de posición \(\mu\) y escala \(\beta>0\)).
+
+Comencemos por la Gumbel, recordemos que \(X\) tiene distribución
+\(\Lambda( \mu,\beta)\) si \(X= \mu+\beta Y\) , donde \(Y\) tiene
+distribución \(\Lambda\).
+
+Dado entonces un valor \(\mu>0\) , otro valor \(t>0^*\) resulta que
+
+\begin{itemize}
+\item $P(X>u)=1-e^{-e{(u-\mu)/ β }}$
+\item $TR(u)=1/P(X>u)$
+\item $VR(t)= \mu-\beta\: log\{log\{t/(t-1)\}\}$
+\end{itemize}
+
+(ECUACIONES
+G)\footnote{Cabe observar que si se supone que las observaciones son diarias (o enteras en la unidad que corresponda), los tiempos de retorno TR se redondean a enteros y los valores de $t$ en la última ecuación se toman enteros.}
+
+Sigamos ahora por la Fréchet, recordemos que \(X\) tiene distribución
+\(\Phi_{\alpha}^{( \mu,\beta)}\) si \(X= \mu+\beta Y\), donde \(Y\)
+tiene distribución \(\Phi_{\alpha}\).
+
+Dado entonces un valor \(u>0\), otro valor \(t\) entero, resulta que
+
+\begin{itemize}
+\item $P(X>u)=1-e^{ -\left \{( u- \mu)/\beta\right \}^{-\alpha}}$,
+\item $TR(u)=\frac{1}{P(X>u)}$,
+\item $VR(t)= \mu+ \beta\left \{log\left \{ \frac{t}{(t-1)}\right \}\right \}-\frac{1}{\alpha}$
+\end{itemize}
+
+(ECUACIONES F)
+
+Para visualizar claramente estos resultados, tabularemos y graficaremos
+los mismos usando en ambos casos:
+
+\begin{itemize}
+\item $\mu=15$
+\item $\beta=10$
+\item $\alpha=2.5$
+\item $\xi=0.4$ no muy distante del $\xi=0$ de la Gumbel
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# faltan datos, ya los pedí}
+\end{Highlighting}
+\end{Shaded}
+
+Tanto las tablas como la gráfica muestran que el modelo Fréchet da
+probabilidades mucho mayores a valores muy elevados (es más
+``pesimista'', si los valores mayores representan mayores esfuerzos o
+problemas).
+
+Tratemos de ver ahora los TR para uno y otro modelo. Es claro que,
+siguiendo la lógica anterior, es más ``pesimista'' el modelo que de
+tiempos de retorno menores en valores elevados.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#datos}
+\end{Highlighting}
+\end{Shaded}
+
+Se observa muy claramente que el modelo Fréchet es mucho más
+``pesimista''. Veamos ahora los VR. Será en este contexto más
+``pesimista'' quien dé mayores VR.
+
+Resulta evidente el mayor ``pesimismo''del modelo Fréchet. Finalmente,
+para cerrar el punto, veamos que TR y VR son efectivamente inversas.
+
+Por ejemplo, si tomamos el tiempo \(t=90\) días, vemos que en Gumbel su
+\(VR\) es \(59,942\) muy ligeramente inferior a 60. En la tabla de TR,
+vemos que para el valor 60, Gumbel da TR= 91, casi igual a t=90. Si con
+este mismo \(t\) vamos al modelo Fréchet, vemos que su VR es 75,537 algo
+superior a 74.
+
+En la tabla de TR vemos que para el valor 75 Fréchet da TR= 89, casi
+igual a t=90.
+
+Es decir que, salvando las ligeras diferencias fruto de que las tablas
+son discretas y hay redondeos, etc., hemos corroborado que para \(t\)
+días, tenemos que TR \((VR(t))=t\). Si tomamos ahora el valor 70, vemos
+que en Gumbel tiene TR=245, un poco por debajo de 270, cuyo
+\(VR=70,966\). En Fréchet 70 tiene \(TR=71\), más abajo que 90, que
+tiene \(VR= 75,357\) bastante cercano a 70. Haciendo la salvedad de lo
+artesanal y aproximado de mirar una tabla y no calcular en continuo,
+queda claro que para un valor u tenemos que \(VR(TR(u))=u\).
+
+\newpage
+\chapter{Un primer enfoque de datos no iid}
+
+Vamos a ver que en la realidad frecuentemente los datos no son
+\(i.i.d\), y que hay muy diversos tipos de datos no \(i.i.d\).
+
+Recordemos que si los datos no son \(i.i.d\) es, o bien porque no son
+independientes, o bien porque la distribución no es la misma para todos
+los datos (o ambas cosas, obviamente).
+
+\textbf{Aclaración 1:}
+
+Dado que abordamos un curso de posgrado, y que en los cursos básicos se
+abordan los tests que permiten contrastar la hipótesis iid (Spearman,
+runs up and down, etc.) supondremos estas técnicas conocidas, pero
+obviamente podemos analizarlas aparte con quien lo necesite. En R, por
+ejemplo, se encuentran como \textbf{randtests}. Un escalón más arriba,
+las Series de Tiempo, su análisis espectral, etc., es tema de otros
+curso de segundo nivel de Estadística que ofrecemos, por lo cual no nos
+detendremos mayormente, pero nuevamente, estamos a disposición de quien
+lo requiera y en este curso al menos explicaremos brevemente los
+aspectos medulares que usemos.
+
+\textbf{Aclaración 2:}
+
+En la teoría de series de tiempo, se suele expresar la expresión ``Ruido
+Blanco'' para referirse a datos iid. Se caracterizan por tener espectro
+constante. Hay por lo tanto tests basados en el Periodograma (estimación
+de la medida espectral del proceso) que permiten testear si tenemos un
+ruido blanco, o, más en general, qué tipo de estructura de dependencia
+tienen los datos, permitiendo dilucidar entre alternativas que
+presentaremos a continuación.
+
+Continuando con una explicación ``llana'' del tema, si los datos no
+necesariamente son independientes pero la estructura de distribuciones
+es siempre la misma, se habla de datos estacionarios (o procesos
+estacionarios).
+
+Cuando los datos no son independientes pero la dependencia se va
+atenuando a medida que se consideran datos más lejanos (para fijar
+ideas, imaginemos que los datos corresponde a medidas en el tiempo, y
+que datos muy viejos no influirían significativamente sobre el presente,
+por ejemplo), se habla de datos débilmente dependientes.
+
+El caso más sencillo de esta situación es la de datos m-dependientes
+(donde m es un número), que corresponde a datos que si están a distancia
+mayor a m, son independientes. Es el caso de los procesos \(MA(q)\) (
+Moving Averages), que son Promedios Móviles de orden q de un ruido
+blanco (\(m=q\) en este caso).
+
+Algunos datos bioquímicos del agua de algunas playas uruguayas que se
+miden diariamente suelen ser 7-dependientes, por ejemplo. Esto significa
+que datos que fueron tomados con más de una semana de separación, son
+independientes. En cambio, algunos datos de poblaciones o de
+composici;on de suelos que se van registrando a lo largo de los años,
+son débilmente dependientes, pero NO son m-dependientes para ningún m.
+Es el caso, por ejemplo, de los llamados procesos \(AR(p)\)
+(Autoregresivos de orden \(p\)) donde cada dato es una combinación
+lineal de los p anteriores más un término aleatorio (``Ruido'') que es
+un ruido blanco. Son Markovianos, es decir, con memoria infinita pero
+donde todo el pasado es tan informativo como los últimos p datos (el
+carácter Markoviano es mal presentado en algunos textos y cursos,
+hablando confusamente de ``memoria corta'').
+
+La Genética aporta excelentes ejemplos para distinguir lo Markoviano,
+pues algunas pocas generaciones atrás alcanzan para calcular
+probabilidades de muchas características de la descendencia, mientras
+que la memoria no es corta sino infinita: cada característica resulta de
+toda la fiogenética, así nos remontemos al origen de las especies. Para
+simplificar al extremo y usando la imagen bíblica (con todo respeto a
+todos los pensares), si Adán y Eva hubieran tenido otros genes, la
+especie podría ser diferente!!
+
+En la teoría clásica de series de tiempo, una estructura \(AR(p)\) a
+partir de un ruido \(MA(q)\) en lugar de un ruido blanco, da lugar a los
+procesos \(ARMA (p,q)\), que en general son débilmente dependientes y
+aproximan bien a cualquier proceso estacionario débilmente dependiente,
+lo cual es una de las razones de su popularidad. Lo opuesto a
+dependencia débil es dependencia fuerte ( en inglés, long range
+dependence). En algunos datos de telecomunicaciones que se registran en
+escalas temporales muy finas, se han encontrado ejemplos de dependencia
+fuerte.
+
+Cuando los datos no son \(i.i.d.\) pero se vuelven \(i.i.d.\) al
+restarle una función determinística, son bastante simples de manejar. Si
+esta función es monótona, se habla de que los datos presentan tendencias
+(trends). Si en cambio la función es periódica, se dice que los datos
+presentan ciclos (seasonal effects). Se puede demostrar que si los datos
+se vuelven iid al restar una función determinística cualquiera (lo cual
+no siempre es el caso!), entonces se pueden modelar aproximadamente como
+
+\[
+\text{TENDENCIAS+CICLOS+ DATOS IID}
+\] Vamos a presentar a continuación como ``lucen'' los distintos tipos
+de datos y qué tan reconocibles son. Los datos se han simulado
+computacionalmente, por lo tanto sabemos a cuál es su real estructura.
+Empecemos por lo ``básico'':¿Cómo lucen datos \(i.i.d.\)? A continuación
+una muestra de tamaño mil de datos \(i.i.d.\) con distribución Gumbel.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth,height=\textheight]{images/p1.png}
+\caption{Caption for your image}
+\end{figure}
+
+Lo más sobresaliente, son las muy bruscas variaciones, que hacen difícil
+graficar, variaciones no necesariamente equilibradas respecto a un eje
+horizontal, pues la Gumbel es un distribución asimétrica, ``inclinada
+hacia la izquierda'', con valor esperado 0,577 pero mediana -0,366; si
+se simulara una distribución simétrica como la Normal, se vería mayor
+equilibrio entre los picos, etc., pero se podría perder de vista lo
+esencial: la oscilación fuerte y que ``el grueso'' de los datos no
+parecen tender ni a subir ni a bajar, ni a mostrar ciclos.
+
+Veamos ahora como lucen datos que son Gumbel iid, a los que se les ha
+sumado una tendencia parabólica y ciclos sinusoidales.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth,height=\textheight]{images/p2.png}
+\caption{Gumbel iid con tendencia parabólica y ciclos sinusoidales.}
+\end{figure}
+
+Si bien hay oscilaciones aleatorias, es perceptible a simple vista una
+tendencia creciente y la presencia de una estructura cíclica. Tras un
+poco de análisis exploratorio uno puede percatarse que la tendencia debe
+ser lineal o cuadrática, por lo cual si se propone un polinomio de orden
+2 + un término sinusoidal (con parámetros: amplitud, frecuencia y fase),
+por mínimos cuadrados se puede ajustar bien, resultando efecrivamente
+cuadrática la tendencia. Si se le restara a los datos originales los
+valores de las componentes determinísticas (Tendencia+Ciclo) ajustadas,
+los nuevos datos que resultan (llamados Residuos) deberían
+razonablemente superar los tests para datos iid. Esta es la forma más
+sencilla de lidiar con lo no-iid. Veamos ahora la gráfica de
+observaciones de un proceso 2-dependiente, estacionario, donde los datos
+tienen distribución Gumbel.
+
+Veamos qué pasa ahora si yuxtaponemos la gráfica de Gumbel iid con la de
+Gumbel 2-dependiente.
+
+Aún para el ojo más adiestrado es muy difícil distinguir las dos
+situaciones. Puede quizás percibirse mayor ``inercia'' en el gráfico
+superior, correspondiente a la 2-dependencia, pero es realmente muy
+difícil lograrlo (y nada seguro jugarse). Esto demuestra la importancia
+de realizar tests de hipótesis sobre la estructura subyacente y no
+utilizar el ``ojímetro''. Veamos como luce ahora una serie de datos
+Gumbel 2-dependientes con componente cíclica.
+
+Se insinúa una estructura de ciclos, pero nuevamente es altanebte
+recomendable chequear la estructura mediante tests. La adición de una
+tendencia creciente fuerte, podría ser una técnica exploratoria que
+ayudara a visualizar los ciclos, como apuntó Juan Piccini en la primera
+edición de este curso. Veamos finalmente como luce la dependencia
+fuerte. Nuevamente el proceso es estacionario y los datos son Gumbel.
+
+Las oscilaciones son parecidas a los casos anteriores pero la muy
+parejita ``poda'' inferior es la que hace sospechar algo ``raro''. De
+todos modos, las posibles estructuras de dependencia fuerte son muchas,
+complejas y verificarlas no es sencillo. Como resumen final, en los más
+próximos capítulos tomaremos direcciones no iid, en las que veremos:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Si el proceso es estacionario y débilmente dependiente, la técnica
+  clásica de DEA puede aplicarse esencialmente igual (Leadbetter,
+  Lindgren, Rootzén).
+\item
+  Si el proceso no es estacionario o no es débilmente dependiente,
+  cumple algunas propiedades condicionales a otro proceso que le pauta
+  la ``fase'', la técnica clásica de DEA puede aplicarse, pero con
+  modificaciones no menores. (En realidad veremos en el capítulo 5 un
+  trabajo de nuestra co-autoría donde el interés está centrado en el
+  punto 2 pero del cual, y como caso particular, surgen resultados para
+  el punto 1)
+\end{enumerate}
+
+\textbf{Además:} 3.Puede cambiarse el enfoque y mirar el número de
+eventos extremos en diversos lapsos, esto lleva en el caso iid a un
+proceso de Poisson, para estacionarios y débilmente dependientes a un
+Poisson Compuesto y en el marco más general del punto 2, a mezclas de
+Procesos de Poisson Compuestos ( Lise Bellanger-GP). El conteo de
+eventos extremos será también la base o el ``pie'', para introducir una
+técnica muy usada, POT (Picos Sobre Umbrales) y sus variaciones más
+recientes que veremos al final.
 
 \newpage
 
 \hypertarget{referencias-bibliogruxe1ficas}{%
-\section{Referencias
+\chapter{Referencias
 bibliográficas}\label{referencias-bibliogruxe1ficas}}
 
 \vspace{1cm}
@@ -907,4 +1267,5 @@ News} 2 (2): 0. \url{https://CRAN.R-project.org/doc/Rnews/}.
 
 \end{CSLReferences}
 
+\backmatter
 \end{document}
