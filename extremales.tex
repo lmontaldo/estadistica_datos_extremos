@@ -162,14 +162,14 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Entrega: curso de datos extremales},
-  pdfauthor={Laura Montaldo, CI: 3.512.962-7},
+  pdftitle={Curso de datos extremales},
+  pdfauthor={Gonzalo Perera, Angel Segura, Carolina Crisci},
   pdflang={es},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Entrega: curso de datos extremales}
-\author{Laura Montaldo, CI: 3.512.962-7}
+\title{Curso de datos extremales}
+\author{Gonzalo Perera, Angel Segura, Carolina Crisci}
 \date{2024-02-26}
 
 \begin{document}
@@ -194,55 +194,8 @@
 
 Your abstract goes here.
 
-\newpage
-
-\chapter{Motivación y objetivo del estudio}
-
-Los índices de \(S\&P\) son una familia de índices de renta
-variable\footnote{En inglés se llaman equity indices} diseñados para
-medir el rendimiento del mercado de acciones en Estados Unidos que
-cotizan en bolsas estadounidenses. Ésta familia de índices está
-compuesta por una amplia variedad de índices basados en tamaño, sector y
-estilo. Los índices están ponderados por el criterio
-\textit{float-adjusted market capitalization} (FMC). Además, se disponen
-de índices ponderados de manera equitativa y con límite de
-capitalización de mercado, como es el caso del \(S\&P\:500\). Este este
-sentido, el \(S\&P 500\) entraría en el conjunto de índices ponderados
-por capitalización bursátil ajustada a la flotación (ver
-\href{http://www.overleaf.com}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}).
-El mismo mide el rendimiento del segmento de gran capitalización del
-mercado estadounidense. Es considerado como un indicador representativo
-del mercado de renta variable de los Estados Unidos, y está compuesto
-por 500 empresas constituyentes.
-
-Se busca crear un indicador de una posible crisis bursátil. Como
-variable de referencia de toma la relación de precios al cierre de ayer
-sobre la de hoy
-
-\begin{equation}
-Indicador_t=\frac{Precio_{t-1}}{Precio_t},\quad\text{para}\; t=1,...,T \label{eq:ind}
-\end{equation} \vspace{0.5cm}
-
-Interpretación del Indicador:
-
-\begin{itemize}
-\item Si el $Indicador_t$    $\leq$ 1, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
-\item Si el $Indicador_t$ > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
-\end{itemize}
-
-\vspace{1cm}
-
-En las siguiente figura @ref(fig:plot1) se muestra la evolución
-histórica desde la fecha 03/01/1928 hasta 08/12/2023 del precio al
-cierre del día del indicar S\&P 500.
-
-\includegraphics{extremales_files/figure-latex/plot1-1.pdf}
-
-\includegraphics{extremales_files/figure-latex/plot2-1.pdf} \newpage
-
-\chapter{Marco Teórico}
-
-\section{Capítulo 1: Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
+\chapter{Capítulo 1}
+\section{Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
 
 Siguiendo a Perera, Segura, y Crisci (2021) se dice que tenemos datos
 extremos cuando cada dato corresponde al máximo o mínimo de varios
@@ -307,7 +260,7 @@ la distribución Gumbel.
 
 \begin{figure}
 \centering
-\includegraphics{extremales_files/figure-latex/gumbel_plots-1.pdf}
+\includegraphics{Extremales_files/figure-latex/gumbel_plots-1.pdf}
 \caption{CDF and PDF for Gumbel distribution.}
 \end{figure}
 
@@ -323,7 +276,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-13-1.pdf}
+\includegraphics{Extremales_files/figure-latex/unnamed-chunk-4-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -342,7 +295,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5884223
+## [1] 0.6108202
 \end{verbatim}
 
 \begin{Shaded}
@@ -352,7 +305,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.299118
+## [1] 1.32635
 \end{verbatim}
 
 \hypertarget{distribuciuxf3n-de-weibull}{%
@@ -390,13 +343,13 @@ Primero generaremos un vector de numeros auxiliares equiespaciados y lo
 nombraremos (``x\_aux''). Luego definiremos un orden (alpha=α ) de la
 Weibull y graficaremos la función.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{Extremales_files/figure-latex/unnamed-chunk-8-1.pdf}
 Veamos ahora la forma de un par de distribuciones cambiando el parámetro
 de orden (α ), que en la función pweibull de R se nombra como shape y
 que define el orden de la distribución.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-18-1.pdf}
-En R podemos también generar numeros aleatórios (técnicamente
+\includegraphics{Extremales_files/figure-latex/unnamed-chunk-9-1.pdf} En
+R podemos también generar numeros aleatórios (técnicamente
 pseudo-aleatorios) de una distribución extremal. Estos simuladores de
 números aleatórios son útiles para comparar contra distribuciones nulas,
 generar modelos sintéticos para probar algorítmos, etc\ldots{} Para lxs
@@ -408,7 +361,7 @@ rweibull, que tiene como parámetro el número de datos que se necesitan y
 la forma (shape) de la distribución. Luego haremos un grafico con la
 densidad empírica (esto es similar a un histograma) de estos vectores.
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{Extremales_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 \hypertarget{distribuciuxf3n-de-fruxe9chet}{%
 \subsubsection{Distribución de
@@ -443,7 +396,7 @@ Grafiquemos esta distribución para dos valores diferentes de \(\alpha\).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{extremales_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{Extremales_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 .
 
@@ -1059,7 +1012,8 @@ artesanal y aproximado de mirar una tabla y no calcular en continuo,
 queda claro que para un valor u tenemos que \(VR(TR(u))=u\).
 
 \newpage
-\chapter{Un primer enfoque de datos no iid}
+\chapter{Capítulo 2}
+\section{Un primer enfoque de datos no iid}
 
 Vamos a ver que en la realidad frecuentemente los datos no son
 \(i.i.d\), y que hay muy diversos tipos de datos no \(i.i.d\).
@@ -1160,7 +1114,7 @@ una muestra de tamaño mil de datos \(i.i.d.\) con distribución Gumbel.
 \begin{figure}
 \centering
 \includegraphics[width=0.9\textwidth,height=\textheight]{images/p1.png}
-\caption{Caption for your image}
+\caption{1000 datos iid con distribución Gumbel}
 \end{figure}
 
 Lo más sobresaliente, son las muy bruscas variaciones, que hacen difícil
@@ -1194,6 +1148,13 @@ razonablemente superar los tests para datos iid. Esta es la forma más
 sencilla de lidiar con lo no-iid. Veamos ahora la gráfica de
 observaciones de un proceso 2-dependiente, estacionario, donde los datos
 tienen distribución Gumbel.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth,height=\textheight]{images/p3.png}
+\caption{Observaciones de un proceso 2-dependiente, estacionario, donde
+los datos tienen distribución Gumbel.}
+\end{figure}
 
 Veamos qué pasa ahora si yuxtaponemos la gráfica de Gumbel iid con la de
 Gumbel 2-dependiente.

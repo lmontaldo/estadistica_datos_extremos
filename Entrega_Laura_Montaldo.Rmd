@@ -1,6 +1,6 @@
 ---
-title: "Curso de datos extremales"
-author: "Gonzalo Perera, Angel Segura, Carolina Crisci"
+title: "Entrega: curso de datos extremales"
+author: "Laura Montaldo, CI: 3.512.962-7"
 date: "`r Sys.Date()`"
 bibliography: references.bib  # Add this line
 nocite: '@*'
@@ -91,9 +91,122 @@ library(ggplot2)
 
 Your abstract goes here.
 
+\newpage
 
-\chapter{Capítulo 1}
-\section{Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
+
+
+
+
+```{r include=FALSE}
+df = read.csv('data/sp500_Closing_values.csv')
+```
+
+
+```{r include=FALSE}
+head(df)
+```
+
+
+```{r include=FALSE}
+# Convert the column to datetime format
+df$Date <- ymd_hms(df$Date)
+# Extract just the date part
+df$Date <- as.Date(df$Date)
+```
+
+```{r include=FALSE}
+head(df)
+```
+
+
+```{r include=FALSE}
+str(df)
+```
+
+
+```{r include=FALSE}
+# Create a new column 'relacion' with yesterday's price over today's price
+df <- df %>%
+  mutate(relacion = lag(Close) / Close)
+```
+
+
+```{r include=FALSE}
+head(df)
+```
+
+\chapter{Motivación y objetivo del estudio} 
+
+
+
+Los índices de $S\&P$ son una familia de índices de renta variable\footnote{En inglés se llaman equity indices} diseñados para medir el rendimiento del mercado de acciones en Estados Unidos que cotizan en bolsas estadounidenses. Ésta familia de índices está compuesta por una amplia variedad de índices basados en tamaño, sector y estilo. Los índices están ponderados por el criterio \textit{float-adjusted market capitalization} (FMC). Además, se disponen de índices ponderados de manera equitativa y con límite de capitalización de mercado, como es el caso del $S\&P\:500$. Este este sentido, el $S\&P 500$ entraría en el conjunto de índices ponderados por capitalización bursátil ajustada a la flotación (ver \href{http://www.overleaf.com}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}). El mismo  mide el rendimiento del segmento de gran capitalización del mercado estadounidense. Es considerado como un indicador representativo del mercado de renta variable de los Estados Unidos, y está compuesto por 500 empresas constituyentes.
+ 
+Se busca crear un indicador de una posible crisis bursátil. Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy 
+
+\begin{equation}
+Indicador_t=\frac{Precio_{t-1}}{Precio_t},\quad\text{para}\; t=1,...,T \label{eq:ind}
+\end{equation}
+\vspace{0.5cm}
+
+Interpretación del Indicador:
+
+\begin{itemize}
+\item Si el $Indicador_t$    $\leq$ 1, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
+\item Si el $Indicador_t$ > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
+\end{itemize}
+
+\vspace{1cm}
+
+```{r include=FALSE}
+# Remove the first row
+df <- df[-1, ]
+```
+
+
+En las siguiente figura  \@ref(fig:plot1) se muestra la evolución histórica desde la fecha 03/01/1928 hasta 08/12/2023 del precio al cierre del día del indicar S&P 500.
+
+```{r,echo=FALSE}
+# Check for any NA or non-finite values in Date or Close
+df <- na.omit(df)
+
+# Determine the range of dates
+date_range <- range(df$Date, na.rm = TRUE)
+```
+
+```{r,label='plot1',echo=FALSE}
+# Your ggplot code
+ggplot(df, aes(x = Date, y = Close)) +
+  geom_line() +
+  ggtitle("S&P500: valores diarios históricos al cierre (03/01/1928-08/12/2023)") +
+  xlab("fecha") +
+  ylab("Precio de cierre") +
+  scale_x_date(limits = date_range) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11)  # Adjust the size parameter as needed
+  )
+```
+
+
+```{r, label='plot2',echo=FALSE}
+ggplot(df, aes(x = Date, y = relacion)) +
+  geom_line() +
+  ggtitle("S&P500: valores históricos del Indicador (03/01/1928-08/12/2023)") +
+  xlab("fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11)  # Adjust the size parameter as needed
+  )
+```
+\newpage
+
+\chapter{Marco Teórico}
+
+\section{Capítulo 1: Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
 
 Siguiendo a @notas_curso
  se dice que tenemos datos extremos cuando cada
@@ -721,8 +834,7 @@ CHAP: 2
 
 
 \newpage
-\chapter{Capítulo 2}
-\section{Un primer enfoque de datos no iid}
+\chapter{Un primer enfoque de datos no iid}
 
 Vamos a ver que en la realidad frecuentemente los datos no son $i.i.d$, y que hay muy diversos tipos de datos no $i.i.d$.
 
@@ -823,3 +935,5 @@ REFERENCIAS
 \vspace{1cm}
 \setlength{\parindent}{-0.2in}
 \setlength{\leftskip}{0.2in}
+
+
