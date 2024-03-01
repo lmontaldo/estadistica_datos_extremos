@@ -113,7 +113,7 @@ df <- df %>%
 head(df)
 ```
 
-\chapter{Motivación y objetivo del estudio} 
+\section{Motivación y objetivo del estudio} 
 
 
 
@@ -165,34 +165,126 @@ ggplot(df, aes(x = Date, y = Close)) +
     plot.title = element_text(size = 11)  # Adjust the size parameter as needed
   )
 ```
-
-
-```{r, label='plot2',echo=FALSE}
-ggplot(df, aes(x = Date, y = relacion)) +
-  geom_line() +
-  ggtitle("S&P500: valores históricos del Indicador (03/01/1928-08/12/2023)") +
-  xlab("fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11)  # Adjust the size parameter as needed
-  )
+```{r}
+dim(df)
 ```
-\newpage
-
-\chapter{Marco Teórico}
-
-\section{Capítulo 1: Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
-\subsection{Distrubiciones extremales}
-
-Cuando tomamos los máximos de las variables $iid$ con un rango acotado, la distribución resultante por la cual se puede aproximar es la de Weibull.
 
 
 ```{r}
+ggplot(df, aes(x = Date, y = relacion)) +
+  geom_line() +
+  ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
+  xlab("Fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range) +
+  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
+    axis.text = element_text(size = 10),  # Adjust the size of axis text
+    axis.title = element_text(size = 12),  # Adjust the size of axis titles
+    legend.title = element_text(size = 10),  # Adjust the size of legend title
+    legend.text = element_text(size = 8)  # Adjust the size of legend text
+  )
+```
+A la columna relativa a la relacion de precios se la resta por 1 para tener centrados los valores de la relacion de precios en cero. Y posteriormente analizar si las series, fijando distintos umbrales son estacionarias.
+
+```{r}
+df$rel_cero=df$relacion-1
 head(df)
 ```
+
+\section{El enfoque de conteo de eventos y los modelos de base Poissoniana.} 
+
+Fijaremos un cierto umbral, llamaremos “evento” a cuando la variable observada supera ese umbral y, dado un cierto intervalo del tiempo $J$, contaremos
+
+$$
+N(J)= \text{número de eventos en el intervalo}\quad J.
+$$
+N(mes)= cantidad de períodos de 3 días durante un mes, en que se registró una aumento mayor o igual a 2.5% del índice de un día para el otro.
+
+```{r}
+ggplot(df, aes(x = Date, y = rel_cero)) +
+  geom_line() +
+  geom_hline(yintercept = 0.025, linetype = "solid", color = "red") +  # Add horizontal line
+  ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
+  xlab("Fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range) +
+  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
+    axis.text = element_text(size = 10),  # Adjust the size of axis text
+    axis.title = element_text(size = 12),  # Adjust the size of axis titles
+    legend.title = element_text(size = 10),  # Adjust the size of legend title
+    legend.text = element_text(size = 8)  # Adjust the size of legend text
+  )
+```
+```{r}
+filtered_df_0_025 <- df %>%
+  filter(rel_cero>= 0.025)
+```
+
+
+```{r}
+head(filtered_df_0_025)
+data=filtered_df_0_025[,c('Date', 'rel_cero')]
+n=dim(data)[1]
+```
+
+
+```{r}
+fecha_maxima <- max(data$Date)
+
+# Reescalar el tiempo dividiendo cada fecha por la fecha máxima
+data$tiempo_reescalado <- as.numeric(data$Date - min(data$Date)) / as.numeric(fecha_maxima - min(data$Date))
+head(data)
+```
+
+
+
+```{r}
+ggplot(df, aes(x = Date, y = rel_cero)) +
+  geom_line() +
+  geom_hline(yintercept = 0.05, linetype = "solid", color = "cyan") +  # Add horizontal line
+  ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
+  xlab("Fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range) +
+  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
+    axis.text = element_text(size = 10),  # Adjust the size of axis text
+    axis.title = element_text(size = 12),  # Adjust the size of axis titles
+    legend.title = element_text(size = 10),  # Adjust the size of legend title
+    legend.text = element_text(size = 8)  # Adjust the size of legend text
+  )
+```
+```{r}
+filtered_df_0_05 <- df %>%
+  filter(rel_cero >= 0.05)
+dim(filtered_df_0_05)
+```
+
+```{r}
+hist(filtered_df_0_05$relacion, main = "Histograma relacion con umbral 0.05 ", xlab = "relacion")
+```
+```{r}
+hist(filtered_df_0_025$relacion, main = "Histograma relacion con umbral 0.025 ", xlab = "relacion")
+```
+
+
+
+\newpage
+
+
+\section{POT (Peaks Over Treshold) y variantes}
+
 
 
 

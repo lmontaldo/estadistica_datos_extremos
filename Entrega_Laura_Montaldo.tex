@@ -184,7 +184,7 @@ Your abstract goes here.
 
 \newpage
 
-\chapter{Motivación y objetivo del estudio}
+\section{Motivación y objetivo del estudio}
 
 Los índices de \(S\&P\) son una familia de índices de renta
 variable\footnote{En inglés se llaman equity indices} diseñados para
@@ -226,20 +226,46 @@ cierre del día del indicar S\&P 500.
 
 \includegraphics{Entrega_Laura_Montaldo_files/figure-latex/plot1-1.pdf}
 
-\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/plot2-1.pdf}
-\newpage
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
 
-\chapter{Marco Teórico}
-
-\section{Capítulo 1: Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}
-\subsection{Distrubiciones extremales}
-
-Cuando tomamos los máximos de las variables \(iid\) con un rango
-acotado, la distribución resultante por la cual se puede aproximar es la
-de Weibull.
+\begin{verbatim}
+## [1] 24100     9
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date, }\AttributeTok{y =}\NormalTok{ relacion)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"S\&P500: Valores históricos del Indicador (03/01/1928{-}08/12/2023)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Valores del Indicador"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ date\_range) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{max}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{relacion)), }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{40}\NormalTok{)),}
+    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{40}\NormalTok{)),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{11}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),  }\CommentTok{\# Center the plot title}
+    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of axis text}
+    \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),  }\CommentTok{\# Adjust the size of axis titles}
+    \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of legend title}
+    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{)  }\CommentTok{\# Adjust the size of legend text}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-13-1.pdf}
+A la columna relativa a la relacion de precios se la resta por 1 para
+tener centrados los valores de la relacion de precios en cero. Y
+posteriormente analizar si las series, fijando distintos umbrales son
+estacionarias.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{rel\_cero}\OtherTok{=}\NormalTok{df}\SpecialCharTok{$}\NormalTok{relacion}\DecValTok{{-}1}
 \FunctionTok{head}\NormalTok{(df)}
 \end{Highlighting}
 \end{Shaded}
@@ -252,7 +278,163 @@ de Weibull.
 ## 5 1928-01-06 17.66 17.66 17.66 17.66      0         0            0 0.9937712
 ## 6 1928-01-09 17.50 17.50 17.50 17.50      0         0            0 1.0091428
 ## 7 1928-01-10 17.37 17.37 17.37 17.37      0         0            0 1.0074841
+##       rel_cero
+## 2 -0.005630652
+## 3  0.002257388
+## 4  0.009686614
+## 5 -0.006228800
+## 6  0.009142848
+## 7  0.007484119
 \end{verbatim}
+
+\section{El enfoque de conteo de eventos y los modelos de base Poissoniana.}
+
+Fijaremos un cierto umbral, llamaremos ``evento'' a cuando la variable
+observada supera ese umbral y, dado un cierto intervalo del tiempo
+\(J\), contaremos
+
+\[
+N(J)= \text{número de eventos en el intervalo}\quad J.
+\] N(mes)= cantidad de períodos de 3 días durante un mes, en que se
+registró una aumento mayor o igual a 2.5\% del índice de un día para el
+otro.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date, }\AttributeTok{y =}\NormalTok{ rel\_cero)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FloatTok{0.025}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add horizontal line}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"S\&P500: Valores históricos del Indicador (03/01/1928{-}08/12/2023)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Valores del Indicador"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ date\_range) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{max}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{relacion)), }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{40}\NormalTok{)),}
+    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{40}\NormalTok{)),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{11}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),  }\CommentTok{\# Center the plot title}
+    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of axis text}
+    \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),  }\CommentTok{\# Adjust the size of axis titles}
+    \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of legend title}
+    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{)  }\CommentTok{\# Adjust the size of legend text}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filtered\_df\_0\_025 }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(rel\_cero}\SpecialCharTok{\textgreater{}=} \FloatTok{0.025}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(filtered\_df\_0\_025)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Date  Open  High   Low Close Volume Dividends Stock.Splits relacion
+## 1 1928-06-11 18.68 18.68 18.68 18.68      0         0            0 1.036938
+## 2 1928-07-11 18.95 18.95 18.95 18.95      0         0            0 1.025330
+## 3 1928-12-06 22.91 22.91 22.91 22.91      0         0            0 1.039284
+## 4 1929-02-07 24.71 24.71 24.71 24.71      0         0            0 1.031566
+## 5 1929-03-25 24.51 24.51 24.51 24.51      0         0            0 1.042432
+## 6 1929-04-01 24.88 24.88 24.88 24.88      0         0            0 1.026125
+##     rel_cero
+## 1 0.03693793
+## 2 0.02532979
+## 3 0.03928414
+## 4 0.03156620
+## 5 0.04243162
+## 6 0.02612546
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data}\OtherTok{=}\NormalTok{filtered\_df\_0\_025[,}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}rel\_cero\textquotesingle{}}\NormalTok{)]}
+\NormalTok{n}\OtherTok{=}\FunctionTok{dim}\NormalTok{(data)[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fecha\_maxima }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date)}
+
+\CommentTok{\# Reescalar el tiempo dividiendo cada fecha por la fecha máxima}
+\NormalTok{data}\SpecialCharTok{$}\NormalTok{tiempo\_reescalado }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date)) }\SpecialCharTok{/} \FunctionTok{as.numeric}\NormalTok{(fecha\_maxima }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date))}
+\FunctionTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Date   rel_cero tiempo_reescalado
+## 1 1928-06-11 0.03693793      0.0000000000
+## 2 1928-07-11 0.02532979      0.0008690614
+## 3 1928-12-06 0.03928414      0.0051564311
+## 4 1929-02-07 0.03156620      0.0069814600
+## 5 1929-03-25 0.04243162      0.0083140209
+## 6 1929-04-01 0.02612546      0.0085168019
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date, }\AttributeTok{y =}\NormalTok{ rel\_cero)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FloatTok{0.05}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{, }\AttributeTok{color =} \StringTok{"cyan"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add horizontal line}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"S\&P500: Valores históricos del Indicador (03/01/1928{-}08/12/2023)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Valores del Indicador"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ date\_range) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{max}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{relacion)), }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{40}\NormalTok{)),}
+    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{40}\NormalTok{)),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{11}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),  }\CommentTok{\# Center the plot title}
+    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of axis text}
+    \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),  }\CommentTok{\# Adjust the size of axis titles}
+    \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of legend title}
+    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{)  }\CommentTok{\# Adjust the size of legend text}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filtered\_df\_0\_05 }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(rel\_cero }\SpecialCharTok{\textgreater{}=} \FloatTok{0.05}\NormalTok{)}
+\FunctionTok{dim}\NormalTok{(filtered\_df\_0\_05)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 98 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(filtered\_df\_0\_05}\SpecialCharTok{$}\NormalTok{relacion, }\AttributeTok{main =} \StringTok{"Histograma relacion con umbral 0.05 "}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"relacion"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(filtered\_df\_0\_025}\SpecialCharTok{$}\NormalTok{relacion, }\AttributeTok{main =} \StringTok{"Histograma relacion con umbral 0.025 "}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"relacion"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\newpage
+
+\section{POT (Peaks Over Treshold) y variantes}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
