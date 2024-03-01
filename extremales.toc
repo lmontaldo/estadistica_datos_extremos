@@ -18,16 +18,16 @@
 \contentsline {paragraph}{Teorema 5}{20}{section*.18}%
 \contentsline {paragraph}{Teorema 6}{20}{section*.19}%
 \contentsline {subsection}{Definición 3: Distribución max-estables}{21}{section*.20}%
-\contentsline {paragraph}{Teorema 7}{21}{section*.21}%
+\contentsline {paragraph}{Teorema 7}{22}{section*.21}%
 \contentsline {paragraph}{Teorema 8}{22}{section*.22}%
-\contentsline {paragraph}{Teorema 9}{22}{section*.23}%
+\contentsline {paragraph}{Teorema 9}{23}{section*.23}%
 \contentsline {subsection}{Definición 4: Dominio de atracción maximal}{24}{section*.24}%
 \contentsline {paragraph}{Teorema 9: DAM de la Fréchet}{24}{section*.25}%
 \contentsline {paragraph}{Corolario 1: DAM de la Fréchet}{24}{section*.26}%
 \contentsline {paragraph}{Teorema 10: DAM de la Weibull}{24}{section*.27}%
-\contentsline {paragraph}{Teorema 11: DAM de la Gumbel}{24}{section*.28}%
-\contentsline {subsection}{Corolario 2 :}{25}{section*.29}%
-\contentsline {subsection}{Definición 5: GEV}{25}{section*.30}%
-\contentsline {chapter}{Capítulo 2}{29}{chapter*.31}%
-\contentsline {section}{Un primer enfoque de datos no iid}{29}{section*.32}%
-\contentsline {chapter}{Referencias bibliográficas}{35}{chapter*.33}%
+\contentsline {paragraph}{Teorema 11: DAM de la Gumbel}{25}{section*.28}%
+\contentsline {subsection}{Corolario 2 :}{26}{section*.29}%
+\contentsline {subsection}{Definición 5: GEV}{26}{section*.30}%
+\contentsline {chapter}{Capítulo 2}{30}{chapter*.31}%
+\contentsline {section}{Un primer enfoque de datos no iid}{30}{section*.32}%
+\contentsline {chapter}{Referencias bibliográficas}{36}{chapter*.33}%

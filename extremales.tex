@@ -355,7 +355,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5519886
+## [1] 0.562239
 \end{verbatim}
 
 \begin{Shaded}
@@ -365,7 +365,7 @@ comparar los resultados con los esperados de forma teórica.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.285704
+## [1] 1.27819
 \end{verbatim}
 
 \hypertarget{distribuciuxf3n-de-weibull}{%
@@ -810,7 +810,7 @@ denotado \(MF\) a
 M_X=M_F= sup\{t / F(t)<1\}\label{eq:Mx}
 \end{equation}
 
-\_\_ Observación 11:\_\_
+\textbf{Observación 11:}
 
 \begin{itemize}
 \item Si $F$ es $U(a,b)$, $M_F=b$
@@ -926,6 +926,19 @@ y resulta que
 \(\frac{u_n}{\sqrt{2\pi}\left (X_n^*-\frac{u_n}{\sqrt{2\pi}}\right )}\longrightarrow \Lambda\)
 por lo que la distribución normal tiene DEA Gumbel.
 
+\textbf{Observación 18:}
+
+Si \(F\) es \(C(0,1)\) (Cauchy standard) y consideramos \(X_1,...,X_n\)
+\(i.i.d\) con distribución \(F\), se tiene que la distribución de
+\(\pi X^*_n/n\) tiende a \(\Phi_1\), por lo cual la distribución Cauchy
+tiene DEA Fréchet.
+
+Los ejemplos anteriores no son sorprendentes, en el sentido que aunque
+presentamos FTG en una versión simplificada, dicho teorema sugiere que
+cuando \(F\) admite DEA, la distribución \(H\) deberá ser una
+distribución extremal. De hecho FTG resulta de combinar dos teoremas,
+basadas en una nueva definición, la de distribución max-estable.
+
 \hypertarget{definiciuxf3n-3-distribuciuxf3n-max-estables}{%
 \subsection{Definición 3: Distribución
 max-estables}\label{definiciuxf3n-3-distribuciuxf3n-max-estables}}
@@ -959,7 +972,7 @@ parte, cómo son las distribuciones que tienen por DEA cada uno de los
 tres tipos de distribuciones extremales. Para eso precisamos recordar
 algunas definiciones, como la siguiente.
 
-Obsrvación:
+\textbf{Observación 19:}
 
 Si \(F\) y \(G\) son dos distribuciones, tienen colas equivalentes si
 \(M_F=M_G\) y cuando \(t\) tiende a \(M_F\) por izquierda,
@@ -1033,7 +1046,9 @@ tipos de distribución extremal, entonces la distribución del
 \item[e)]  Weibull si todas son Weibull.
 \end{itemize}
 
-Observación:
+Vamos ahora a ver el concepto de Dominio de Atracción Maximal.
+
+\textbf{Observación 19:}
 
 Si \(F\) es una distribución, se dice que tiene
 \textit{cola de variación regular de orden} \(-\alpha\), para
@@ -1065,6 +1080,14 @@ Fréchet}\label{teorema-9-dam-de-la-fruxe9chet}}
 \(1-F(x)=x-\alpha L(x)\) para alguna \(L\) de variación lenta, lo cual
 es equivalente a decir que \(F\) es \(R_{-\alpha}\).
 
+(Un ejemplo típico seria \(1-F(x)=x^{-\alpha}\)). Además puede tomarse
+\(d_n=0\) y \(c_n= n^{1/\alpha}\).
+
+\textbf{Ejercicio 2:}
+
+Recompruebe en función de lo anterior que la distribución de Cauchy
+tiene DEA Fréchet.
+
 \hypertarget{corolario-1-dam-de-la-fruxe9chet}{%
 \paragraph{Corolario 1: DAM de la
 Fréchet}\label{corolario-1-dam-de-la-fruxe9chet}}
@@ -1088,6 +1111,14 @@ resulta que $1-F(u)=(^{-}MF -u)^{\alpha} L(1/(M_F -u))$ para alguna $L$ de varia
 \item [b)] Si $F$ distribución con densidad $f$ positiva en $(a,M_F)$ para algun $a< M_F$ y $(M_F -x)f(x)/(1-F(x))$ tiende a $\alpha$ cuando $x\rightarrow M_F$, se dice que $F$ cumple la Condición de Von Mises II. En tal caso $F$ pertenece a la DAM de $\Psi_{\alpha}$ y mas aún, la DAM de $\Psi_{\alpha}$ son todas las distribuciones que tienen cola equivalente a alguna distribución que cumpla la Condición de Von Mises II.
 \end{itemize}
 
+\textbf{Ejercicio 3:}
+
+\begin{itemize}
+\item[a)] Recompruebe en función de lo anterior que la distribución uniforme tiene DEA Weibull. 
+\item[b)] Encuentre la fórmula explícita de alguna distribución que no sea la uniforme y tenga DEA Weibull.
+Solo resta encontra la DAM Gumbel, y eso lo aporta el próximo resultado.
+\end{itemize}
+
 \hypertarget{teorema-11-dam-de-la-gumbel}{%
 \paragraph{Teorema 11: DAM de la
 Gumbel}\label{teorema-11-dam-de-la-gumbel}}
@@ -1096,9 +1127,9 @@ Una distribución \(F\) se dice una Función de Von Mises con función
 auxiliar \(h\) si existe \(a < M_F\) (\(M_F\) puede ser finito o
 infinito) tal que para algún \(c>0\) se tiene
 
-\[
+\begin{equation}
 1-F(x)= c\;exp^{{- \int_a^X \frac{1}{h(t)} dt}},
-\]
+\end{equation}
 
 con \(h\) positiva, con densidad \(h^\prime\) y \(h^\prime(x)\)
 tendiendo a \(0\) para \(x\rightarrow M_F\) Se tiene entonces que la
@@ -1116,6 +1147,34 @@ Además, \(d_n\) y \(c_n\) suelen involucrar expresiones logarítmicas.
 Más concretamente, \(dn = F^{-1}(1-1/n)\), \(c_n = h(d_n)\), donde
 \(F^{-1}\) es la inversa generalizada (o función cuantil), definida por
 \(F^{-1}(p)= inf\{t / F(t)\geq p\}\), para \(0<p<1\).
+
+\textbf{Ejercicio 4:}
+
+Recompruebe en función de lo anterior que la distribución exponencial y
+la distribución normal tienen DEA Gumbel.
+
+\textbf{Ejercicio 5:}
+
+\begin{itemize}
+\item[a)] Determinar si la distribución log- normal (log X es normal) tiene DEA y si la tiene, determinar cuál es su DEA. 
+\item[b)] Con la ayuda de R simular una muestra de 100 datos iid, cada uno de los cuales es el máximo de 500 log-normales standard iid. Intente ajustar la distribución de la muestra de 100 datos de acuerdo a lo obtenido en la parte a).
+\end{itemize}
+
+\textbf{Ejercicio 6 ( variable acotada en DAM Gumbel) }
+
+Tomemos tres constantes estrictamente positivas \(\alpha\), \(K\) y
+\(M\) y definamos
+
+\(F(x)= 1 – K e^{-α/(M-x)}\:\text{ para }x<M.\)
+
+Mostrar que \(F\) es una distribución y que \(M_F= M\).
+
+Probar que \(F\) es una función de Von Mises con función auxiliar
+\(h(t)= (M-t)^2/ \alpha\) y que por lo tanto está en el DAM Gumbel.
+Finalmente, si \(X_1,...,X_k\) \(iid\) con distribución \(F\), calcular
+las sucesiones de reales, \(d_n\) y \(c_n>0\), tales que la distribución
+de \[(max(X_1,...,X_n)- d_n)/c_n \longrightarrow \Lambda\] cuando
+\(n\longrightarrow \infty\).
 
 \hypertarget{corolario-2}{%
 \subsection{Corolario 2 :}\label{corolario-2}}
