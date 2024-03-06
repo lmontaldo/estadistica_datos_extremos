@@ -130,7 +130,8 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{atbegshi}
-
+\usepackage{amsthm}
+\newtheorem{definition}{Definición}[section]
 
 \AtBeginDocument{
     \AtBeginShipoutNext{
@@ -145,6 +146,7 @@
         }
     }
 }
+\usepackage{amsthm}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -160,10 +162,12 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-02-29}
+\date{2024-03-06}
 
 \begin{document}
 \maketitle
+
+\newtheorem{theorem}{Teorema}[section]
 
 \newpage
 
@@ -185,6 +189,17 @@ Your abstract goes here.
 \newpage
 
 \section{Motivación y objetivo del estudio}
+
+Siguiendo a Perera, Segura, y Crisci (2021), se dice que tenemos datos
+extremos cuando cada dato corresponde al máximo o mínimo de varios
+registros. Son un caso particular de evento raro o gran desviación
+respecto a la media. Entonces, en una gran variedad de dominios
+disciplinares suele ser de gran interés el trabajo con datos extremos,
+los que admiten diversos enfoques. La teoría más clásica de estadística
+de datos extremos se basa en los trabajos de Fréchet, Gumbel, Weibull,
+Fisher, Tippett, Gnedenko, entre otros. En este estudio, el foco va a
+estar puesto en esquemas que extienden a las distribuciones extremales
+clásicas.
 
 Los índices de \(S\&P\) son una familia de índices de renta
 variable\footnote{En inglés se llaman equity indices} diseñados para
@@ -220,78 +235,28 @@ Interpretación del Indicador:
 
 \vspace{1cm}
 
-En las siguiente figura @ref(fig:plot1) se muestra la evolución
-histórica desde la fecha 03/01/1928 hasta 08/12/2023 del precio al
-cierre del día del indicar S\&P 500.
+\newpage
+
+En las siguiente figuras se muestra la evolución histórica desde la
+fecha 03/01/1928 hasta 08/12/2023 del precio al cierre del día del
+indicar S\&P 500.
 
 \includegraphics{Entrega_Laura_Montaldo_files/figure-latex/plot1-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{dim}\NormalTok{(df)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## [1] 24100     9
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date, }\AttributeTok{y =}\NormalTok{ relacion)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"S\&P500: Valores históricos del Indicador (03/01/1928{-}08/12/2023)"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Valores del Indicador"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ date\_range) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{max}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{relacion)), }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}
-    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{40}\NormalTok{)),}
-    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{40}\NormalTok{)),}
-    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{11}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),  }\CommentTok{\# Center the plot title}
-    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of axis text}
-    \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),  }\CommentTok{\# Adjust the size of axis titles}
-    \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of legend title}
-    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{)  }\CommentTok{\# Adjust the size of legend text}
-\NormalTok{  )}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-13-1.pdf}
-A la columna relativa a la relacion de precios se la resta por 1 para
-tener centrados los valores de la relacion de precios en cero. Y
-posteriormente analizar si las series, fijando distintos umbrales son
-estacionarias.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{df}\SpecialCharTok{$}\NormalTok{rel\_cero}\OtherTok{=}\NormalTok{df}\SpecialCharTok{$}\NormalTok{relacion}\DecValTok{{-}1}
-\FunctionTok{head}\NormalTok{(df)}
-\end{Highlighting}
-\end{Shaded}
+\newpage
 
-\begin{verbatim}
-##         Date  Open  High   Low Close Volume Dividends Stock.Splits  relacion
-## 2 1928-01-03 17.76 17.76 17.76 17.76      0         0            0 0.9943693
-## 3 1928-01-04 17.72 17.72 17.72 17.72      0         0            0 1.0022574
-## 4 1928-01-05 17.55 17.55 17.55 17.55      0         0            0 1.0096866
-## 5 1928-01-06 17.66 17.66 17.66 17.66      0         0            0 0.9937712
-## 6 1928-01-09 17.50 17.50 17.50 17.50      0         0            0 1.0091428
-## 7 1928-01-10 17.37 17.37 17.37 17.37      0         0            0 1.0074841
-##       rel_cero
-## 2 -0.005630652
-## 3  0.002257388
-## 4  0.009686614
-## 5 -0.006228800
-## 6  0.009142848
-## 7  0.007484119
-\end{verbatim}
+\section{Marco teorico}
+\subsection{El enfoque de conteo de eventos y los modelos de base Poissoniana.}
 
-\section{El enfoque de conteo de eventos y los modelos de base Poissoniana.}
-
-Fijaremos un cierto umbral, llamaremos ``evento'' a cuando la variable
-observada supera ese umbral y, dado un cierto intervalo del tiempo
-\(J\), contaremos
+Fijaremos un cierto umbral, llamaremos \textit{evento} cuando la
+variable observada supera ese umbral y, dado un cierto intervalo del
+tiempo \(J\), contaremos
 
 \[
 N(J)= \text{número de eventos en el intervalo}\quad J.
@@ -299,29 +264,208 @@ N(J)= \text{número de eventos en el intervalo}\quad J.
 registró una aumento mayor o igual a 2.5\% del índice de un día para el
 otro.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date, }\AttributeTok{y =}\NormalTok{ rel\_cero)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FloatTok{0.025}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add horizontal line}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"S\&P500: Valores históricos del Indicador (03/01/1928{-}08/12/2023)"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Valores del Indicador"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ date\_range) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{max}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{relacion)), }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}
-    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{40}\NormalTok{)),}
-    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{40}\NormalTok{)),}
-    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{11}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),  }\CommentTok{\# Center the plot title}
-    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of axis text}
-    \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),  }\CommentTok{\# Adjust the size of axis titles}
-    \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of legend title}
-    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{)  }\CommentTok{\# Adjust the size of legend text}
-\NormalTok{  )}
-\end{Highlighting}
-\end{Shaded}
+\(N\) es lo que se llama un proceso de conteo o proceso
+puntua\footnote{\textit{Counting process, Point process} en inglés}, un
+tipo de modelos utilizados en Logística, Telecomunicaciones, estudios de
+Contaminación Atmosférica o Costera, Clima, etc.
 
-\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-15-1.pdf}
+El proceso de conteo más simple es el llamado
+\textit{Proceso de Poisson}, que puede caracterizarse de la siguiente
+manera.
+
+\begin{definition}[Proceso de Poisson]\label{def:1}
+Si $N$ es un proceso de conteo y $\lambda>0$, diremos que $N$ es un Proceso de Poisson de parámetro $\lambda$ (y abreviaremos $N$ es $PP(\lambda)$ ) si se cumple:
+\begin{itemize}
+\item[a)] Para todo intervalo $J$ de los reales positivos, $N(J)$ es una variable aleatoria que tiene distribución de Poisson de parámetro $\lambda$ longitud($J$).
+\item[b)] Si $J, L, M...$ es una cantidad arbitraria de intervalos de reales positivos \textit{disjuntos}, entonces $N(J), N(L), N(M),...$ son variables aleatorias independientes.
+\end{itemize}
+\end{definition}
+
+El siguiente teorema brinda una visualización muy interesante de los
+Procesos de Poisson, que nos servirá mucho para introducir otros modelos
+y que es ideal para poder simular computacionalmente Procesos de
+Poissson.
+
+\begin{theorem}[Otra visión de los Procesos de Poisson]\label{thm:otra_vision}
+Si $T_1,...,T_n,...$ se supone $iid$,  con distribución Exponencial de parámetro $\lambda>0$ y definimos que ocurre el primer evento en el instante $T_1$, el segundo en el instante $T_1+T_2$, el tercero en el instante $T_1+T_2+T_3$ y asì sucesivamente, el proceso $N$ de conteo de tales eventos, es un proceso de Poisson.
+\end{theorem}
+
+Dicho de otro modo el Proceso de Poisson representa eventos aislados
+(``que ocurren de a uno y claramente separados''), con tiempos
+inter-eventos \(iid\) y exponenciales. Obviamente, esto muchas veces es
+\textit{too good to be true}, pero variaciones de este modelo tan simple
+pueden brindar modelos realistas.
+
+\hypertarget{observaciuxf3n-1}{%
+\subparagraph{Observación 1:}\label{observaciuxf3n-1}}
+
+En la práctica, si se toman datos en los instantes \(1,...,n\) suele
+reescalarse el tiempo dividiendo por \(n\) y los instantes quedan en
+\([0,1]\). Allí se define un \(PP\) de manera casi idéntica, obviamente
+modificando en la definición, tanto en \(a)\) como en \(b)\) que los
+intervalos deben estar contenidos en \([0,1]\).
+
+\hypertarget{observaciuxf3n-2}{%
+\subparagraph{Observación 2:}\label{observaciuxf3n-2}}
+
+Conviene recordar que si \(X\) es una \(VA\) Poisson de parámetro
+\(\lambda>0\) y \(T\) es una \(VA\) exponencial de parámetro
+\(\lambda\), entonces \(E(X)= \lambda\) y \(E(T)=1/lambda\) . Si
+\(T_1,...,T_n,...\) siendo \(iid\) son los tiempos inter-eventos de un
+\(PP(\lambda)\) se deduce entonces de la ley de los grandes números que
+
+\begin{equation}
+\frac{\sum_{i=1}^{i=n} T_i}{n} \rightarrow 1/ \lambda \quad cuando \quad n\rightarrow \infty
+\end{equation}
+
+Es decir que el tiempo promedio entre eventos ``a la larga'' es
+\(1/\lambda\) . Similarmente si \(J_1,...,J_n,...\) son intervalos
+disjuntos de longitud \(1\), por la definición \ref{def:1} y la ley de
+los grandes números se tiene que
+
+\begin{equation}
+\frac{\sum_{i=1}^{i=n} N(J_i)}{n} \rightarrow \lambda \quad cuando \quad n\rightarrow \infty
+\end{equation}
+
+Más aún, puede probarse que
+
+\begin{equation}
+\frac{N((0,t))}{t} \rightarrow \lambda \quad cuando \quad t \rightarrow \infty
+\end{equation}
+
+Esto permite observar una consecuencia del Teorema
+\ref{thm:otra_vision}, que es una propiedad intuitivamente muy
+atractiva.
+
+La tasa promedial de incidencia de los eventos en un \(PP(\lambda)\) es
+inversamente proporcional al tiempo promedial inter-eventos.
+
+\hypertarget{ejemplo-1}{%
+\subparagraph{Ejemplo 1:}\label{ejemplo-1}}
+
+Propiedades como esta hicieron, en las primeras dos décadas del siglo
+\(XX\), a un creador genial como Agner Erlang modelar mediante Procesos
+de Poisson las llamadas que arribaban a una central telefónica, así como
+(con parámetros muy distintos) el proceso de ocupación de las líneas
+entre dos centrales. Eso condujo no sólo al desarrollo de las primeras
+centrales de telefonía conmutada por circuitos por CTC, la filial danesa
+de Bell, sino además a que Erlang desarrollara su ``fórmulas de
+bloqueo'', fino cálculo por el cual, según los parámetros del proceso de
+arribo y del proceso de ocupación de líneas, se calcula la probabilidad
+de ``saturación'' (no hay ninguna línea disponible) dado el número de
+líneas entre centrales, o, dada una probabilidad de saturación
+``tolerable'' (\(\epsilon\)).
+
+DISEÑAR (determinar el mínimo número de lineas necesarias para que la
+probabilidad de bloqueo no exceda \(\epsilon\) ). Si el tiempo entre
+arribos de llamadas a la central es Exponencial de parámetro
+\(\lambda\), y la duración media de una llamada es Exponencial de
+parámetro \(\mu\), entonces el parámetro crucial de la fórmula de Erlang
+es
+
+\begin{align}
+\rho=&\lambda/\mu  \nonumber \\
+= &\text{“duración media de la llamada”/ “tiempo medio entre llamadas”}\label{eq:ro}
+\end{align}
+
+y a mayor valor de \(\rho\), mayor probabilidad de saturación para una
+conectividad dada. Esta fórmula \eqref{eq:ro} aún sigue en uso en
+algunos problemas y dió pie al desarrollo de fórmulas de bloqueo más
+sofisticadas para situaciones más complejas. Con mucha justicia, la
+unidad en la que se mide la intensidad de tráfico en redes se llama
+\textit{erlang} y este ejemplo nos parece una clara muestra de cuán útil
+ha sido el muy sencillo Proceso de Poisson. Sin embargo, en otros
+problemas, por ejemplo en modernas redes de datos en las que los
+``eventos'' de ``demanda de servicio'' pueden ocurrir simultáneamente en
+muy grandes cantidades (``clustering''), aparece un modelo más
+sofisticado, que puede ser definido a partir del Proceso de Poisson: el
+Proceso de Poisson Compuesto.
+
+\begin{definition}[Proceso de Poisson Compuesto]\label{def:2}
+Si $N$ es un Proceso de Poisson de parámetro $\lambda>0$ , $G$ es una distribución de probabilidad en los naturales $1,2,3...$, consideramos un proceso $S_1,...,S_n$ $iid$ con distribución $G$ y construímos un nuevo proceso de conteo $M$ de la forma siguiente:
+\begin{itemize}
+\item Cuando $N$ tiene su primer evento, $M$ tiene $S_1$ eventos simultáneos;
+\item Cuando $N$ tiene su segundo evento, $M$ tiene $S_2$ eventos simultáneos..... (y así sucesivamente)
+\end{itemize}
+decimos que $M$ es un Proceso de Poisson Compuesto de parámetro $\lambda>0$ y distribución de eventos $G$ (y abreviaremos $M$ es $PPC(\lambda;G)$)
+\end{definition}
+
+\hypertarget{ejercicio-1}{%
+\subparagraph{Ejercicio 1 :}\label{ejercicio-1}}
+
+Demostrar que para un \(PPC(\lambda;G)\) el tiempo medio inter-eventos
+sigue siendo \(1/\lambda\), pero que la tasa de incidencia media de
+eventos ahora es \(lambda E(G)\).
+
+\hypertarget{observaciuxf3n-3.}{%
+\subparagraph{Observación 3.}\label{observaciuxf3n-3.}}
+
+Para aclarar, si \(G\) es una distribución degenerada otorga al 1
+probabilidad 1, el correspondiente \(PPC(\lambda;G)\) en realidad es un
+\(PPC(\lambda)\). Ergo, el \(PP\) es un caso particular de \(PPC\).
+
+\hypertarget{observaciuxf3n-4.}{%
+\subparagraph{Observación 4.}\label{observaciuxf3n-4.}}
+
+Para evitar confusiones frecuentes, distinguiremos explícitamente estos
+procesos de los llamados Procesos de Poisson no-homogéneos. Para ello
+recordemos, sin entrar en tecnicismos, que una medida en los reales
+positivos es una función que a los conjuntos asocia números positivos
+con las mismas propiedades formales, excepto que no tiene por qué dar a
+todo el conjunto de los reales positivos ( a todo el universo) el valor
+1. Dicho de otro modo una probabilidad es una medida particular, que a
+todo el universo asigna el valor 1. Puede pensarse como ejemplo típico
+de una medida, la que asigna a un conjunto la integral sobre ese
+conjunto de una función no negativa (no necesariamente de integral total
+1, puede ser incluso infinita). La longitud es el ejemplo más simple de
+medida (llamada también medida de Lebesgue) y la longitud de todos los
+reales positivos es infinito. Puede demostrarse que la longitud
+multiplicada por una constante no negativa son las únicas medidas
+invariantes por traslaciones, punto importante para la distinción que
+queremos hacer.
+
+\begin{definition}[Proceso de Poisson No Homogéneo]\label{def:3}
+Si $N$ es un proceso de conteo y $m$ es una medida que NO puede expresarse como una constante por la longitud, diremos que $N$ es un Proceso de Poisson No Homogéneo de medida $m$ (y abreviaremos $N$ es $PPNH(m)$ ) si se cumple:
+
+\begin{itemize}
+\item[a)] Para todo intervalo $J$ de los reales positivos, $N(J)$ es una variable aleatoria que tiene distribución de Poisson de parámetro $m(J)$.
+\item[b)] Si $J, L, M...$ es una cantidad arbitraria de intervalos positivos DISJUNTOS, entonces $N(J), N(L), N(M),...$ son variables aleatorias independientes.
+\end{itemize}
+\end{definition}
+
+Queda claro que el proceso de Poisson podría verse de la manera a) y b)
+anterior cuando \(m=\text{constante por longitud}\), por eso, para no
+confundir, se excluye a título expreso que \(m\) pueda ser constante por
+longitud. Para dejar en claro la diferencia entre los PPNH y los PPC ( o
+el simple PP), recordemos que en los PPC, los tiempos inter-eventos son
+exponenciales de parámetro \(\lambda>0\) e \(iid\). El siguiente
+resultado muestra la diferencia de conceptos. Por su extrema
+simplicidad, lo detallaremos.
+
+\begin{theorem}[PPNH no es PPC]\label{thm:2}
+Si $N$ es un PPNH y $T_1$ es el tiempo del primer evento, la distribución de $T_1$ no es exponencial.
+Por lo tanto, un PPNH no es PPC.
+\end{theorem}
+
+\newpage
+
+\subsection{POT (Peaks Over Treshold) y variantes}
+
+\newpage
+\section{Estrategia Empírica}
+
+A la columna relativa a la relacion de precios se la resta por 1 para
+tener centrados los valores de la relacion de precios en cero. Y
+posteriormente analizar si las series, fijando distintos umbrales son
+estacionarias.
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-20-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -363,7 +507,6 @@ otro.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fecha\_maxima }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date)}
-
 \CommentTok{\# Reescalar el tiempo dividiendo cada fecha por la fecha máxima}
 \NormalTok{data}\SpecialCharTok{$}\NormalTok{tiempo\_reescalado }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date)) }\SpecialCharTok{/} \FunctionTok{as.numeric}\NormalTok{(fecha\_maxima }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date))}
 \FunctionTok{head}\NormalTok{(data)}
@@ -402,7 +545,7 @@ otro.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-24-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -418,11 +561,19 @@ otro.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(filtered\_df\_0\_05)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-26-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{hist}\NormalTok{(filtered\_df\_0\_05}\SpecialCharTok{$}\NormalTok{relacion, }\AttributeTok{main =} \StringTok{"Histograma relacion con umbral 0.05 "}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"relacion"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-21-1.pdf}
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-27-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -430,11 +581,7 @@ otro.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-22-1.pdf}
-
-\newpage
-
-\section{POT (Peaks Over Treshold) y variantes}
+\includegraphics{Entrega_Laura_Montaldo_files/figure-latex/unnamed-chunk-28-1.pdf}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

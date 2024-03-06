@@ -1,0 +1,13 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Resumen}{3}{section*.2}%
+\contentsline {section}{Motivación y objetivo del estudio}{4}{section*.3}%
+\contentsline {section}{Marco teorico}{6}{section*.4}%
+\contentsline {subsection}{El enfoque de conteo de eventos y los modelos de base Poissoniana.}{6}{section*.5}%
+\contentsline {subparagraph}{Observación 1:}{7}{section*.6}%
+\contentsline {subparagraph}{Observación 2:}{7}{section*.7}%
+\contentsline {subparagraph}{Ejemplo 1:}{7}{section*.8}%
+\contentsline {subparagraph}{Ejercicio 1 :}{8}{section*.9}%
+\contentsline {subparagraph}{Observación 3.}{8}{section*.10}%
+\contentsline {subparagraph}{Observación 4.}{8}{section*.11}%
+\contentsline {subsection}{POT (Peaks Over Treshold) y variantes}{10}{section*.12}%
+\contentsline {section}{Estrategia Empírica}{11}{section*.13}%
