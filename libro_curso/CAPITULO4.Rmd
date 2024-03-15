@@ -132,3 +132,46 @@ Como las expresiones del lado izquierdo dependen de los $r$ parámetros desconoc
 
 ##### Observación 8: Tips para tests de ajuste
 
+
+En el capítulo hicimos comentarios sobre el tests $chi- cuadrado$ de ajuste, pero en distribuciones continuas (salvo en distribuciones como la Normal o Exponencial, que tienen tests específicos de ajuste) suele usarse, y con buenas razones, el test de ajuste de $Kolmogorov-Smirnov$. Sin embargo, este test requiere el completo conocimiento de la distribución a ajustar y no admite parámetros desconocidos. 
+
+¿Cómo ajustar una distribución continua que tiene $r$ parámetros desconocidos? Veremos en la respuesta separadamente en el caso de datos $iid$ y en el caso de que los datos son estacionarios y débilmente dependientes:
+
+\begin{itemize}
+\item[a)] Se trata de un método en tres pasos, que conducen a poder usar hacer correctamente el test de ajuste de Kolmogorov-Smirnov: 
+\begin{enumerate}
+\item Se parten los $n$ datos de la muestra en dos subconjuntos: uno $(A)$ de tamaño $d$, y otro $(B)$ de tamaño  $n-d$. En datos $iid$ esta división puede ser sistemática (primeros $d$, últimos $n-d$) o por sorteo. Suele tomarse $r  \ll d  \ll n-d$.
+\item Suponiendo que la distribución la submuestra $(A)$ se ajustara efectivamente a la distribución propuesta, se estima por el método de los cuantiles sus $r$ parámetros.
+\item Luego, en la submuestra $(B)$ se aplica el test de ajuste de Kolgorov-Smirnov a $F$, asumiendo para los valores de los parámetros las estimaciones obtenidas en 1).
+\end{enumerate}
+Lo crucial de este método es que el dato utilizado para estimar no se usa para testear y viceversa, evitando que algún dato sea “juez y parte”, lo cual puede conducir a aceptaciones erróneas.
+Finalmente, cuando el test de ajuste resulta afirmativo, en lugar de las estimaciones de 2), puede mejorarse la estimación final de los parámetros usando nuevamente el método de los cuantiles pero con toda la muestra.
+En casos donde sean muy conocidos y viables otro métodos de estimación como el de los momentos, puede cambiarse cuantiles por momentos en lo anterior.
+\item[b)] Caso de datos estacionarios débilmente dependientes.
+Naturalmente, ahora el método es más complejo, aunque lo veremos en su versión más simple posible.
+\begin{enumerate}
+\item Se parte la muestra primero en dos submuestras: una $(A)$ de tamaño $d$, otra $(B)$ de tamaño $n-d$. Se toma $r< d \ll n-d$. Además se asume que para $k$ grande y $s$ grande, $r\ll k \ll s$, se tiene que $n-d= k(s+1)$. Si el proceso es efectivamente estacionario y presenta dependencia débil, la división es sistemática.
+\item Suponiendo que la distribución la submuestra $(A)$ se ajustara efectivamente a la distribución propuesta, se estima por el método de los cuantiles sus $r$ parámetros.
+\item La submuestra $(B)$ se divide respetando el orden (sistemáticamente) en $s+1$ bloques de $k$ datos. En cada uno de esos bloques se calcula el estadístico del test de Kolgorov-Smirnov de ajuste a la distribución $F$ asumiendo como valores de los parámetros las estimaciones obtenidas en $2)$. Llamaremos $T$ al valor de dicho estadístico en el primero de los $s+1$ bloques. NO se puede comparar este valor con los establecidos para el test de Kolmogorov- Smirnov habitual, pues éstos últimos no se aplican ante dependencia.
+\item Llamemos $T(1),....,T(s)$ los valores del estadístico de Kolmogorov-Smirnov sobre los $s$ subloques de tamaño $k$ calculados en la parte anterior y con las frecuencias que estos s valores definen, se estima la probabilidad de superar el valor $T$ obtenido en $3)$. Si es inferior a $0.05$ se rechaza el ajuste, en caso contrario no se rechaza.
+\end{enumerate}
+Nuevamente, más allá de la mayor complejidad, se evitan dinámicas de “juez y parte”. No es difícil presentar versiones más elaboradas del algoritmo en el caso estacionario débilmente dependiente.
+\end{itemize}
+
+##### Observación 9: Estimación en PGE
+
+
+Si $k$ es nulo, que corresponde a una exponencial, $\sigma$ se estima por el método de los momentos por el promedio de los datos (excesos) en consideración. En cambio si $k$ no es nulo, se recurre al método de cuantiles y se obtiene que, si $0<p1<p2<1$, entonces si los excesos en POT son $Y_1,...,Y_H$, y de esta muestra se calculan los cuantiles empíricos $q_H(p1), q_H(p2)$ y resultan las
+estimaciones:
+
+$k$ solución computacional de
+
+
+\begin{align}
+&q_H(p_2)(1-p_1)-k - q_H(p_1)(1-p_2)-k = p_2 – p_1\\
+&\sigma= k q_H(p_2)/( (1-p_2)^{-k} -1)
+\end{align}
+
+
+
+
