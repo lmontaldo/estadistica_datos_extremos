@@ -296,13 +296,14 @@ min(X_1,...,X_n) = - max(Y_1,...,Y_n)
 la teoría asintótica de los mínimos de datos $i.i.d$ se reduce a la de los máximos, razón por la que 
 nos concentramos aquí en estudiar el  comportamiento asintótico de los máximos  exclusivamente.
 
-\begin{definition}[Las distribuciones extremales]
+#### Definición 1: Las distribuciones extremales
 
 Las distribuciones extremales son tres: la
 distribución de Gumbel; la distribución de Weibull; 
 la distribución de Fréchet. En su versión standard o típica se definen del modo siguiente.
 
-#### Distribución de Gumbel
+
+##### Distribución de Gumbel
 
 
 Se dice que una variable tiene distribución de 
@@ -311,64 +312,6 @@ Gumbel si su distribución es:
 \begin{equation}
 \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} 
 \end{equation}
-
-
-Cuando tomamos los máximos de variables no acotadas pero que tienen colas livianas (ej. la distribución tiene probabilidades muy bajas de tomar valores lejos de la media) los mismos convergen a una distribución asintótica extremal de Gumbel.
-
-Para simular distribuciones de Gumbel, utilizamos el paquete __evd__ de @evd y en particular la función __pgumbel__. Partiendo de una simulación de números aleatorios, para un secuencia de 1000 números entre $[-10,10]$, se tienen las siguientes figuras  relativas a la CDF y PDF de la distribución Gumbel. 
- 
-
-
-
-
-```{r gumbel_plots, fig.cap="CDF and PDF for Gumbel distribution.", ,echo=FALSE}
-# Define the sequence of x values
-x_aux <- seq(-10, 10, length = 1000)
-
-# Set up the plotting layout
-par(mfrow = c(3, 1), mar = c(5, 4, 3, 1))
-
-# Plot the cumulative distribution function (CDF) of the Gumbel distribution
-plot(seq(-10, 10, length = 100), pgumbel(q = seq(-10, 10, length = 100), loc = 0, scale = 1), 
-     xlim = c(-10, 10), type = "l", ylab = "F(x)", xlab = "x", 
-     main = "Cumulative Distribution Function (CDF)")
-lines(seq(-10, 10, length = 100), pgumbel(q = seq(-10, 10, length = 100), 
-                                          loc = 0, scale = 2), col = "red")
-title(main ="", sub = "Original Gumbel")
-
-# Plot the probability density function (PDF) of the Gumbel distribution
-plot(x_aux, dgumbel(x = x_aux, loc = 0, scale = 1, log = FALSE), 
-     xlim = c(-10, 10), type = "l", 
-     ylab = "f(x)", xlab = "x", main = "Probability Density Function (PDF)")
-lines(x_aux, dgumbel(x = x_aux, loc = 0, scale = 2, log = FALSE), col = "red")
-title(main = "")
-
-# Add subtitles to each plot
-title(main = "", sub = "Rescaled Gumbel", col.main = "red", col.sub = "red")
-```
-
-
-
-Si calculamos el valor esperado y el desvío estandard de estos valores observados y tenemos una muestra lo suficientemente grande, podremos comparar los resultados con los esperados de forma teórica.
-
-```{r}
-# Podemos simular 100 datos aleatorios de una distribución Gumbel
-GumbelAleatorio<-rgumbel(100)
-plot(density(GumbelAleatorio))
-```
-
-
-```{r}
--digamma(1) # Constante de Euler-Mascheroni
-```
-
-```{r}
-mean(rgumbel(1000))
-```
-
-```{r}
-sd(rgumbel(1000))
-```
 
 
 #### Distribución de Weibull
@@ -384,49 +327,6 @@ exp{-(-x)^{\alpha}} & si\;x<0\\
 \end{equation}
 
 
-
-Recordemos que cuando tomamos los máximos de las variables $iid$ con un rango acotado, la distribución resultante por la cual se puede aproximar es la de Weibull. En este caso, y en el resto del LAB, exp() y e son la función exponencial. 
-
-Por una única vez, calculemos la distribución de forma “manual” en el R para convencernos de la forma de la función de distribución de Weibull ($\Psi$). Para eso generaremos un vector auxiliar de valores $x$ y la distribución ($F(x)$). En R la definición de la distribución es sutilmente diferente a la que vimos en el teórico (definida para positivos), pero totalmente convertible con dos cambios de signo. La función que calcula la probabilidad de una distribución Weibull es __pweibull()__. Pueden ver la definición de R utilizando help(pweibull) o ?pweibull.En R podemos saber la forma y valores de esta distribución con una función implementada en un paquete base {stats}. La función es pweibull y lleva como argumentos un vector de cuantiles ( q ), un argumento de forma ( shape ) y otro de escala ( scale ). Recordemos que la función plot utiliza 2 argumentos centrales ( x e y ) y podemos fijar los límites del gráfico ( xlim e ylim), el tipo de gráfico ( type) y las etiquetas de los ejes X e Y ( xlab e ylab).
-
-Primero generaremos un vector de numeros auxiliares equiespaciados y lo nombraremos (“x_aux”). Luego definiremos un orden (alpha=$\alpha$
-) de la Weibull y graficaremos la función.
-
-```{r echo=FALSE}
-x_aux<-seq(-10, 10, length=100)
-alpha<- 2.6 # definimos un alfa cualquiera (>0)
-plot(x_aux, exp(-(-x_aux)^alpha), type="l", log="", ylab="F(X)", xlab="X", main="Distribucion de Weibull") # recordemos que la definimos para X<0, luego vale 1
-points(x_aux, 1-pweibull(-x_aux, shape=alpha, scale=1), col="red")
-abline(v=0)
-```
-
-Veamos ahora la forma de un par de distribuciones cambiando el parámetro de orden ($\alpha$
-), que en la función pweibull de R se nombra como shape y que define el orden de la distribución.
-
-```{r echo=FALSE}
-#Veamos ahora la forma de un par de distribuciones cambiando el parámetro de orden (α
-#), que en la función pweibull de R se nombra como shape y que define el orden de la distribución.
-x_aux<- seq(-10,10, length=1000)
-par(mfrow=c(3,1), mar=c(5,4,3,1))
-plot(x_aux, 1-pweibull(q=-x_aux, shape=2, scale=1) ,xlim=c(-5,5), type="l", ylab="F(x)", xlab="x", main="Weibull")
-lines(x_aux, 1-pweibull(q=-x_aux, shape=1.1, scale=1), col="red")
-
-plot(x_aux, dweibull(x=-x_aux, shape=2, scale=1, log = FALSE) ,xlim=c(-5,5), type="l", ylab="f(x)", xlab="x")
-lines(x_aux, dweibull(x=-x_aux, shape=1.1, scale=1, log = FALSE), col="red")
-```
-En R podemos también generar numeros aleatórios (técnicamente pseudo-aleatorios) de una distribución extremal. Estos simuladores de números aleatórios son útiles para comparar contra distribuciones nulas, generar modelos sintéticos para probar algorítmos, etc…
-Para lxs que venimos de la rama mas aplicada, muchas veces nos ayudan a entender como funcionan los modelos y a verificar si nuestra intuición es acertada respecto a la escala de ajuste de los parámetros entre otras útiles. Generaremos 2 series de 1000 números aleatórios con la función rweibull, que tiene como parámetro el número de datos que se necesitan y la forma (shape) de la distribución. Luego haremos un grafico con la densidad empírica (esto es similar a un histograma) de estos vectores.
-
-```{r echo=FALSE}
-#
-randomWeibull1<-rweibull(1000, shape=2)
-randomWeibull2<-rweibull(1000, shape=1.1)
-
-plot(density(randomWeibull1), main="Weibul de una muestra aleatoria")
-lines(density(randomWeibull2),col="red")
-```
-
-
 #### Distribución de Fréchet
 
 Se dice que una variable tiene distribución de 
@@ -439,25 +339,6 @@ exp\{-x^{-\alpha}\} & si\;x>0\\
 \end{cases}
 \end{equation}
 
-
-Esta tercera clase de variables incluyen a las distribuciones no acotadas, pero de colas pesadas. Es decir que tienen una probabilidad alta de presentar valores alejados de la media o la mediana (ej. la Cauchy). En estos casos, la distribución de sus máximos es la Frechet. Grafiquemos esta distribución para dos valores diferentes de $\alpha$.
-
-```{r}
-x_aux<- seq(-10,10, length=1000)
-
-par(mfrow=c(3,1), mar=c(5,4,3,1))
-plot(seq(-10,10,length=100), pfrechet(q=seq(-10,10,length=100),
-                                      shape=2, scale=1) ,xlim=c(-2,10), type="l", ylab="F(x)", xlab="x", main="Frechet")
-lines(seq(-10,10,length=100), 
-      pfrechet(q=seq(-10,10,length=100), shape=1.1, scale=1),col= "red")
-
-plot(x_aux, dfrechet(x=x_aux, 
-                     shape=2, scale=1, log = FALSE) ,xlim=c(-2,10), type="l", ylab="f(x)", xlab="x")
-lines(x_aux, dfrechet(x=x_aux, 
-                      shape=1.1, scale=1, log = FALSE), col="red")
-```
-
-.
 
 __Nota:__
 
