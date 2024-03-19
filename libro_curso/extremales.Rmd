@@ -16,25 +16,6 @@ lang: es
 ---
 
 
-```{css, echo=FALSE}
-body {
-  font-size: 12pt;
-}
-
-body h2 {
-  font-size: 1.2em;
-  text-transform: lowercase; /* Convert text to lowercase */
-  border-bottom: 1px solid #000;
-  padding-bottom: 0.25em;
-}
-
-body h3 {
-  font-size: 1.1em;
-  text-transform: lowercase;
-  border-bottom: 1px solid #000;
-  padding-bottom: 0.25em;
-}
-```
 
 
 ```{r setup, include=FALSE}

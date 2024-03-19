@@ -172,6 +172,15 @@ $k$ solución computacional de
 &\sigma= k q_H(p_2)/( (1-p_2)^{-k} -1)
 \end{align}
 
+##### Observación 10: VARIANTES DEL POT
 
+POT puede aplicarse en el caso de datos débilmente dependientes. Hay dos resultados que merecen destacarse como variantes muy claras respecto al POT:
 
+\begin{itemize}
+\item[a)] POT para datos condicionalmente iid (similares a HLE Bellanger-GP):
 
+La distribución de excesos se ajusta a una MEZCLA de Paretos Generalizadas.
+\item[b)] POM (Peaks Over a Manifold).
+Imaginemos un problema de escurrimiento o similares que transcurre en una superficie irregular, con distintos relieves (ejemplos obvios: mareas, inundaciones, avalanchas, etc.)
+Lo “usual” esta representado por una subvariedad con borde de una variedad Riemanniana (con distancia intrínseca) y el umbral $u$ es el desplazamiento exterior paralelo de su borde. Obviamente la geometría juega un papel muy relevante. 
+\end{itemize}
