@@ -93,11 +93,60 @@ set.seed(54)
 n=1500
 Obs<- rlnorm(n, 4,1) # muestra de entrenamiento. en mis datos lo debo partir
 plot(Obs,type="l")
+#
+# Paso 1
+umbral<-400
 
+exceso<-which(Obs > umbral) # selecciono los valores que son mayores que el umbral definido
 
+# Paso 2
+p<- 1 - (length(exceso) / length(Obs)) # Probabilidad de quedar bajo el umbral p=F(u)
+p
+# Paso 3
+y<- Obs[exceso] - umbral # Esto es lo que llamamos "evento"
+y
+#
+install.packages("POT")
+library(POT)
 
+# Paso 5
+#Separamos la muestra para el test de ajuste
+d= 15 # Numero de datos para muestra A (entrenamiento)
 
+selA<- sample(1:length(y), size=d, replace=FALSE)
 
+yA<-y[selA] # Muestra entrenamiento
+yB<-y[-selA] # muestra prueba
 
+# Ajusto un modelo de pareto generalizado
+GP <- fitgpd(yA, 0) # Umbral=0, por defecto por Maxima verosimilitud
 
+k<-GP$fitted.values["shape"]
+sigma<-GP$fitted.values["scale"]
 
+print(k)
+print(sigma)
+#
+#Probability Weighted Moments- Estimacion por el metodo de los momentos
+pwu <- fitgpd(y, 0, "pwmu")
+#str(pwu)
+sigmaMom<-pwu$fitted.values[1] # scale
+kMom<-pwu$fitted.values[2]  # Shape
+
+hist(yA, prob=T)
+lines(seq(0,1700, length=100),dgpd(seq(0,1700, length=100), 0, sigma,k))
+lines(seq(0,1700, length=100),dgpd(seq(0,1700, length=100), 0, sigmaMom,kMom),col="red")
+
+# Test en la muestra no usada para ajustar la GP (muestra B)
+#ks.test(rnorm(1000, 0,1), "pnorm", 0,1) # P>0.05 misma distribucion
+#ks.test(rnorm(1000, 0,1), rnorm(100,10,1)) # P>0.05 misma distribucion
+ks.test(yB ,"pgpd",scale=sigma,shape=k) # ver la ayuda de ?pgpd
+
+ks.test(yB ,"pgpd",scale=sigmaMom,shape=kMom) # ver la ayuda de ?pgpd
+
+# Paso 6
+# Ajusto GP con toda la data
+GPtot <- fitgpd(y, 0) # Umbral=0, por defecto por Maxima verosimilitud
+ktot<-GPtot$fitted.values["shape"]
+sigmatot<-GPtot$fitted.values["scale"]
+sigmatot
