@@ -173,13 +173,15 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-03-19}
+\date{2024-04-09}
 
 \begin{document}
 \maketitle
 
-\newtheorem{theorem}{Teorema}[section]
+\newtheorem{theorem}{Teorema}
+\newtheorem{definition}{Definición}
 
+\texttt{\{\{r\ eval=FALSE,\ include=FALSE\}\ library(patchwork)\ if\ (!require(patchwork))\ \{\ \ \ \ \ install.packages("patchwork")\ \}\ library(evd)\ if\ (!require(evd))\ \{\ \ \ \ \ install.packages("evd")\ \}\ if\ (!require(lubridate))\ \{\ \ \ \ \ install.packages("lubridate")\ \}\ library(lubridate)\ if\ (!require(dplyr))\ \{\ \ \ \ \ install.packages("dplyr")\ \}\ library(dplyr)\ if\ (!require(ggplot2))\ \{\ \ \ \ \ install.packages("ggplot2")\ \}\ library(ggplot2)\ if\ (!require(urca))\ \{\ \ \ \ \ install.packages("urca")\ \}\ library(tseries)\ if\ (!require(tseries))\ \{\ \ \ \ \ install.packages(tseries)\ \}}
 \newpage
 
 \thispagestyle{empty}
@@ -252,277 +254,16 @@ En las siguiente figuras se muestra la evolución histórica desde la
 fecha 03/01/1928 hasta 08/12/2023 del precio al cierre del día del
 indicar S\&P 500.
 
-\includegraphics{main_files/figure-latex/plot1-1.pdf}
-
-\begin{verbatim}
-## [1] 24100     9
-\end{verbatim}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-13-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ts\_relacion}\OtherTok{=}\NormalTok{df[,}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}relacion\textquotesingle{}}\NormalTok{)]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{result\_adf }\OtherTok{\textless{}{-}} \FunctionTok{suppressWarnings}\NormalTok{(}\FunctionTok{adf.test}\NormalTok{(ts\_relacion))}
-\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}p{-}valor adf:\textquotesingle{}}\NormalTok{, result\_adf}\SpecialCharTok{$}\NormalTok{p.value ,}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## p-valor adf: 0.01
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{result\_kpss }\OtherTok{\textless{}{-}} \FunctionTok{suppressWarnings}\NormalTok{(}\FunctionTok{kpss.test}\NormalTok{(ts\_relacion))}
-\FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}p{-}valor kpss:\textquotesingle{}}\NormalTok{, result\_kpss}\SpecialCharTok{$}\NormalTok{p.value ,}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## p-valor kpss: 0.1
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#install.packages(\textquotesingle{}aTSA\textquotesingle{})}
-\NormalTok{aTSA}\SpecialCharTok{::}\FunctionTok{adf.test}\NormalTok{(ts\_relacion)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Augmented Dickey-Fuller Test 
-## alternative: stationary 
-##  
-## Type 1: no drift no trend 
-##       lag    ADF p.value
-##  [1,]   0 -1.326   0.205
-##  [2,]   1 -0.770   0.404
-##  [3,]   2 -0.543   0.486
-##  [4,]   3 -0.414   0.525
-##  [5,]   4 -0.340   0.547
-##  [6,]   5 -0.298   0.559
-##  [7,]   6 -0.255   0.571
-##  [8,]   7 -0.221   0.581
-##  [9,]   8 -0.190   0.590
-## [10,]   9 -0.180   0.593
-## [11,]  10 -0.164   0.597
-## [12,]  11 -0.152   0.601
-## [13,]  12 -0.141   0.604
-## [14,]  13 -0.128   0.608
-## Type 2: with drift no trend 
-##       lag    ADF p.value
-##  [1,]   0 -156.9    0.01
-##  [2,]   1 -112.1    0.01
-##  [3,]   2  -90.6    0.01
-##  [4,]   3  -77.8    0.01
-##  [5,]   4  -68.9    0.01
-##  [6,]   5  -64.6    0.01
-##  [7,]   6  -58.9    0.01
-##  [8,]   7  -54.7    0.01
-##  [9,]   8  -50.2    0.01
-## [10,]   9  -47.2    0.01
-## [11,]  10  -44.8    0.01
-## [12,]  11  -42.6    0.01
-## [13,]  12  -41.9    0.01
-## [14,]  13  -40.1    0.01
-## Type 3: with drift and trend 
-##       lag    ADF p.value
-##  [1,]   0 -156.9    0.01
-##  [2,]   1 -112.1    0.01
-##  [3,]   2  -90.6    0.01
-##  [4,]   3  -77.8    0.01
-##  [5,]   4  -68.9    0.01
-##  [6,]   5  -64.7    0.01
-##  [7,]   6  -59.0    0.01
-##  [8,]   7  -54.7    0.01
-##  [9,]   8  -50.2    0.01
-## [10,]   9  -47.2    0.01
-## [11,]  10  -44.9    0.01
-## [12,]  11  -42.6    0.01
-## [13,]  12  -41.9    0.01
-## [14,]  13  -40.1    0.01
-## ---- 
-## Note: in fact, p.value = 0.01 means p.value <= 0.01
-\end{verbatim}
-
 \newpage
 
 \section{Marco teorico}
 
-\newpage
+\subsection{Teoría clásica}
+\subsubsection{La teoría asintótica clásica, las distribuciones extremales y sus dominios de atracción}
 
-\subsection{POT (Peaks Over Treshold) y variantes}
-
-\newpage
-\section{Estrategia Empírica}
-
-A la columna relativa a la relacion de precios se la resta por 1 para
-tener centrados los valores de la relacion de precios en cero. Y
-posteriormente analizar si las series, fijando distintos umbrales son
-estacionarias.
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-21-1.pdf}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-22-1.pdf}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-23-1.pdf}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-24-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{filtered\_df\_0\_025 }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(rel\_cero}\SpecialCharTok{\textgreater{}=} \FloatTok{0.025}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{head}\NormalTok{(filtered\_df\_0\_025)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         Date  Open  High   Low Close Volume Dividends Stock.Splits relacion
-## 1 1928-06-11 18.68 18.68 18.68 18.68      0         0            0 1.036938
-## 2 1928-07-11 18.95 18.95 18.95 18.95      0         0            0 1.025330
-## 3 1928-12-06 22.91 22.91 22.91 22.91      0         0            0 1.039284
-## 4 1929-02-07 24.71 24.71 24.71 24.71      0         0            0 1.031566
-## 5 1929-03-25 24.51 24.51 24.51 24.51      0         0            0 1.042432
-## 6 1929-04-01 24.88 24.88 24.88 24.88      0         0            0 1.026125
-##     rel_cero
-## 1 0.03693793
-## 2 0.02532979
-## 3 0.03928414
-## 4 0.03156620
-## 5 0.04243162
-## 6 0.02612546
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{data}\OtherTok{=}\NormalTok{filtered\_df\_0\_025[,}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}rel\_cero\textquotesingle{}}\NormalTok{)]}
-\NormalTok{n}\OtherTok{=}\FunctionTok{dim}\NormalTok{(data)[}\DecValTok{1}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{fecha\_maxima }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date)}
-\CommentTok{\# Reescalar el tiempo dividiendo cada fecha por la fecha máxima}
-\NormalTok{data}\SpecialCharTok{$}\NormalTok{tiempo\_reescalado }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date)) }\SpecialCharTok{/} \FunctionTok{as.numeric}\NormalTok{(fecha\_maxima }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{Date))}
-\FunctionTok{head}\NormalTok{(data)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         Date   rel_cero tiempo_reescalado
-## 1 1928-06-11 0.03693793      0.0000000000
-## 2 1928-07-11 0.02532979      0.0008690614
-## 3 1928-12-06 0.03928414      0.0051564311
-## 4 1929-02-07 0.03156620      0.0069814600
-## 5 1929-03-25 0.04243162      0.0083140209
-## 6 1929-04-01 0.02612546      0.0085168019
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date, }\AttributeTok{y =}\NormalTok{ rel\_cero)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \FloatTok{0.05}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{, }\AttributeTok{color =} \StringTok{"cyan"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add horizontal line}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"S\&P500: Valores históricos del Indicador (03/01/1928{-}08/12/2023)"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Valores del Indicador"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ date\_range) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{ceiling}\NormalTok{(}\FunctionTok{max}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{relacion)), }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}
-    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{t =} \DecValTok{20}\NormalTok{, }\AttributeTok{b =} \DecValTok{40}\NormalTok{)),}
-    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin =} \FunctionTok{margin}\NormalTok{(}\AttributeTok{r =} \DecValTok{20}\NormalTok{, }\AttributeTok{l =} \DecValTok{40}\NormalTok{)),}
-    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{11}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),  }\CommentTok{\# Center the plot title}
-    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of axis text}
-    \AttributeTok{axis.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{),  }\CommentTok{\# Adjust the size of axis titles}
-    \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{),  }\CommentTok{\# Adjust the size of legend title}
-    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{)  }\CommentTok{\# Adjust the size of legend text}
-\NormalTok{  )}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-28-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{filtered\_df\_0\_05 }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(rel\_cero }\SpecialCharTok{\textgreater{}=} \FloatTok{0.05}\NormalTok{)}
-\FunctionTok{dim}\NormalTok{(filtered\_df\_0\_05)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 98 10
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(filtered\_df\_0\_05)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-30-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(filtered\_df\_0\_05}\SpecialCharTok{$}\NormalTok{relacion, }\AttributeTok{main =} \StringTok{"Histograma relacion con umbral 0.05 "}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"relacion"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-31-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(filtered\_df\_0\_025}\SpecialCharTok{$}\NormalTok{relacion, }\AttributeTok{main =} \StringTok{"Histograma relacion con umbral 0.025 "}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"relacion"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-32-1.pdf}
-
-\section{Apéndice}\label{sec:Ap}
-\subsection{Teoría asintótica clásica y las distribuciones extremales y sus dominios de atracción}\label{subsec:ch1}
-
-Siguiendo las Siguiendo a Perera, Segura, y Crisci (2021), se dice que
-tenemos \textit{datos extremos} cuando cada dato corresponde al máximo o
-mínimo de varios registros.
-
-Ejemplos de este tipo de datos son:
-
-\begin{itemize}
-\item La máxima altura semanal de la ola en una plataforma marina o portuaria $(m)$
-\item máxima velocidad de viento en determinada dirección a lo largo de un mes $(km/h)$
-\item temperatura ambiental mínima a lo largo de un día $(C)$
-\item La máxima velocidad de tráfico en un enlace de una red de datos de datos en una hora $(Mb/s)$.
-\item El mayor registro en un conteo de Coliformes fecales sobre agua costeras al cabo de quince días.
-\end{itemize}
-
-Son un caso particular de \textit{evento raro} o
-\textit{gran desviación} respecto a la media. En resumen, en una gran
-variedad de dominios disciplinares suele ser de gran interés el trabajo
-con datos extremos, los que admiten diversos enfoques. Entre ellos, los
-propios al párrafo anterior (eventos raros, grandes desviaciones), que
-se verán en el curso. Sin embargo, el comienzo del curso se centra en la
-teoría más clásica de estadística de datos extremos, basada en el
-trabajo de Fréchet, Gumbel, Weibull, Fisher, Tippett, Gnedenko, entre
-otros.
-
-\textbf{Observación 1.}
-
-Se recuerda que si \(X\) e \(Y\) son variables aleatorias
-independientes, cuyas distribuciones son, respectivamente, \(F\) y
-\(G\), entonces la variable
+Se parte de suponer que \(X\) e \(Y\) son variables aleatorias
+\(i.i.d\), cuyas distribuciones son \(F\) y \(G\), respectivamente.
+Entonces la variable
 
 \begin{equation}
 max(X,Y)
@@ -534,19 +275,8 @@ tiene por distribución la función \(H\) definida por
 H(t)= F(t) G(t)
 \end{equation}
 
-\textbf{Observación 2.}
-
-En esta parte inicial del curso asumiremos que nuestros datos son
-\(i.i.d\) (independientes e idénticamente distribuidos, son DOS
-suposiciones juntas). Esta doble suposición suele NO ser realista en
-aplicaciones concretas ( ninguna de sus dos componentes, incluso) pero
-para comenzar a entender la teoría clásica, la utilizaremos por un
-tiempo.
-
-\textbf{Observación 3.}
-
-Resulta claramente de la Observación 1, que si tenemos datos
-\(X_1,...,X_n\) \(i.i.d\) con distribución \(F\), entonces
+Entonces, si se tiene datos \(X_1,...,X_n\) \(i.i.d\) con distribución
+\(F\), entonces
 
 \begin{equation}
 X_n^* = max (X_1,...,X_n)
@@ -558,23 +288,18 @@ tiene distribución \(F_n^*\) dada por
 F_n^* (t)= F(t)^n
 \end{equation}
 
-Si conocemos la distribución \(F\) conoceríamos la distribución
-\(F_n^*\) , pero en algunos casos la lectura que queda registrada es la
-del dato máximo y no la de cada observación que dio lugar al mismo, por
-lo que a veces ni siquiera es viable estimar \(F\).
+Dado que no en todo los casos es viable o manejable conocer la
+distribución \(F\) y por lo tanto, también la de distribución \(F_n^*\),
+en una línea de trabajo similar a la que aporta el Teorema Central del
+Límite en la estadística de valores medios, se emplea un teorema para
+aproximar \(F_n^{*}\) por distribuciones más sencillas. Este es el
+Teorema de Fischer-Tippet-Gnedenko (FTG).
 
-Pero aún en los casos en que \(F\) es conocida o estimable, si \(n\) es
-grande, la fórmula de \(F_n^*\) puede resultar prácticamente
-inmanejable. En una línea de trabajo similar a la que aporta el Teorema
-Central del Límite en la estadística de valores medios, un teorema nos
-va a permitir aproximar \(F_n^{*}\) por distribuciones más sencillas.
-Este es el Teorema de Fischer-Tippet-Gnedenko (FTG, para abreviar) que
-presentaremos en breve.
+\hypertarget{observaciuxf3n-1}{%
+\subparagraph{Observación 1}\label{observaciuxf3n-1}}
 
-\textbf{Observación 4.}
-
-Como \(X_1,...,X_n\) \(i.i.d\), definimos \(Y_i = -X_i\) para todo valor
-de \(i\), entonces \(Y_1,...,Y_n\) \(i.i.d\) y además
+Como \(X_1,...,X_n\) se supone \(i.i.d\), si definimos \(Y_i = -X_i\)
+para todo valor de \(i\), entonces \(Y_1,...,Y_n\) es \(i.i.d\) y además
 
 \begin{equation}
 min(X_1,...,X_n) = - max(Y_1,...,Y_n)
@@ -584,10 +309,8 @@ la teoría asintótica de los mínimos de datos \(i.i.d\) se reduce a la de
 los máximos, razón por la que nos concentramos aquí en estudiar el
 comportamiento asintótico de los máximos exclusivamente.
 
-\newpage
-
 \hypertarget{definiciuxf3n-1-las-distribuciones-extremales}{%
-\subsubsection{Definición 1: Las distribuciones
+\paragraph{Definición 1: Las distribuciones
 extremales}\label{definiciuxf3n-1-las-distribuciones-extremales}}
 
 Las distribuciones extremales son tres: la distribución de Gumbel; la
@@ -595,7 +318,7 @@ distribución de Weibull; la distribución de Fréchet. En su versión
 standard o típica se definen del modo siguiente.
 
 \hypertarget{distribuciuxf3n-de-gumbel}{%
-\paragraph{Distribución de Gumbel}\label{distribuciuxf3n-de-gumbel}}
+\subparagraph{Distribución de Gumbel}\label{distribuciuxf3n-de-gumbel}}
 
 Se dice que una variable tiene distribución de Gumbel si su distribución
 es:
@@ -603,67 +326,6 @@ es:
 \begin{equation}
 \Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} 
 \end{equation}
-
-Cuando tomamos los máximos de variables no acotadas pero que tienen
-colas livianas (ej. la distribución tiene probabilidades muy bajas de
-tomar valores lejos de la media) los mismos convergen a una distribución
-asintótica extremal de Gumbel.
-
-Para simular distribuciones de Gumbel, utilizamos el paquete
-\textbf{evd} de Stephenson (2002) y en particular la función
-\textbf{pgumbel}. Partiendo de una simulación de números aleatorios,
-para un secuencia de 1000 números entre \([-10,10]\), se tienen las
-siguientes figuras relativas a la CDF y PDF de la distribución Gumbel.
-
-\begin{figure}
-\centering
-\includegraphics{main_files/figure-latex/gumbel_plots-1.pdf}
-\caption{CDF and PDF for Gumbel distribution.}
-\end{figure}
-
-Si calculamos el valor esperado y el desvío estandard de estos valores
-observados y tenemos una muestra lo suficientemente grande, podremos
-comparar los resultados con los esperados de forma teórica.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Podemos simular 100 datos aleatorios de una distribución Gumbel}
-\NormalTok{GumbelAleatorio}\OtherTok{\textless{}{-}}\FunctionTok{rgumbel}\NormalTok{(}\DecValTok{100}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(GumbelAleatorio))}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-33-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\SpecialCharTok{{-}}\FunctionTok{digamma}\NormalTok{(}\DecValTok{1}\NormalTok{) }\CommentTok{\# Constante de Euler{-}Mascheroni}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 0.5772157
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{mean}\NormalTok{(}\FunctionTok{rgumbel}\NormalTok{(}\DecValTok{1000}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 0.5576658
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{sd}\NormalTok{(}\FunctionTok{rgumbel}\NormalTok{(}\DecValTok{1000}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 1.308002
-\end{verbatim}
 
 \hypertarget{distribuciuxf3n-de-weibull}{%
 \paragraph{Distribución de Weibull}\label{distribuciuxf3n-de-weibull}}
@@ -678,52 +340,6 @@ exp{-(-x)^{\alpha}} & si\;x<0\\
 \end{cases}
 \end{equation}
 
-Recordemos que cuando tomamos los máximos de las variables \(iid\) con
-un rango acotado, la distribución resultante por la cual se puede
-aproximar es la de Weibull. En este caso, y en el resto del LAB, exp() y
-e son la función exponencial.
-
-Por una única vez, calculemos la distribución de forma ``manual'' en el
-R para convencernos de la forma de la función de distribución de Weibull
-(\(\Psi\)). Para eso generaremos un vector auxiliar de valores \(x\) y
-la distribución (\(F(x)\)). En R la definición de la distribución es
-sutilmente diferente a la que vimos en el teórico (definida para
-positivos), pero totalmente convertible con dos cambios de signo. La
-función que calcula la probabilidad de una distribución Weibull es
-\textbf{pweibull()}. Pueden ver la definición de R utilizando
-help(pweibull) o ?pweibull.En R podemos saber la forma y valores de esta
-distribución con una función implementada en un paquete base \{stats\}.
-La función es pweibull y lleva como argumentos un vector de cuantiles (
-q ), un argumento de forma ( shape ) y otro de escala ( scale ).
-Recordemos que la función plot utiliza 2 argumentos centrales ( x e y )
-y podemos fijar los límites del gráfico ( xlim e ylim), el tipo de
-gráfico ( type) y las etiquetas de los ejes X e Y ( xlab e ylab).
-
-Primero generaremos un vector de numeros auxiliares equiespaciados y lo
-nombraremos (``x\_aux''). Luego definiremos un orden (alpha=\(\alpha\) )
-de la Weibull y graficaremos la función.
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-37-1.pdf}
-
-Veamos ahora la forma de un par de distribuciones cambiando el parámetro
-de orden (\(\alpha\) ), que en la función pweibull de R se nombra como
-shape y que define el orden de la distribución.
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-38-1.pdf} En R
-podemos también generar numeros aleatórios (técnicamente
-pseudo-aleatorios) de una distribución extremal. Estos simuladores de
-números aleatórios son útiles para comparar contra distribuciones nulas,
-generar modelos sintéticos para probar algorítmos, etc\ldots{} Para lxs
-que venimos de la rama mas aplicada, muchas veces nos ayudan a entender
-como funcionan los modelos y a verificar si nuestra intuición es
-acertada respecto a la escala de ajuste de los parámetros entre otras
-útiles. Generaremos 2 series de 1000 números aleatórios con la función
-rweibull, que tiene como parámetro el número de datos que se necesitan y
-la forma (shape) de la distribución. Luego haremos un grafico con la
-densidad empírica (esto es similar a un histograma) de estos vectores.
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-39-1.pdf}
-
 \hypertarget{distribuciuxf3n-de-fruxe9chet}{%
 \paragraph{Distribución de
 Fréchet}\label{distribuciuxf3n-de-fruxe9chet}}
@@ -737,33 +353,6 @@ exp\{-x^{-\alpha}\} & si\;x>0\\
 0 & \text{en otro caso}
 \end{cases}
 \end{equation}
-
-Esta tercera clase de variables incluyen a las distribuciones no
-acotadas, pero de colas pesadas. Es decir que tienen una probabilidad
-alta de presentar valores alejados de la media o la mediana (ej. la
-Cauchy). En estos casos, la distribución de sus máximos es la Frechet.
-Grafiquemos esta distribución para dos valores diferentes de \(\alpha\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{x\_aux}\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{, }\AttributeTok{length=}\DecValTok{1000}\NormalTok{)}
-
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\FunctionTok{pfrechet}\NormalTok{(}\AttributeTok{q=}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{),}
-                                      \AttributeTok{shape=}\DecValTok{2}\NormalTok{, }\AttributeTok{scale=}\DecValTok{1}\NormalTok{) ,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{,}\DecValTok{10}\NormalTok{), }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"F(x)"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"x"}\NormalTok{, }\AttributeTok{main=}\StringTok{"Frechet"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }
-      \FunctionTok{pfrechet}\NormalTok{(}\AttributeTok{q=}\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\AttributeTok{shape=}\FloatTok{1.1}\NormalTok{, }\AttributeTok{scale=}\DecValTok{1}\NormalTok{),}\AttributeTok{col=} \StringTok{"red"}\NormalTok{)}
-
-\FunctionTok{plot}\NormalTok{(x\_aux, }\FunctionTok{dfrechet}\NormalTok{(}\AttributeTok{x=}\NormalTok{x\_aux, }
-                     \AttributeTok{shape=}\DecValTok{2}\NormalTok{, }\AttributeTok{scale=}\DecValTok{1}\NormalTok{, }\AttributeTok{log =} \ConstantTok{FALSE}\NormalTok{) ,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{,}\DecValTok{10}\NormalTok{), }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"f(x)"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"x"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(x\_aux, }\FunctionTok{dfrechet}\NormalTok{(}\AttributeTok{x=}\NormalTok{x\_aux, }
-                      \AttributeTok{shape=}\FloatTok{1.1}\NormalTok{, }\AttributeTok{scale=}\DecValTok{1}\NormalTok{, }\AttributeTok{log =} \ConstantTok{FALSE}\NormalTok{), }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{main_files/figure-latex/unnamed-chunk-40-1.pdf}
-
-.
 
 \textbf{Nota:}
 
@@ -780,9 +369,6 @@ cuanto mayor el orden. Esto quedará más claro con el Teorema 1 del
 curso. La visualización de las densidades de cada tipo quizás ayude a
 comprender mejor los pesos relativos de las colas.
 
-\newpage
-
-\includegraphics[width=0.9\textwidth,height=\textheight]{images/p0.png}
 \newpage
 
 A estas versiones standard se las puede extender agregando un parámetro
@@ -1023,7 +609,7 @@ los datos que tenemos:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{main_files/figure-latex/unnamed-chunk-41-1.pdf}
+\includegraphics{main_files/figure-latex/unnamed-chunk-17-1.pdf}
 
 Como la mayoría de tests de ajustes suponen datos \(iid\), se van a
 realizar dos tests de
@@ -1688,6 +1274,18 @@ que en Gumbel tiene TR=245, un poco por debajo de 270, cuyo
 tiene \(VR= 75,357\) bastante cercano a 70. Haciendo la salvedad de lo
 artesanal y aproximado de mirar una tabla y no calcular en continuo,
 queda claro que para un valor u tenemos que \(VR(TR(u))=u\).
+
+\newpage
+
+\subsection{POT (Peaks Over Treshold) y variantes}
+
+\newpage
+\section{Estrategia Empírica}
+
+A la columna relativa a la relacion de precios se la resta por 1 para
+tener centrados los valores de la relacion de precios en cero. Y
+posteriormente analizar si las series, fijando distintos umbrales son
+estacionarias.
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

@@ -18,7 +18,7 @@ header-includes:
 ---
 
 \newtheorem{theorem}{Teorema}
-\newtheorem{definition}{Definición}
+
 
 
 
@@ -26,42 +26,9 @@ header-includes:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r include=FALSE}
-rm(list = ls())
-```
 
 
 
-
-```{r include=FALSE}
-library(patchwork)
-if (!require(patchwork)) {
-    install.packages("patchwork")
-}
-library(evd)
-if (!require(evd)) {
-    install.packages("evd")
-}
-if (!require(lubridate)) {
-    install.packages("lubridate")
-}
-library(lubridate)
-if (!require(dplyr)) {
-    install.packages("dplyr")
-}
-library(dplyr)
-if (!require(ggplot2)) {
-    install.packages("ggplot2")
-}
-library(ggplot2)
-if (!require(urca)) {
-    install.packages("urca")
-}
-library(tseries)
-if (!require(tseries)) {
-    install.packages(tseries)
-}
-```
 \newpage
 
 <!-- titulo-->
@@ -86,46 +53,6 @@ Your abstract goes here.
 
 \newpage
 
-
-
-
-```{r include=FALSE}
-df = read.csv('../data/sp500_Closing_values.csv')
-```
-
-
-```{r include=FALSE}
-head(df)
-```
-
-
-```{r include=FALSE}
-# Convert the column to datetime format
-df$Date <- ymd_hms(df$Date)
-# Extract just the date part
-df$Date <- as.Date(df$Date)
-```
-
-```{r include=FALSE}
-head(df)
-```
-
-
-```{r include=FALSE}
-str(df)
-```
-
-
-```{r include=FALSE}
-# Create a new column 'relacion' with yesterday's price over today's price
-df <- df %>%
-  mutate(relacion = lag(Close) / Close)
-```
-
-
-```{r include=FALSE}
-head(df)
-```
 
 
 <!-- MOTIVACION Y OBJETIVO DEL ESTUDIO -->
@@ -157,89 +84,9 @@ Interpretación del Indicador:
 \item Si el $Indicador_t$ > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
 \end{itemize}
 
-\vspace{1cm}
-
-```{r include=FALSE}
-# Remove the first row
-df <- df[-1, ]
-```
-
 \newpage
 
 En las siguiente figuras se muestra la evolución histórica desde la fecha 03/01/1928 hasta 08/12/2023 del precio al cierre del día del indicar S&P 500.
-
-```{r echo=FALSE}
-# Check for any NA or non-finite values in Date or Close
-df <- na.omit(df)
-
-# Determine the range of dates
-date_range <- range(df$Date, na.rm = TRUE)
-```
-
-```{r,label='plot1',echo=FALSE, r,label='plot1'}
-# Your ggplot code
-ggplot(df, aes(x = Date, y = Close)) +
-  geom_line() +
-  ggtitle("S&P500: valores diarios históricos al cierre (03/01/1928-08/12/2023)") +
-  xlab("fecha") +
-  ylab("Precio de cierre") +
-  scale_x_date(limits = date_range) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11)  # Adjust the size parameter as needed
-  )
-```
-```{r echo=FALSE}
-dim(df)
-```
-
-
-```{r echo=FALSE}
-ggplot(df, aes(x = Date, y = relacion)) +
-  geom_line() +
-  ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
-  xlab("Fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
-    axis.text = element_text(size = 10),  # Adjust the size of axis text
-    axis.title = element_text(size = 12),  # Adjust the size of axis titles
-    legend.title = element_text(size = 10),  # Adjust the size of legend title
-    legend.text = element_text(size = 8)  # Adjust the size of legend text
-  )
-```
-
-
-
-
-```{r}
-ts_relacion=df[,c('relacion')]
-```
-
-
-
-```{r}
-result_adf <- suppressWarnings(adf.test(ts_relacion))
-cat('p-valor adf:', result_adf$p.value ,'\n')
-```
-
-
-
-```{r}
-result_kpss <- suppressWarnings(kpss.test(ts_relacion))
-cat('p-valor kpss:', result_kpss$p.value ,'\n')
-```
-
-```{r}
-#install.packages('aTSA')
-aTSA::adf.test(ts_relacion)
-```
-
 
 
 
@@ -972,30 +819,35 @@ y graficaremos los mismos usando en ambos casos:
 \end{itemize}
 
 
-```{r}
-# faltan datos, ya los pedí
-```
 
 
+<!-- 
 ![Gumbel y Fréchet](images/p4.png){width=90%}
+-->
+
+
 
 
 Tanto las tablas como la gráfica muestran que el modelo Fréchet da probabilidades mucho mayores a valores muy elevados (es más “pesimista”, si los valores mayores representan mayores esfuerzos o problemas).
 
 Tratemos de ver ahora los TR para uno y otro modelo. Es claro que, siguiendo la lógica anterior, es más “pesimista” el modelo que de tiempos de retorno menores en valores elevados.
 
-```{r}
-#datos
-```
-
+<!-- 
 ![tiempo de retorno](images/p5.png){width=90%}
+-->
+
+
 
 Se observa muy claramente que el modelo Fréchet es mucho más “pesimista”. 
 
 
 Veamos ahora los VR. Será en este contexto más “pesimista” quien dé mayores VR.
 
-![Valores de retorno](images/p6.png){width=90%}
+<!-- 
+![tiempo de retorno](images/p5.png){width=90%}
+-->
+
+
 
 
 Resulta evidente el mayor “pesimismo”del modelo Fréchet.
@@ -1021,182 +873,18 @@ Haciendo la salvedad de lo artesanal y aproximado de mirar una tabla y no calcul
 
 \subsection{POT (Peaks Over Treshold) y variantes}
 
-
+\newpage
 
 <!-- ESTRATEGIA EMPIRICA -->
 
 
-\newpage
+<!-- ###################################### -->
+<!-- ###################################### -->
+<!-- ###################################### -->
+<!-- ###################################### -->
+<!-- ###################################### -->
 \section{Estrategia Empírica}
 
+\newpage
 
-
-A la columna relativa a la relacion de precios se la resta por 1 para tener centrados los valores de la relacion de precios en cero. Y posteriormente analizar si las series, fijando distintos umbrales son estacionarias.
-
-```{r echo=FALSE}
-df$rel_cero=df$relacion-1
-```
-
-```{r echo=FALSE}
-datos_filtrados <- df %>% 
-  filter(rel_cero >= 0)
-```
-
-
-```{r echo=FALSE}
-datos=datos_filtrados[,c('Date', 'rel_cero')]
-```
-
-
-
-
-```{r echo=FALSE}
-ggplot(datos, aes(x = Date, y = rel_cero)) +
-  geom_line() +
-  ggtitle("Valores del indicador centrado en cero, mayores o iguales a cero") +
-  xlab("Fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
-    axis.text = element_text(size = 10),  # Adjust the size of axis text
-    axis.title = element_text(size = 12),  # Adjust the size of axis titles
-    legend.title = element_text(size = 10),  # Adjust the size of legend title
-    legend.text = element_text(size = 8)  # Adjust the size of legend text
-  )
-```
-
-
-
-```{r echo=FALSE}
-ggplot(datos, aes(x = Date, y = rel_cero)) +
-  geom_line() +
-  geom_hline(yintercept = 0.025, linetype = "solid", color = "purple") +  # Add horizontal line
-  ggtitle("Indicador centrado con umbral de 0.015") +
-  xlab("Fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
-    axis.text = element_text(size = 10),  # Adjust the size of axis text
-    axis.title = element_text(size = 12),  # Adjust the size of axis titles
-    legend.title = element_text(size = 10),  # Adjust the size of legend title
-    legend.text = element_text(size = 8)  # Adjust the size of legend text
-  )
-
-```
-
-
-
-```{r echo=FALSE}
-ggplot(datos, aes(x = Date, y = rel_cero)) +
-  geom_line() +
-  geom_hline(yintercept = 0.025, linetype = "solid", color = "red") +  # Add horizontal line
-  ggtitle("Indicador centrado con umbral de 0.025") +
-  xlab("Fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
-    axis.text = element_text(size = 10),  # Adjust the size of axis text
-    axis.title = element_text(size = 12),  # Adjust the size of axis titles
-    legend.title = element_text(size = 10),  # Adjust the size of legend title
-    legend.text = element_text(size = 8)  # Adjust the size of legend text
-  )
-```
-
-```{r echo=FALSE}
-
-ggplot(datos, aes(x = Date, y = rel_cero)) +
-  geom_line() +
-  geom_hline(yintercept = 0.05, linetype = "solid", color = "cyan") +  # Add horizontal line
-  ggtitle("Indicador centrado con umbral de 0.05") +
-  xlab("Fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
-    axis.text = element_text(size = 10),  # Adjust the size of axis text
-    axis.title = element_text(size = 12),  # Adjust the size of axis titles
-    legend.title = element_text(size = 10),  # Adjust the size of legend title
-    legend.text = element_text(size = 8)  # Adjust the size of legend text
-  )
-```
-
-
-```{r}
-filtered_df_0_025 <- df %>%
-  filter(rel_cero>= 0.025)
-```
-
-
-```{r}
-head(filtered_df_0_025)
-data=filtered_df_0_025[,c('Date', 'rel_cero')]
-n=dim(data)[1]
-```
-
-
-```{r}
-fecha_maxima <- max(data$Date)
-# Reescalar el tiempo dividiendo cada fecha por la fecha máxima
-data$tiempo_reescalado <- as.numeric(data$Date - min(data$Date)) / as.numeric(fecha_maxima - min(data$Date))
-head(data)
-```
-
-
-
-```{r}
-ggplot(df, aes(x = Date, y = rel_cero)) +
-  geom_line() +
-  geom_hline(yintercept = 0.05, linetype = "solid", color = "cyan") +  # Add horizontal line
-  ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
-  xlab("Fecha") +
-  ylab("Valores del Indicador") +
-  scale_x_date(limits = date_range) +
-  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
-  theme(
-    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
-    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
-    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
-    axis.text = element_text(size = 10),  # Adjust the size of axis text
-    axis.title = element_text(size = 12),  # Adjust the size of axis titles
-    legend.title = element_text(size = 10),  # Adjust the size of legend title
-    legend.text = element_text(size = 8)  # Adjust the size of legend text
-  )
-```
-
-
-```{r}
-filtered_df_0_05 <- df %>%
-  filter(rel_cero >= 0.05)
-dim(filtered_df_0_05)
-```
-
-```{r}
-plot(filtered_df_0_05)
-```
-
-
-```{r}
-hist(filtered_df_0_05$relacion, main = "Histograma relacion con umbral 0.05 ", xlab = "relacion")
-```
-```{r}
-hist(filtered_df_0_025$relacion, main = "Histograma relacion con umbral 0.025 ", xlab = "relacion")
-```
-
-
-
-
+\section{Referencias bibliográficas}

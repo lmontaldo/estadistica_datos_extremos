@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.3.11)  19 MAR 2024 20:00
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.4.9)  9 APR 2024 20:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **main.tex
 (./main.tex
 LaTeX2e <2023-11-01> patch level 1
-L3 programming layer <2024-02-20>
+L3 programming layer <2024-03-14>
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
@@ -97,9 +97,9 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 )) (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 ) (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math.sty (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2024-02-20 L3 programming layer (loader) 
+Package: expl3 2024-03-14 L3 programming layer (loader) 
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
-File: l3backend-xetex.def 2024-02-20 L3 backend support: XeTeX
+File: l3backend-xetex.def 2024-03-14 L3 backend support: XeTeX
 \g__graphics_track_int=\count270
 \l__pdf_internal_box=\box53
 \g__pdf_backend_object_int=\count271
@@ -110,9 +110,9 @@ Package: unicode-math 2023/08/13 v0.8r Unicode maths in XeLaTeX and LuaLaTeX
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math-xetex.sty
 Package: unicode-math-xetex 2023/08/13 v0.8r Unicode maths in XeLaTeX and LuaLaTeX
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-Package: xparse 2024-02-18 L3 Experimental document command parser
+Package: xparse 2024-03-14 L3 Experimental document command parser
 ) (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
-Package: l3keys2e 2024-02-18 LaTeX2e option processing using LaTeX3 keys
+Package: l3keys2e 2024-03-14 LaTeX2e option processing using LaTeX3 keys
 ) (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.sty
 Package: fontspec 2024/02/13 v2.9a Font selection for XeLaTeX and LuaLaTeX
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
@@ -296,7 +296,7 @@ Package graphics Info: Driver file: xetex.def on input line 107.
 \csllabelwidth=\skip64
 \cslentryspacingunit=\skip65
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2024/02/07 v24.2 The Babel package
+Package: babel 2024/03/29 v24.3 The Babel package
 \babel@savecnt=\count304
 \U@D=\dimen178
 \l@unhyphenated=\language5
@@ -304,9 +304,9 @@ Package: babel 2024/02/07 v24.2 The Babel package
 \bbl@readstream=\read3
 \bbl@dirlevel=\count305
 Package babel Info: You haven't specified a language as a class or package
-(babel)             option. I'll load 'nil'. Reported on input line 4258.
+(babel)             option. I'll load 'nil'. Reported on input line 4267.
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/generic/babel/nil.ldf
-Language: nil 2024/02/07 v24.2 Nil language
+Language: nil 2024/03/29 v24.3 Nil language
 \l@nil=\language6
 ))
 \everypar=\toks25
@@ -519,6 +519,8 @@ Package: amsthm 2020/05/29 v2.20.6
 \dth@everypar=\toks43
 )
 \c@definition=\count328
+(/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/bookmark/bookmark.sty
+Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
@@ -620,7 +622,10 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
 \Hy@SectionHShift=\skip69
-)
+) (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/bookmark/bkm-dvipdfm.def
+File: bkm-dvipdfm.def 2023-12-10 v1.31 bookmark driver for dvipdfm (HO)
+\BKM@id=\count342
+))
 No file main.aux.
 \openout1 = `main.aux'.
 
@@ -877,9 +882,6 @@ LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on input line 178.
 Package hyperref Info: Link coloring OFF on input line 178.
-\@outlinefile=\write6
-\openout6 = `main.out'.
-
 
 Package hyperref Warning: Rerun to get /PageLabels entry.
 
@@ -913,143 +915,24 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 180.
 (/Users/lauramontaldo/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-\c@theorem=\count342
-File: cure_udelar.png Graphic file (type bmp)
-<cure_udelar.png>
-File: logoMEDIA.jpeg Graphic file (type bmp)
-<logoMEDIA.jpeg>
-[1
+\c@theorem=\count343
 
-]
-No file main.toc.
-\tf@toc=\write7
-\openout7 = `main.toc'.
+! LaTeX Error: Command \definition already defined.
+               Or name \end... illegal, see p.192 of the manual.
 
-[2] [3]
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 215.
-[4]
-File: main_files/figure-latex/plot1-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/plot1-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-13-1.pdf>
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 265.
-[5] [6] [7] [8] [9]
-File: main_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-21-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-22-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-23-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-23-1.pdf>
-[10]
-File: main_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-24-1.pdf>
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##         Date  Open  High   Low Close Volume Dividends Stock.Splits relacion[] 
- []
-
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 1 1928-06-11 18.68 18.68 18.68 18.68      0         0            0 1.036938[] 
- []
-
-[11]
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 2 1928-07-11 18.95 18.95 18.95 18.95      0         0            0 1.025330[] 
- []
-
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 3 1928-12-06 22.91 22.91 22.91 22.91      0         0            0 1.039284[] 
- []
-
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 4 1929-02-07 24.71 24.71 24.71 24.71      0         0            0 1.031566[] 
- []
-
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 5 1929-03-25 24.51 24.51 24.51 24.51      0         0            0 1.042432[] 
- []
-
-
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 6 1929-04-01 24.88 24.88 24.88 24.88      0         0            0 1.026125[] 
- []
-
-[12]
-File: main_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-28-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-30-1.pdf>
-[13]
-File: main_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-31-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-32-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-32-1.pdf>
-[14] [15] [16] [17]
-Underfull \hbox (badness 2119) in paragraph at lines 612--617
-[]\TU/lmr/m/n/10 Para simular distribuciones de Gumbel, utilizamos el paquete \TU/lmr/bx/n/10 evd \TU/lmr/m/n/10 de
- []
-
-File: main_files/figure-latex/gumbel_plots-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/gumbel_plots-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-33-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-33-1.pdf>
-[18] [19]
-File: main_files/figure-latex/unnamed-chunk-37-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-37-1.pdf>
-File: main_files/figure-latex/unnamed-chunk-38-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-38-1.pdf>
-
-Underfull \hbox (badness 1509) in paragraph at lines 712--724
-\TU/lmr/m/n/10 aleatorios) de una distribución extremal. Estos simuladores de números
- []
-
-
-Underfull \hbox (badness 1484) in paragraph at lines 712--724
-\TU/lmr/m/n/10 aleatórios son útiles para comparar contra distribuciones nulas, generar
- []
-
-[20]
-File: main_files/figure-latex/unnamed-chunk-39-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-39-1.pdf>
-[21]
-File: main_files/figure-latex/unnamed-chunk-40-1.pdf Graphic file (type pdf)
-<use main_files/figure-latex/unnamed-chunk-40-1.pdf>
-[22] [23]
-
-LaTeX Warning: File `images/p0.png' not found on input line 785.
-
-! Unable to load picture or PDF file 'images/p0.png'.
-<to be read again> 
-                   }
-l.785 ...twidth,height=\textheight]{images/p0.png}
-                                                   
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.182 \newtheorem{definition}
+                             {Definición} 
 Here is how much of TeX's memory you used:
- 28371 strings out of 476772
- 565120 string characters out of 5801174
- 1935839 words of memory out of 5000000
- 49930 multiletter control sequences out of 15000+600000
- 564536 words of font info for 91 fonts, out of 8000000 for 9000
+ 28295 strings out of 476760
+ 558554 string characters out of 5801555
+ 1919145 words of memory out of 5000000
+ 49914 multiletter control sequences out of 15000+600000
+ 561611 words of font info for 63 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 90i,9n,121p,541b,493s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,6n,121p,541b,317s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (23 pages).
+No pages of output.
