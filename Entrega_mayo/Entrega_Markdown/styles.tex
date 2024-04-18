@@ -1,0 +1,44 @@
+---
+title: "Entrega: curso de datos extremales"
+author: "Laura Montaldo, CI: 3.512.962-7"
+date: "`r Sys.Date()`"
+bibliography: references.bib  # Add this line
+csl: acta-sociologica.csl
+nocite: '@*'
+output:
+  pdf_document:
+    fig_caption: true
+    number_sections: yes
+    latex_engine: xelatex
+    keep_tex: true
+    includes:
+      in_header: header2.tex
+documentclass: article
+classoption: 12pt
+lang: es
+link-citations: yes
+linkcolor: blue
+header-includes:
+  - \usepackage{amsthm}
+---
+
+% header2.tex
+\usepackage{makeidx}
+\makeindex
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{atbegshi}
+
+\AtBeginDocument{
+    \AtBeginShipoutNext{
+        \AtBeginShipoutUpperLeft{
+            \put(\dimexpr\paperwidth/2-\textwidth/2\relax, -650){
+                \makebox[\textwidth]{
+                    \includegraphics[width=0.45\textwidth]{cure_udelar.png}  % Adjust width as needed
+                    \hfill
+                    \includegraphics[width=0.45\textwidth]{logoMEDIA.jpeg} % Adjust width as needed
+                }
+            }
+        }
+    }
+} 

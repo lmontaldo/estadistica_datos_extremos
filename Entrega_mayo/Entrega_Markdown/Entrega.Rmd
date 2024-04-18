@@ -1,0 +1,622 @@
+---
+title: "Entrega: curso de datos extremales"
+author: "Laura Montaldo, CI: 3.512.962-7"
+date: "`r Sys.Date()`"
+bibliography: references.bib  # Add this line
+csl: acta-sociologica.csl
+nocite: '@*'
+output:
+  pdf_document:
+    fig_caption: true
+    number_sections: yes
+    latex_engine: xelatex
+    keep_tex: true
+    includes:
+      in_header: header2.tex
+documentclass: article
+classoption: 12pt
+lang: es
+link-citations: yes
+linkcolor: black
+header-includes:
+  - \usepackage{amsthm}
+  - \usepackage{xcolor}
+---
+
+\newtheorem{theorem}{Teorema}
+\newtheorem{mydefinition}{Definición}
+\newtheorem{observation}{Observación}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+\newpage
+
+<!-- titulo-->
+
+\thispagestyle{empty}
+
+\maketitle
+
+\newpage
+
+<!-- indice -->
+
+\tableofcontents
+
+\newpage
+
+<!-- abstract -->
+
+# Resumen
+
+Your abstract goes here.
+
+\newpage
+
+
+
+<!-- MOTIVACION Y OBJETIVO DEL ESTUDIO -->
+
+
+\section{Motivación y objetivo del estudio} \label{sec:motivacion}
+
+
+
+<!-- introduccion a eventos raros -->
+
+Siguiendo a @notas_curso, se dice que tenemos datos extremos cuando cada dato corresponde al máximo o mínimo de varios registros. Son un caso particular de evento raro o gran desviación respecto a la media. Es por este motivo que en una gran variedad de dominios disciplinares suele ser de gran interés el trabajo con datos extremos. Además, admiten diversos enfoques. La teoría clásica de estadística de datos extremos se basa en los trabajos de Fréchet, Gumbel, Weibull, Fisher, Tippett, Gnedenko, entre otros. En este estudio, el foco va a estar puesto en esquemas que extienden a las distribuciones extremales clásicas.
+
+
+
+
+
+
+<!-- indicador -->
+
+Los índices de $S\&P$ son una familia de índices de renta variable\footnote{En inglés se llaman equity indices} diseñados para medir el rendimiento del mercado de acciones en Estados Unidos que cotizan en bolsas estadounidenses. Ésta familia de índices está compuesta por una amplia variedad de índices basados en tamaño, sector y estilo. Los índices están ponderados por el criterio \textit{float-adjusted market capitalization} (FMC). Además, se disponen de índices ponderados de manera equitativa y con límite de capitalización de mercado, como es el caso del $S\&P\:500$. Este este sentido, el $S\&P 500$ entraría en el conjunto de índices ponderados por capitalización bursátil ajustada a la flotación (ver \href{http://www.overleaf.com}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}). El mismo  mide el rendimiento del segmento de gran capitalización del mercado estadounidense. Es considerado como un indicador representativo del mercado de renta variable de los Estados Unidos, y está compuesto por 500 empresas constituyentes.
+ 
+Se busca crear un indicador de una posible crisis bursátil. Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy 
+
+\begin{equation}
+Indicador_t=\frac{Precio_{t-1}}{Precio_t},\quad\text{para}\; t=1,...,T 
+\end{equation}
+\vspace{0.5cm}
+
+Interpretación del Indicador:
+
+\begin{itemize}
+\item Si el $Indicador_t$    $\leq$ 1, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
+\item Si el $Indicador_t$ > 1, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
+\end{itemize}
+
+\newpage
+
+En las siguiente figuras se muestra la evolución histórica desde la fecha 03/01/1928 hasta 08/12/2023 del precio al cierre del día del indicar S&P 500.
+
+
+
+<!-- MARCO TEORICO -->
+\newpage
+# Marco teórico
+<!-- cap 1: teoria clasica -->
+## La teoría asintótica clásica, las distribuciones extremales y sus dominios de atracción 
+
+
+Como introducción, se presenta de manera sintética la teoría clásica relacionada a la estadística de eventos extremos que sirve de sustento para entender el método Peaks over threshold (POT) de la próxima sección. Para esto, se parte de suponer que $X$ e $Y$ son variables aleatorias $i.i.d$ con distribuciones son $F$ y $G$, respectivamente. Entonces, la variable
+
+\begin{equation}
+max(X,Y)
+\end{equation}
+
+
+tiene por distribución la función $H$ definida por
+
+\begin{equation}
+H(t)= F(t) G(t)
+\end{equation}
+
+Por lo tanto, si se tiene datos $X_1,...,X_n$ $i.i.d$ con distribución $F$ se puede expresar 
+
+\begin{equation}
+X_n^* = max (X_1,...,X_n)
+\end{equation}
+
+con distribución $F_n^*$ dada por
+
+\begin{equation}
+F_n^* (t)= F(t)^n
+\end{equation}
+
+Como no es viable\footnote{O manejable} para todos los casos conocer la distribución $F$ y la de $F_n^*$, en una línea de trabajo similar a la que aporta el Teorema 
+Central del Límite en la estadística de valores 
+medios, se emplea un teorema para aproximar 
+$F_n^{*}$ con distribuciones más sencillas: el 
+Teorema de Fischer-Tippet-Gnedenko (FTG).
+
+\begin{mydefinition}
+Como $X_1,...,X_n$ se supone $i.i.d$, si definimos 
+$Y_i = -X_i$ para todo valor de $i$, entonces $Y_1,...,Y_n$ es $i.i.d$ y
+además
+\begin{equation}
+min(X_1,...,X_n) = - max(Y_1,...,Y_n)
+\end{equation}
+\end{mydefinition}
+
+La teoría asintótica de los mínimos de datos $i.i.d$ se reduce a la de los máximos, razón por la que 
+se concentra el estudio en el comportamiento asintótico de los máximos exclusivamente.
+
+\begin{mydefinition}
+ Existen tres tipos de distribuciones extremales: Gumbel, Weibull y Fréchet. En su versión estándar\footnote{También llamada típica.}, una variable se puede distribuir de las siguientes maneras:
+
+\begin{itemize}
+\item Gumbel si su distribución es 
+
+\begin{equation}
+\Lambda(x) = exp\{-e^{-x}\} \quad\text{para todo}\; x \;\text{real} 
+\end{equation}
+
+\item Weibull de orden $\alpha>0$ si su distribución es
+
+\begin{equation}
+\Psi_{\alpha}(x)=\begin{cases}
+exp\{-(-x)^{\alpha}\} & si\;x<0\\
+1 & \text{en otro caso}
+\end{cases}
+\end{equation}
+
+\item Fréchet de orden $\alpha>0$ si su distribución es
+
+\begin{equation}
+\Phi_{\alpha}(x)=\begin{cases}
+exp\{-x^{-\alpha}\} & si\;x>0\\
+0 & \text{en otro caso}
+\end{cases}
+\end{equation}
+\end{itemize}
+\end{mydefinition}
+
+\paragraph*{Nota:} Como los máximos en general son valores grandes, importa particularmente observar el comportamiento de estas distribuciones para $x$ tendiendo a infinito. El límite es 1 como en toda distribución. Sin embargo, tiende más rápido a 1 cuando es Weibull, luego Gumbel y por último la distribución Fréchet. Lo anterior indicaría que la Fréchet modela datos considerados "más extremos", es decir, máximos de datos de colas más pesadas que la Gumbel y, a su vez, más que la Weibull\footnote{En la distribución Fréchet, la velocidad de convergencia a 1 crece al aumentar el orden. En cambio en la distribución Weibull el orden afecta la velocidad con que tiende a 0 cuando $x$ tiende a menos infinito, que a su vez, crece cuanto mayor el orden.}.
+
+
+A las mencionadas distribuciones típicas se las puede extender agregando un parámetro de recentramiento ($\mu$) y un parámetro de escala ($\beta$):
+
+\begin{itemize}
+\item Gumbel: se dice que $X$ tiene distribución $\Lambda^{(\mu,\beta)}$ si
+\begin{equation}
+X=\mu+\beta Y,
+\end{equation}
+donde $Y$ tiene distribución $\Lambda$.
+
+\item Weibull: se dice que $X$ tiene distribución $\Psi_{\alpha}^{(\mu,\beta)}$ si 
+\begin{equation}
+X=\mu+\beta Y,
+\end{equation}
+donde $Y$ tiene distribución $\Psi_{\alpha}$.
+
+\item  Fréchet: se dice que $X$ tiene distribución $\Phi_{\alpha}^{(\mu,\beta)}$ 
+\begin{equation}
+X=\mu+\beta Y
+\end{equation}
+donde $Y$ tiene distribución $\Phi_{\alpha}$
+\end{itemize}
+
+En general se emplean las distribuciones con los parámetros de recentramiento y reescalamiento a no ser que no sean relevantes. 
+
+\begin{theorem} Relaciones entre las versiones standard de las distribuciones extremales
+
+$$
+X\text{ se distribuye }\:\Phi_{\alpha}(x) \iff -\frac{1}{X}\text{ se distribuye }\:\Psi_{\alpha}(x) \iff log(X^{\alpha})\text{ se distribuye }\:\Lambda
+$$
+\end{theorem} 
+
+\paragraph*{Observación 5}  La función Gamma ($\Gamma$), que extiende la función factorial $\Gamma(n)=n-1!$ para todo $n$ natural, se define como
+
+\begin{equation}
+\Gamma(u)=\int_0^{\infty}t^{u-1}e^{-t}dt
+\end{equation}
+
+\begin{theorem}
+(Tres en uno) Algunos datos de las distribuciones extremales.
+\begin{itemize}
+\item Parte 1: si $X$ tiene distribución $\Lambda^{(\mu,\beta)}$ entonces tiene que
+\begin{itemize}
+  \item[a)] Valor esperado: $E(X) = \mu + \beta\gamma$, donde $\gamma$ es la constante de Euler-Mascheroni, cuyo valor aproximado es $0.5772156649$.
+  \item[b)] Moda: $\mu$
+  \item[c)] Mediana: $\mu - \beta \log(\log 2) \approx \mu - 0.36651 \beta$.
+  \item[d)] Desviación estándar: $\beta \pi \sqrt{6} \approx 1.2825 \beta$.
+  \item[e)] Si $X^+ = \max(X,0)$, entonces $E(X^{+k})$ es finito para todo valor de $k$ natural.
+  \item[f)] Para simular computacionalmente $X$, se puede tomar $U$ uniforme en $(0,1)$ y  calcular $$X = \mu - \beta \log(-\log U)$$.
+\end{itemize}
+\item Parte 2: si $X$ tiene distribución $\Psi_{\alpha}^{(\mu,\beta)}$ entonces tiene que
+\begin{itemize}
+  \item[a)] Valor esperado: $E(X) = \mu + \beta\Gamma(1+1/\alpha)$.
+  \item[b)] Moda: $\mu$ si $\alpha\leq 1$ y $\mu-\beta\{(\alpha-1)/\alpha\}^{(1/\alpha)}$ si $\alpha>1$.
+  \item[c)] Mediana: $\mu - \beta \log(2)^{(1/\alpha)}$.
+  \item[d)] Desviación estándar: $\beta\{\Gamma(1+2/\alpha)-\Gamma(1+1/\alpha)^2\}^{1/2}$.
+\end{itemize}
+\item Parte 3: si $X$ tiene una distribución $\Phi_{\alpha}^{(\mu, \beta)}$ entonces se tiene que
+\begin{itemize}
+  \item[a)] Valor esperado: $E(X) = \mu + \beta\Gamma(1-1/\alpha)$ si $\alpha > 1$, $\infty$ en caso contrario.
+  \item[b)] Moda: $\mu + \beta\Gamma(1-1/\alpha)$ si $\alpha>1$.
+  \item[c)] Mediana: $\mu + \beta \log(2)^{(-1/\alpha)}$.
+  \item[d)] Desviación estándar: $\beta|\Gamma(1-2/\alpha)-\Gamma(1-1/\alpha)^2|$ si $\alpha>2$, $\infty$ si $1<\alpha \leq 2$.
+\end{itemize}
+\end{itemize}
+\end{theorem}
+
+\paragraph*{Observación 6} El item e) de la Parte 1 es trivialmente cierto para Weibull y, tomando en cuenta el item a) de la Parte 3, es falso para Fréchet.
+
+\paragraph*{Observación 7} El item f) de la Parte 1 en conjunto con el Teorema 1 provee de fórmulas sencillas para simular computacionalmente distribuciones Weibull o Fréchet.
+
+
+
+\begin{theorem} Fischer-Tippet-Gnedenko (FTG)
+
+Si $X_1,...,X_n\quad .i.i.d$ con distribución $F$ "continua"\footnote{Cabe resaltar que la continuidad de la distribución $F$ no es una hipótesis real (ni es necesaria ni es suficiente), pero ayuda a visualizar que no vale el teorema para toda distribución $F$.}, llamamos $F_n^*$ a la distribución de $max(X_1,...,X_n)$ y $n$ es grande, entonces existen $\mu$ real y $\beta>0$ tales que alguna de las siguientes tres afirmaciones es correcta:
+
+\begin{itemize}
+  \item[1)] $F_n^*$ se puede apromixar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Lambda$.
+  \item[2)] Existe $\alpha>0$ tal que $F_n^*$ se puede aproximar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Phi_{\alpha}$. 
+  \item[3)] Existe $\alpha>0$ tal que $F_n^*$ se puede aproximar por la distribución de $\mu+\beta Y$ con $Y$ variable con distribución $\Phi_{\alpha}$.
+\end{itemize}
+\end{theorem}
+
+Lo anterior equivale a decir que la distribución del máximo de datos \textit{continuos} e $iid$, si $n$ es grande, puede aproximarse por una Gumbel, una Fréchet o una Weibull. 
+
+La distribución $F$ determina la apromicación a tomar:
+
+\begin{itemize}
+\item Cuando $F$ sea normal entonces $F_n^*$ se puede aproximar como una Gumbel
+\item Cuando $F$ sea uniforme, se puede aproximar $F_n^*$ como una Weibull
+\item Cuando $F$ sea Cauchy entonces $F_n^*$ se puede aproximar por una Fréchet
+\end{itemize}
+
+
+Más precisamente, cuál de las tres aproximaciones es la aplicable depende de la cola de $F$ (los valores de $F(t)$ para valores grandes de $t$).
+
+
+En concreto, Weibull aparece cuando $F$ es la distribución de una variable acotada por arriba (como la Uniforme), Gumbel para distribuciones de variables no acotadas por arriba pero con colas muy livianas (caso Exponencial y Normal) y Fréchet para colas pesadas (caso Cauchy)\footnote{Si bien  la hipótesis de continuidad de $F$ no es esencial, si $F$ tiene
+la distribución Binomial o Poisson, por ejemplo, no se puede aplicar ninguna de las tres aproximaciones anteriores.}.
+
+__Observación 10.__
+
+Como consecuencia del FTG si se tienen datos de máximos, las distribuciones extremales son “candidatas” razonables para proponer en un ajuste. Sin embargo no debe pensarse que siempre se va a lograr ajustar a una de las tres distribuciones extremales, ya que hay al menos dos causas evidentes que podrían desbaratar la aplicación del FTG:
+
+\begin{itemize}
+\item Que la cantidad de registros es lo suficientemente grande
+\item Que los registros que se consideran al calcular cada máximo no sean $i.i.d$. Al final del capítulo 2 se verá que esto puede subsanarse con versiones más generales del FTG.
+\end{itemize}
+
+
+Por consiguiente el FTG alienta a intentar ajustar datos extremales a una de las tres distribuciones extremales, pero no siempre un tal ajuste dará un resultado afirmativo.
+
+
+
+
+<!-- #######################
+##############################
+#################################
+####################################-->
+\newpage
+<!-- cap 4: POT y variantes -->
+## Peaks Over Treshold (POT) y variantes 
+
+Vamos ahora a volver a cambiar el enfoque de manera importante.
+Como en el capítulo anterior, fijaremos un cierto umbral, llamaremos *evento* cuando la variable observada supera ese umbral, nos concentraremos en los eventos, pero, a diferencia del capítulo anterior, no nos quedaremos con el conteo de eventos, sino que no sinteresa ver cómo se comporta el “exceso” de nuestro registro. De este modo pretendemos obtener información más fina que con HLE o con DEA, ya que no miramos como se distribuye el valor más grande registrado sino que pretendemos ver cómo se distribuyen los valores muy elevados (por encima del umbral).
+
+
+
+Dicho de otra manera, si $u$ es el umbral y $X$ es nuestro registro, cuando $X>u$ tendremos un *evento* y queremos estudiar estadísticamente el *exceso*  $X-u$. Esto es el método POT, que se apoya en un resultado muy relevante, a menudo referido como Segundo Teorema de la Teoría Clásica de Valores Extremos (el primero es el FTG).
+
+
+
+\begin{definition}[Distribución Pareto Generalizada]
+Si $k$ real y $\sigma>0$, la Distribución de Pareto Generalizada $G_{k,\sigma}$ se define de la siguiente manera:\\
+\begin{equation}
+G_{k,\sigma}(x)=\left\{\begin{matrix}
+ 1-(1+kx/\sigma)^{-1/k}& si & k\neq 0 \left\{\begin{matrix}
+\text{para todo} \;x\geq 0 , & si & k>0\\ 
+\text{para todo}\; x \;\text{que cumple}&
+0\leq x \leq  -\sigma/k, &si& k<0
+\end{matrix}\right.\\ 
+ 1-e^{(-x/\sigma)} & si& k =0\; \text{para todo}\; x\geq 0
+\end{matrix}\right. 
+\end{equation}
+\end{definition}
+
+
+##### Observación 1 
+
+Es obvio a partir de la definición que el caso $k=0$ corresponde a la distribución exponencial de parámetro $1/\sigma$, por lo cual $\sigma$ sería la media de la distribución. El caso $k=-1$ corresponde a la distribución uniforme en $[0, \sigma]$, or lo cual la media sería $\sigma/2$. El caso $k>0$ corresponde a la distribución de Pareto.
+
+
+##### Observación 2
+
+Observar que la familia de Distribuciones de Pareto Generalizada es continua, en el sentido que cuando $k$ tiende a cero por derecha o izquierda, $G_{k,\sigma}$ tiende a $G_{0,\sigma}$ . Lo mismo ocurre con las distribuciones extremales vistas en el capítulo 1, como el lector puede verificar.
+
+
+\begin{theorem}[de Pickands-Balkema-de Haan $(PBdH)$]
+Consideremos una distribución $F$ que admite $DEA$, es decir que pertenece al $DAM$ de alguna distribución extremal. Dado un umbral $u>0$, consideremos la distribución condicional de excesos, definida por
+\begin{align}
+F_u(x)= &P(X \leq  u+x/ X>u)= \nonumber \\
+=&P(u<X \leq u+x)/P(X>u)= \nonumber \\
+=&\frac{F(u+x)-F(u)}{1-F(u)}\:\text{para todo}\; x\; en\;(0,M_{F}-u)
+\end{align}
+\end{theorem}
+
+Entonces, cuando $u$ tiende a infinito, $F_u$ tiende tiende a una Distribución de Pareto Generalizada.
+
+##### Observación 3
+
+El método POT para datos $iid$, se desarrolla así:
+
+\begin{itemize}
+\item Paso 1: Se elige “adecuadamente” un umbral grande $u$ (aclararemos este punto más adelante).
+\item Paso 2: Se estima $p$, la probabilidad de quedar por debajo del umbral $u$ ($p=F(u)$).
+\item Paso 3: Se toma la submuestra constituída únicamente por los datos que superan el umbral $u$.
+\item Paso 4: Se verifica que esta submuestra pueda suponerse $iid$, mediante los tests de aleatoriedad (volveremos sobre este punto).
+\item Paso 5: Se verifica mediante test de ajuste, que esta submuestra puede modelarse por una Distribución de Pareto Generalizada.
+\item Paso 6: Se estiman los parámetros $k$ y $\sigma$. Para abreviar, llamemos $PGE$ a la Pareto Generalizada con los parámetros estimados.
+\item Paso 7: Finalmente, si dado $y >u$, se quiere calcular la probabilidad de encontrar un registro que no supere a $y (F(y))$, se calcula como:
+\begin{equation}
+F(y)=p +(1-p)PGE(y-u)
+\end{equation}
+\end{itemize}
+
+
+Aclaremos algunos de los puntos más delicados.
+
+
+##### Observación 4: El “trade off” sobre u
+
+Es evidente que el Paso 5 se apoya en el Teorema $PbdH$, por lo cual, es necesario que $u$ sea grande. Sin embargo si $u$ es demasiado grande, la submuestra del Paso 3 y por ende, al tener pocos datos, presumiblemente pasará cualquier test que se realice, pero estas conclusiones serán de muy baja confiabilidad. Y aunque la submuestra efectivamente sea $iid$ y se ajuste a una Pareto Generalizada, la estimación de sus parámetros seguramente sea muy pobre. Por lo tanto, necesitamos un $u$ “grande pero no tanto”, un claro “trade-off” al que referimos con “adecuadamente” en el Paso 1. Hay diversas recomendaciones sobre la elección de $u$, pero para proponer algo bien claro y sencillo: proponemos tomar $u$ grande pero que la submuestra del Paso 3 tenga al menos una veintena de datos.
+
+
+##### Observación 5: ¿Por qué hacer el Paso 4?
+
+El motivo para ello es doble. Por un lado, aunque la muestra total haya pasado tests de aleatoriedad y pueda asumirse $iid$, podría pasar que al mirar sólo los valores altos, se detectaran efectos no aleatorios que hayan pasado desapercibidos en los tests sobre toda la muestra. Por otro lado, inversamente, puede haber muestras que no sean $iid$ debido a efectos no aleatorios que se presenten los valores bajos de la muestra y que por ende, en los valores altos se observe un comportamiento $iid$. Por esta doble razón, recomendamos no obviar el Paso 5.
+
+
+##### Observación 6: El *clustering*
+
+
+En ocasiones, la submuestra del Paso 3 presenta muy claramente *clustering*, esto es, los pasajes del umbral $u$ se dan en “grupitos”. Eso es una pista muy firme que delata la existencia de dependencia en los datos. Y los datos deben respetarse, siempre. Por lo tanto en la literatura se encuentran diversas propuestas de *declustering*, esto es, transformar los *grupitos* en un solo pasaje. 
+
+No somos muy afectos a estos procedimientos (salvo que existan razones de fondo para considerar que hay reverberaciones o réplicas en las medidas observadas y maneras sólidamente asentadas de traducirlas en una única lectura), pues de algún modo se fuerza los datos a adaptarse a un modelo, en lugar de buscar el mejor modelo para los datos. Por ello, consideramos más adecuado discutir cómo implementar POT (o variantes) en datos que presenten dependencia, como se verá más adelante.
+
+
+Previo a ello, como es usual, veremos un ejemplo de aplicación a datos concretos, de forma de consolidar los conceptos.
+
+Para ello es necesario establecer algunos conceptos y fórmulas.
+
+##### Observación 7: Métodos de estimación
+
+El método de estimación de parámetros por Máxima Verosimilitud es muy simple en el caso $iid$, pero más complejo en otros contextos. Sin embargo, desde el momento que los métodos basados en momentos y en cuantiles funcionan sin modificación alguna en el contexto $iid$ o en el contexto de datos estacionarios y débilmente dependientes, resultan muy atractivos. Además, para el caso en que los datos tienen distribución continua, el método de cuantiles es mucho más general que el de momentos, por lo cual lo explicaremos aquí en lo que sigue.
+
+
+Supongamos que nuestros datos son estacionarios, débilmente dependientes y que siguen una distribución $F$ continua que contiene $r$ parámetros desconocidos que se desean estimar. Recordemos que para $0<p<1$, el cuantil (o percentil) $p$ de $F$, $q(p)= inf \left \{t:F(t)>p \right \}$. Estos cuantiles, si $F$ depende de $r$ parámetros, dependerán de dichos parámetros.
+
+
+A su vez si $X_i^*$ es el $i$-ésimo dato de la muestra ordenada de menor a mayor, el cuantil $p$ de la muestra ( cuantil empírico) es $q_n(p)= X_{[n/p]}^*$. 
+
+
+Un resultado muy importante es que si los datos son estacionarios, débilmente dependientes y que siguen una distribución $F$ continua, entonces, cuando $n$ tiende a infinito, $q_n(p)$ tiende a $q(p)$ para
+todo $0<p<1$.
+
+Tomemos entonces $r$ valores, $0<p_1<p_2<....<p_r<1$ y planteemos
+
+\begin{align*}
+q(p_1)&=q_n(p_1)\\
+q(p_2)&=q_n(p_2)\\
+\vdots \\
+q(p_r)&=q_n(p_r)
+\end{align*}
+
+
+Como las expresiones del lado izquierdo dependen de los $r$ parámetros desconocidos y las del lado derecho son valores conocidos, tenemos un sistema $r\times r$ de ecuaciones (no lineales muchas veces, pero computacionalmente resolubles en general), las soluciones de este sistema $r\times r$ son los estimadores por el método de los cuantiles de los parámetros desconocidos, que usaremos.
+
+
+##### Observación 8: Tips para tests de ajuste
+
+
+En el capítulo hicimos comentarios sobre el tests $chi- cuadrado$ de ajuste, pero en distribuciones continuas (salvo en distribuciones como la Normal o Exponencial, que tienen tests específicos de ajuste) suele usarse, y con buenas razones, el test de ajuste de $Kolmogorov-Smirnov$. Sin embargo, este test requiere el completo conocimiento de la distribución a ajustar y no admite parámetros desconocidos. 
+
+¿Cómo ajustar una distribución continua que tiene $r$ parámetros desconocidos? Veremos en la respuesta separadamente en el caso de datos $iid$ y en el caso de que los datos son estacionarios y débilmente dependientes:
+
+\begin{itemize}
+\item[a)] Se trata de un método en tres pasos, que conducen a poder usar hacer correctamente el test de ajuste de Kolmogorov-Smirnov: 
+\begin{enumerate}
+\item Se parten los $n$ datos de la muestra en dos subconjuntos: uno $(A)$ de tamaño $d$, y otro $(B)$ de tamaño  $n-d$. En datos $iid$ esta división puede ser sistemática (primeros $d$, últimos $n-d$) o por sorteo. Suele tomarse $r  \ll d  \ll n-d$.
+\item Suponiendo que la distribución la submuestra $(A)$ se ajustara efectivamente a la distribución propuesta, se estima por el método de los cuantiles sus $r$ parámetros.
+\item Luego, en la submuestra $(B)$ se aplica el test de ajuste de Kolgorov-Smirnov a $F$, asumiendo para los valores de los parámetros las estimaciones obtenidas en 1).
+\end{enumerate}
+Lo crucial de este método es que el dato utilizado para estimar no se usa para testear y viceversa, evitando que algún dato sea “juez y parte”, lo cual puede conducir a aceptaciones erróneas.
+Finalmente, cuando el test de ajuste resulta afirmativo, en lugar de las estimaciones de 2), puede mejorarse la estimación final de los parámetros usando nuevamente el método de los cuantiles pero con toda la muestra.
+En casos donde sean muy conocidos y viables otro métodos de estimación como el de los momentos, puede cambiarse cuantiles por momentos en lo anterior.
+\item[b)] Caso de datos estacionarios débilmente dependientes.
+Naturalmente, ahora el método es más complejo, aunque lo veremos en su versión más simple posible.
+\begin{enumerate}
+\item Se parte la muestra primero en dos submuestras: una $(A)$ de tamaño $d$, otra $(B)$ de tamaño $n-d$. Se toma $r< d \ll n-d$. Además se asume que para $k$ grande y $s$ grande, $r\ll k \ll s$, se tiene que $n-d= k(s+1)$. Si el proceso es efectivamente estacionario y presenta dependencia débil, la división es sistemática.
+\item Suponiendo que la distribución la submuestra $(A)$ se ajustara efectivamente a la distribución propuesta, se estima por el método de los cuantiles sus $r$ parámetros.
+\item La submuestra $(B)$ se divide respetando el orden (sistemáticamente) en $s+1$ bloques de $k$ datos. En cada uno de esos bloques se calcula el estadístico del test de Kolgorov-Smirnov de ajuste a la distribución $F$ asumiendo como valores de los parámetros las estimaciones obtenidas en $2)$. Llamaremos $T$ al valor de dicho estadístico en el primero de los $s+1$ bloques. NO se puede comparar este valor con los establecidos para el test de Kolmogorov- Smirnov habitual, pues éstos últimos no se aplican ante dependencia.
+\item Llamemos $T(1),....,T(s)$ los valores del estadístico de Kolmogorov-Smirnov sobre los $s$ subloques de tamaño $k$ calculados en la parte anterior y con las frecuencias que estos s valores definen, se estima la probabilidad de superar el valor $T$ obtenido en $3)$. Si es inferior a $0.05$ se rechaza el ajuste, en caso contrario no se rechaza.
+\end{enumerate}
+Nuevamente, más allá de la mayor complejidad, se evitan dinámicas de “juez y parte”. No es difícil presentar versiones más elaboradas del algoritmo en el caso estacionario débilmente dependiente.
+\end{itemize}
+
+##### Observación 9: Estimación en PGE
+
+
+Si $k$ es nulo, que corresponde a una exponencial, $\sigma$ se estima por el método de los momentos por el promedio de los datos (excesos) en consideración. En cambio si $k$ no es nulo, se recurre al método de cuantiles y se obtiene que, si $0<p1<p2<1$, entonces si los excesos en POT son $Y_1,...,Y_H$, y de esta muestra se calculan los cuantiles empíricos $q_H(p1), q_H(p2)$ y resultan las
+estimaciones:
+
+$k$ solución computacional de
+
+
+\begin{align}
+&q_H(p_2)(1-p_1)-k - q_H(p_1)(1-p_2)-k = p_2 – p_1\\
+&\sigma= k q_H(p_2)/( (1-p_2)^{-k} -1)
+\end{align}
+
+##### Observación 10: VARIANTES DEL POT
+
+POT puede aplicarse en el caso de datos débilmente dependientes. Hay dos resultados que merecen destacarse como variantes muy claras respecto al POT:
+
+\begin{itemize}
+\item[a)] POT para datos condicionalmente iid (similares a HLE Bellanger-GP):
+
+La distribución de excesos se ajusta a una MEZCLA de Paretos Generalizadas.
+\item[b)] POM (Peaks Over a Manifold).
+Imaginemos un problema de escurrimiento o similares que transcurre en una superficie irregular, con distintos relieves (ejemplos obvios: mareas, inundaciones, avalanchas, etc.)
+Lo “usual” esta representado por una subvariedad con borde de una variedad Riemanniana (con distancia intrínseca) y el umbral $u$ es el desplazamiento exterior paralelo de su borde. Obviamente la geometría juega un papel muy relevante. 
+\end{itemize}
+
+
+\subsection{DEA y POT para datos no estacionarios y/o con fuertes dependencias: el rol de las covariables}\label{sec:cap4}
+
+
+Recordemos que si $H$ es una distribución extremal y $X_1,...,X_n$ es $iid$ con distribución $F$, decimos que $F$
+pertenece al $DAM(H)$, si existen dos sucesiones de números reales $d_n$ y $c_n>0$, tales que la distribución
+de
+
+\begin{equation}
+\frac{max(X_1,...,X_n)- d_n}{c_n}\longrightarrow \infty \;\text{cuando}\;n\longrightarrow \infty
+\end{equation}
+
+
+Vimos que los $DAM$ se caracterizan con precisión, al igual que las sucesiones $d_n$ y $c_n>0$.
+
+
+Para una distribución $F$, recordemos que $M_F= sup\left\{ t / F(t)<1  \right\}$.
+
+Los $DAM$ eran :
+
+\begin{itemize}
+\item[a)] \textbf{Fréchet}: $F$ pertenece al $DAM(\Phi_{\alpha})$ si y sólo si $M_F= \infty$ y $1-F(x)=x^{-\alpha} L(x)$ para alguna $L$ de variación lenta. Además, $d_n=0$ y $c_n= n^{\alpha}$
+\item[b)] \textbf{Weibull}: $F$ pertenece al $DAM(\Psi^{\alpha})$ si y sólo si $M_F$ es finito y además $1-F(M_F -1/x)=x^{-\alpha} L(x)$ para alguna $L$ de variación lenta. Además $d_n= M_F$ y $c_n= n^{-\alpha}$.
+\item[c)] \textbf{Gumbel}: una distribución $F$ se dice una \textit{Función de Von Mises con función auxiliar} $h$ si existe $a < M_F$ ($M_F$
+puede ser finito o infinito) tal que para algún $c>0$
+\begin{equation}
+1-F(x)=c\:e^{-\int_a X \frac{1}{h(t)}dt}
+\end{equation}
+\end{itemize}
+con densidad $h^{\prime}$ y $h^{\prime}(X)\longrightarrow 0$ para $X\longrightarrow M_F$. 
+$F$ pertenece al $DAM(\Lambda)$ si y sólo si para $X\longrightarrow M_F$ su cola $1-F(X)$ es equivalente a una función de Von Mises. Además, $d_n=F^{-1}(1-1/n)$, $c_n=h(d_n)$ donde $F^{-1}(p)=inf\left\{ t / F(t)\geq p  \right\}$ para $0<p<1$.
+
+En la práctica nuestros datos suelen involucrar covariables y ruido puro. Las covariables pueden tener una estructura compleja, muy a menudo no son estacionarias y en ocasiones presentan fuertes dependencias. 
+
+Supongamos que nuestros datos son $X_i=f(W_i,Y_i)$ donde $W_1,...,W_n$ es $iid$ y las $Y$ son
+categóricas (las covariables definen estados), pudiendo tomar los valores $1,2....,k$.
+
+##### Ejemplo: 
+
+Para el estudio de vientos extremos, cada estado puede corresponderse a presiones atmosféricas dentro de determinado rango, temperatura dentro de determinado rango, previsiones meteorológicas según imagenología dentro de determinada configuración, etc.
+
+##### Importante:  
+
+Aquí suponemos que los estados son visibles (vemos las covariables, sabemos las definiciones de los estados). Hay casos en que los estados no los vemos, quedan 'escondidos' (hidden). Los resultados generales que veremos se aplican igual, pero su instrumentación es más compleja.
+
+Supondremos que al variar $j$, $f(W,j)$ pertenece a diversos $DAM$.
+Para simplificar, supongamos que existen $1<f< f+g<k$ y que
+
+\begin{itemize}
+\item $f(W,j)$ pertenece al $DAM(\Phi_{\alpha_j})$ para $j=1,...,f$. Supongamos además que $a_1 > ... >a_f$.
+\item $f(W,j)$ pertenece al $DAM(\Lambda)$ para $j=f+1,...,f+g$.
+\item $f(W,j)$ pertenece al $DAM(\Psi_{\alpha_j})$ para $j=f+g+1,...,k$
+\end{itemize}
+
+Supongamos que $Y$ cumple que 
+
+
+\begin{align}
+&\sum_{i=1}^{n} \mathbb{1} _{\left\{ Y_i=j  \right\}/n} \longrightarrow b(j) \\
+&\text{cuando}\;n\;\longrightarrow \infty \;\text{para todo}\;j=1,...,k \nonumber \\ 
+&\text{con}\quad b(j)>0\;\text{pero no necesariamente deteminístico}\nonumber 
+\end{align}
+
+
+Esta hipótesis la cumple todo proceso estacionario con componentes cíclicas, agregadas (entre otras), aún teniendo dependencias fuertes.
+
+Consideremos la información que aportan las variables $Y$ de $t$ en adelante ($\sigma$-álgebra generada por)
+
+\begin{equation}
+I(t)=\sigma(Y_t,Y_{t+1},...)
+\end{equation}
+
+Consideremos la Información Permanente tal que 
+
+$$
+I(\infty)= \cap_{t=1}^{\infty} I(t)
+$$
+
+
+Si $I(\infty)$ es trivial, o sea, sólo contiene eventos de probabilidad cero o uno, es que hay dependencia débil, y las funciones basadas en $I(\infty)$ son determinísticas, constantes.
+
+
+
+##### Importante: 
+
+las $b(j)$ dependen de la Información Permanente (límites de promedios no dependen de ninguna cantidad finita de índices)
+
+Por lo tanto, si $I(\infty)$ es trivial, las $b(j)$ son determinísticas y la distribución de
+
+
+$$
+\frac{max(X_1,...,X_n)}{n^{\alpha}}\quad\text{se aproxima a}\quad b(1)^{\alpha}\mathbb{1}Z
+$$
+
+donde $Z$ tiene distribución $\Phi_{\alpha_1}$ y extendemos FTG sin salirnos del menú clásico.
+
+Sin embargo, cuando $I(\infty)$ no es trivial, $b(1)$ es aleatoria. Para simplificar, supongamos que $b(1)$ asume dos valores, $r$ y $s$, con probabilidades $p$ y $1-p$, respectivamente. Entonces la distribución de
+$(max(X_1,...,X_n))/ n^{\alpha_1}$ se aproxima a $p r^{\alpha_1} Z+ (1-p) s^{\alpha_1} Z^*$, con $Z$, $Z^*$ independientes
+y con distribución $\Phi_{\alpha_1}$ y extendemos FTG pero
+obteniendo en el límite algo nuevo: una MEZCLA de dos Fréchet (que no es una Fréchet ni ninguna extremal). 
+
+Si no hubieran estados que generen datos en el DAM Fréchet, el resultado es similar, pero con una normalización distinta y con Gumbel o mezcla de Gumbel como límites. 
+
+Si tampoco hubieran estados que generen datos en el DAM Gumbel, el resultado es similar, pero con otra normalización distinta y con Weibull o mezcla de Weibull como límites.
+
+
+###### Importante: 
+
+El hecho que los estados sean 'visibles' permite hacer análisis exploratorio para determinar, según estimación de las colas, cuáles son las componentes extremales presentes. Por ejemplo, $F$ es una distribución en el $DAM(\Phi_{\alpha})$, si y sólo sí, para $x$ tendiendo a infinito,
+$log (1-F(x))/log(x)$ tiende a $-\alpha$.
+
+
+
+Si nos vamos al contexto de POT con datos que tienen esta estructura, encontramos:
+\begin{itemize}
+\item[a)] Si $I(\infty)$ es trivial, entonces POT se aplica SIN modificaciones sustanciales: la distribución condicionales de los excesos del umbral sigue siendo una DPG.
+\item[b)] Si en cambio $I(\infty)$ no es trivial, entonces POT se aplica CON modificaciones sustanciales: la distribución condicionales de los excesos del umbral es una mezcla de DPG.
+\end{itemize}
+
+
+
+
+
+
+
+
+\newpage
+<!-- ESTRATEGIA EMPIRICA -->
+\section{Estrategia Empírica}
+
+
+
+
+
+<!-- ###################################### -->
+\newpage
+
+\section{Referencias bibliográficas}
+
+<div id="refs"></div>
+
+\newpage 
+
+# Appendix
