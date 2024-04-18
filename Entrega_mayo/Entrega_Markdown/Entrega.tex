@@ -139,7 +139,7 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-04-17}
+\date{2024-04-18}
 
 \begin{document}
 \maketitle
@@ -433,22 +433,182 @@ livianas (caso Exponencial y Normal) y Fréchet para colas pesadas (caso
 Cauchy)\footnote{Si bien  la hipótesis de continuidad de $F$ no es esencial, si $F$ tiene
 la distribución Binomial o Poisson, por ejemplo, no se puede aplicar ninguna de las tres aproximaciones anteriores.}.
 
-\textbf{Observación 10.}
+\paragraph*{Observación 10}
 
-Como consecuencia del FTG si se tienen datos de máximos, las
+Como consecuencia del FTG, si se tienen datos de máximos, las
 distribuciones extremales son ``candidatas'' razonables para proponer en
-un ajuste. Sin embargo no debe pensarse que siempre se va a lograr
-ajustar a una de las tres distribuciones extremales, ya que hay al menos
-dos causas evidentes que podrían desbaratar la aplicación del FTG:
+un ajuste. Sin embargo, no siempre se va a lograr ajustar una de las
+tres distribuciones extremales, ya que hay al menos dos causas que
+podrían desafiar la aplicación del FTG:
 
 \begin{itemize}
-\item Que la cantidad de registros es lo suficientemente grande
-\item Que los registros que se consideran al calcular cada máximo no sean $i.i.d$. Al final del capítulo 2 se verá que esto puede subsanarse con versiones más generales del FTG.
+\item Cuando la cantidad de registros no es lo suficientemente grande
+\item Cuando los registros que se consideran al calcular cada máximo no sean $i.i.d$\footnote{Sin embargo, esto puede subsanarse con versiones más generales del FTG.}
 \end{itemize}
 
-Por consiguiente el FTG alienta a intentar ajustar datos extremales a
+Entonces, aunque el FTG alienta a intentar ajustar datos extremales a
 una de las tres distribuciones extremales, pero no siempre un tal ajuste
 dará un resultado afirmativo.
+
+Como la mayoría de pruebas de ajuste suponen datos \(iid\), se van a
+realizar dos tests de
+aleatoriedad\footnote{En inglés se expresa como \textit{randomness}} a
+los datos (\textit{runs up and down} y
+\textit{pearman correlation of ranks}).
+
+Se emplea la prueba de ajuste \(\chi^2\) que requiere seleccionar una
+partición más o menos arbitraria de la recta real de intervalos siendo
+importante que en cada intervalo haya una cantidad lo suficientemente
+importante de datos de la muestra. En este sentido, se pueden tomar como
+extremos de los intervalos los quintiles empíricos de la muestra. Cabe
+mencionar que este test requiere estimar parámetros por el método de
+Máxima Verosimilitud Categórica, que da resultado distintos al método de
+Máxima Verosimilitud a secas
+\footnote{Este hecho es frecuentemente ignorado y presentado erróneamente en los textos y cursos básicos de Estadística, ya que da resultados distintos al método de Máxima Verosimilitud a secas. Este hecho es frecuentemente ignorado y presentado erróneamente en los textos y cursos básicos de Estadística.}.
+
+\begin{definition} Distribución Extremal Asintótica (DEA)
+
+Si $X_1,...,X_n$  es $iid$ con distribución $F$ diremos que $H$ no-degenerada\footnote{Cabe mencionar que para este estudio la distribución de la variable a incorporar no tiene que ser degenerada, es decir $H(t)=0$ ó $H(t)=1$. Una distribución $H$ se dice degenerada si $H(t)=0$ ó $1$ para todo valor de $t$. Si la distribución de $X$ es degenerada, entonces $X$ es una constante, y no tiene sentido hacer estadística sobre $X$, por lo tanto sólo tienen interés las distribuciones no-degeneradas.} es la Distribución Extremal Asintótica (DEA) de $F$\footnote{Lo que equivale a decir que $F$ tiene $DEA\;H$.}, si existen dos sucesiones de números reales, $d_n$ y $c_n>0$, tales que la distribución de
+
+\begin{equation}
+\frac{max(X_1,...,X_n)- d_n}{c_n}\label{eq:max}
+\end{equation}
+
+tiende a $H$ cuando $n$ tiende a infinito.
+\end{definition}
+
+\begin{definition} Supremo esencial de una variable aleatoria o distribución
+
+Si $X$ tiene distribución $F$, se llama supremo esencial de $X$, denotado como $M_X$ o, indistintamente, supremo esencial de $F$ denotado $M_F$ a
+
+\begin{equation}
+M_X=M_F= sup\{t / F(t)<1\}\label{eq:Mx}
+\end{equation}
+\end{definition}
+
+\paragraph*{Observación 11}
+
+\begin{itemize}
+\item Si $F$ es $U(a,b) \Rightarrow M_F=b$
+\item Si $F$ es $Bin(m,p) \Rightarrow M_F=m$
+\item Si $F$ es Normal, Exponencial, Cauchy o Poisson, $M_F$ es infinito.
+\end{itemize}
+
+\begin{theorem} 
+Si $X_1,...,X_n$ es $iid$ con distribución $F$ cualquiera, entonces, para $n\longrightarrow \infty$,
+\begin{equation}
+X^*_n=M_F= max(X_1,...,X_n)\;\longrightarrow\;M_F \label{eq:Xast}
+\end{equation}
+\end{theorem}
+
+\paragraph*{Observación 12}
+
+El resultado anterior vale incluso si \(M_F\) es infinito, pero si
+\(M_F\) es finito, como \(X^*n - M_F\) tiende a cero, por analogía con
+el Teorema Central del Límite para promedios, buscaríamos una sucesión
+\(c_n>0\) y que tienda a cero de modo tal que \((X^*n- M_F )/ c_n\)
+tienda a una distribución no-degenerada y de allí surge buscar la DEA.
+
+\begin{theorem}
+Si $F$ es una distribución con $M_F$ finito, y para $X$ con distribución $F$ se cumple que
+$$
+P(X=M_F)>0 
+$$
+entonces $F$ NO admite DEA\footnote{Este teorema brinda una condición NECESARIA pero NO SUFICIENTE para DEA}.
+\end{theorem}
+
+\paragraph*{Observación 13}
+
+Si \(F\) es \(Bin(m,p)\), \(M_F=m\). Si \(X\) tiene distribución \(F\),
+entonces \(P( X=M_F)= P( X=m)= p_m>0\), asi que la distribucion
+\(Bin(m,p)\) NO admite DEA, no se puede aproximar la distribución del
+máximo de una muestra \(iid\) de variables \(Bin(m,p)\).
+
+El Teorema anterior es un caso particular del próximo.
+
+\begin{theorem}
+Si $F$ es una distribución con $M_F$ finito o infinito que admite DEA, y $X$ tiene distribución $F$, entonces el límite cuando $t$ tiende a $M_F$ por izquierda de
+$$P(X>t)/P(X \geq t)$$
+debe ser 1.
+\end{theorem}
+
+\paragraph*{Observación 14}
+\begin{itemize}
+\item Si $F$ es una distribución de Poisson de parámetro $\lambda>0$, $M_F$ es infinito. 
+\item Si $k$ es un natural, entonces:
+\begin{eqnarray}
+\frac{P(X>k)}{P(X\geq k)} &=& \frac{P(X \geq k+1)}{P(X\geq k)} \\ \nonumber
+&=& 1-\frac{P(X=k)}{P(X \geq k)} \approx 1-\left(1- \frac{\lambda}{k}\right) 
+\end{eqnarray}
+que tiende a $0$ cuando $k$ tiende a infinito, por lo cual $F$ NO admite DEA, o sea que no se puede aproximar el máximo de una sucesión $iid$ de variables de Poisson.
+\end{itemize}
+
+Algunos ejemplos donde la DEA resulta aplicable:
+
+\paragraph*{Observación 15}
+
+Si \(F\) es \(U(0,1)\) y consideramos \(X_1,...,X_n\) \(iid\) con
+distribución \(F\), resulta que la distribución de \(n( X_n^*- 1)\)
+tiende a \(\Psi_1\) por lo cual la distribución uniforme tiene DEA
+Weibull.
+
+\paragraph*{Observación 16}
+
+Si \(F\) es Exponencial de parámetro 1 y consideramos \(X_1,...,X_n\)
+\(iid\) con distribución \(F\), se tiene que la distribución de
+\(X_n^*- log\: n\) tiende a \(\Lambda\) por lo cual la distribución
+exponencial tiene DEA Gumbel.
+
+\paragraph*{Observación 17}
+
+Si F es \(N(0,1)\) y consideramos \(X_1,...,X_n\) \(iid\) con
+distribución \(F\), definimos la función continua y estrictamente
+decreciente (para \(u>0\))
+
+\[
+g(u)=e^{(-u^2/4\pi)/u}
+\]
+
+que \(g(u)\rightarrow \infty\) cuando \(u\rightarrow 0\), y
+\(g(u)\rightarrow 0\) cuando \(u\rightarrow \infty\). Por lo cual para
+todo natural \(n\) existe un único valor \(u_n\) tal que
+
+\[
+g(u_n)=1/n
+\]
+
+y resulta que
+\(\frac{u_n}{\sqrt{2\pi}\left (X_n^*-\frac{u_n}{\sqrt{2\pi}}\right )}\longrightarrow \Lambda\)
+por lo que la distribución normal tiene DEA Gumbel.
+
+\paragraph*{Observación 18}
+
+Si \(F\) es Cauchy standard tal que \(C(0,1)\) y consideramos
+\(X_1,...,X_n\) \(i.i.d\) con distribución \(F\), se tiene que la
+distribución de \(\pi X^*_n/n\) tiende a \(\Phi_1\), por lo cual la
+distribución Cauchy tiene DEA Fréchet.
+
+Cuando \(F\) admite DEA, la distribución \(H\) deberá ser una
+distribución extremal. De hecho FTG resulta de combinar dos teoremas,
+basadas en una nueva definición, la de distribución max-estable.
+
+\begin{definition} Distribución max-estables
+
+Si dado $F$ representando una distribución, $X$ con distribución $F$, $k$ natural arbitrario y $X_1,...,X_k$ es $iid$ con distribución $F$, existen reales $a_k$, $b_k$ tales que $max(X_1,...,X_k)$ tiene la misma distribución que $a_k X+ b_k$, $F$ se dice \textit{max-estable}.
+\end{definition}
+
+El Teorema FTG resulta de superponer los dos siguientes teoremas:
+
+\begin{theorem} 
+\begin{itemize}
+  \item[a)] Si $F$ admite $DEA\;H$, entonces $H$ es max-estable.
+  \item[b)] Si $H$ es max-estable, es la DEA de sí misma.
+\end{itemize}
+\end{theorem}
+
+\begin{theorem}
+Una distribución es max-estable si y solo si es extremal\footnote{O sea Gumbel, Weibull o Fréchet}.
+\end{theorem}
 
 \newpage
 
