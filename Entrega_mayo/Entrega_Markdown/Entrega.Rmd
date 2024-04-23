@@ -26,6 +26,7 @@ header-includes:
 \newtheorem{theorem}{Teorema}
 \newtheorem{mydefinition}{Definición}
 \newtheorem{observation}{Observación}
+\newtheorem{Corolario}{Corolario}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -428,6 +429,126 @@ El Teorema FTG resulta de superponer los dos siguientes teoremas:
 Una distribución es max-estable si y solo si es extremal\footnote{O sea Gumbel, Weibull o Fréchet}.
 \end{theorem}
 
+\paragraph*{Observación 19}
+
+
+Si $F$ y $G$ son dos distribuciones, tienen colas equivalentes si $M_F=M_G$ y cuando $t$ tiende a $M_F$ por izquierda, $(1-F(t))/(1-G(t))$ tiende a un valor $c>0$.
+
+La distribución del máximo de dos variables independientes se calcula como  $max\{X,Y\}$, cuando $X$ e $Y$ son independientes y cada una de ellas es una distribución extremal, se llega al siguiente resultado:
+
+| $X$ | $Y$| $max(X,Y)$ |
+|-------|-------|--------------|
+| \textcolor{red}{Weibull} | \textcolor{red}{Weibull} | \textcolor{red}{Weibull} |
+| \textcolor[rgb]{0.0,0.5,0.0}{Weibull} | \textcolor[rgb]{0.0,0.5,0.0}{Gumbel} | \textcolor[rgb]{0.0,0.5,0.0}{Cola equivalente Gumbel} |
+| \textcolor{blue}{Weibull} | \textcolor{blue}{Fréchet} | \textcolor{blue}{Fréchet} |
+| \textcolor[rgb]{0.0,0.5,0.0}{Gumbel} | \textcolor[rgb]{0.0,0.5,0.0}{Weibull} | \textcolor[rgb]{0.0,0.5,0.0}{Cola equivalente Gumbel} |
+| \textcolor{red}{Gumbel} | \textcolor{red}{Gumbel} | \textcolor{red}{Gumbel} |
+| \textcolor{blue}{Gumbel} | \textcolor{blue}{Fréchet} | \textcolor{blue}{Cola equivalente Fréchet} |
+| \textcolor{blue}{Fréchet} | \textcolor{blue}{Weibull} | \textcolor{blue}{Fréchet} |
+| \textcolor{blue}{Fréchet} | \textcolor{blue}{Gumbel} | \textcolor{blue}{Cola equivalente Fréchet} |
+| \textcolor{red}{Fréchet} | \textcolor{red}{Fréchet}| \textcolor{red}{Fréchet} |
+
+
+\textcolor{red}{\rule{1em}{1em} Las extremales son max-estables: tomar máximos de dos del mismo tipo queda en el mismo tipo.}
+
+
+\textcolor[rgb]{0.0,0.5,0.0}{\rule{1em}{1em} Gumbel es más pesada que Weibull. En la cola, que es lo que cuenta para máximos, prima Gumbel.}
+
+
+\textcolor{blue}{\rule{1em}{1em} Fréchet es más pesada que Gumbel y mucho más pesada que Weibull.}
+\vspace{1cm}
+
+Además, de la tabla se deduce que 
+
+\begin{theorem}
+Si $X_1,...,X_n$ independientes y cada $X_i$ tiene uno de los tres tipos de distribución extremal, entonces la distribución del $max(X_1,...,X_n)$ es:
+\begin{itemize}
+\item[a)] Cola equivalente a Fréchet, si alguna de las variables es Fréchet y alguna otra es Gumbel.
+\item[b)]  Fréchet, si alguna es Fréchet y ninguna es Gumbel.
+\item[c)]  Cola equivalente Gumbel ninguna es Fréchet pero algunas son Gumbel y otras Weibull.
+\item[d)] Gumbel si todas son Gumbel.
+\item[e)]  Weibull si todas son Weibull.
+\end{itemize}
+\end{theorem}
+
+\subsubsection*{Dominio de Atracción Maximal}
+
+\paragraph*{Observación 20} Si $F$ es una distribución, se dice que tiene cola de variación regular de orden $-\alpha$, para $\alpha \geq 0$ si, para todo $t>0$, $(1-F(tx))/(1-F(x))$ tiende
+a $t^{-\alpha}$ si $x \rightarrow \infty$. Para abreviar se dirá que $F$ es $R_{-\alpha}$. Por ejemplo, para $\alpha=3$ un caso de una tal $F$ es $F(u)=1- 1/u^3$.
+
+Por otra parte se dice que $L$ es una función de variación lenta si, para todo $t>0$, $L(tx)/L(x)$ tiende a 1 cuando $x \rightarrow \infty$. Un ejemplo es $L(u)=log(u)$.
+
+\begin{definition} Dominio de Atracción Maximal ($DAM$)
+
+Si $H$ es una distribución extremal (Gumbel, Weibull o Fréchet) su Dominio de Atracción Maximal ($DAM(H)$), está constituído por todas las distribuciones $F$ que tienen DEA $H$.
+\end{definition}
+
+\begin{theorem} DAM de la Fréchet
+
+$F$ pertenece a la $DAM$ de $\Phi_{\alpha}$ si y sólo si
+$1-F(x)=x^{-\alpha} L(x)$ para alguna $L$ de variación lenta,
+lo cual es equivalente a decir que $F$ es $R_{-\alpha}$. Un ejemplo típico sería $1-F(x)= x^{-\alpha}$.
+
+Además, puede tomarse $d_n=0$ y $c_n= n^{1/\alpha}$.
+\end{theorem}
+
+\begin{Corolario} DAM de la Fréchet
+
+Si $F$ es una distribución con densidad $f$ que cumple que $xf(x)/(1-F(x))$ tiende a $\alpha$ cuando $x\rightarrow \infty$ se dice que $F$ cumple la Condición de Von Mises I. En tal caso, $F$ pertenece a la DAM de $\Phi_{\alpha}$ y más aún, la DAM de $\Phi_{\alpha}$ son todas las distribuciones que tienen cola equivalente a alguna distribución que cumpla la Condición de Von Mises I.
+\end{Corolario}
+
+Del DAM Fréchet y Teorema 1, surge lo siguiente.
+
+\begin{theorem} DAM de la Weibull
+
+\begin{itemize}
+\item[a)] $F$ pertenece a la DAM de $\Psi_{\alpha}$ si y sólo si $M_F$ es finito y además $1-F(M_F -1/x)=x^{-\alpha}L(x)$ para alguna $L$ de variación lenta, es decir que pertenece a $R_{-\alpha}$. Observar que con el cambio de variable $u=M_F -1/x$,
+resulta que $1-F(u)=(^{-}M_F -u)^{\alpha} L(1/(M_F -u))$ para alguna $L$ de variación lenta, para $u< M_F$. Un ejemplo típico sería $1-F(u)=(^{-}MF -u)^{\alpha}$ , $u< M_F$. 
+
+Además puede tomarse $d_n= M_F$ y $c_n= n^{-\alpha}$.
+
+\item[b)] Si $F$ es una distribución con densidad $f$ positiva en $(a,M_F)$ para algun $a< M_F$ y $(M_F -x)f(x)/(1-F(x))$ tiende a $\alpha$ cuando $x\rightarrow M_F$, se dice que $F$ cumple la Condición de Von Mises II. En tal caso $F$ pertenece a la DAM de $\Psi_{\alpha}$ y mas aún,la DAM de $\Psi_{\alpha}$ son todas las distribuciones que tienen cola equivalente a alguna distribución que cumpla la Condición de Von Mises II.
+\end{itemize}
+\end{theorem}
+
+\begin{theorem} DAM de la Gumbel
+
+Una distribución $F$ se dice una Función de Von Mises con función auxiliar $h$ si existe $a < M_F$ ($M_F$ puede ser finito o infinito) tal que para algún $c>0$ se tiene
+
+$$
+1-F(x)=c\:exp\left \{  - \int_a^x \frac{1}{h(t)} dt \right \}
+$$
+
+con $h$ positiva, con densidad $h^{\prime}$ y $h^{\prime}(x)$ tendiendo a $0$ para $x \rightarrow M_F$.
+\end{theorem}
+
+\begin{Corolario}
+Si $F$ pertenece al DAM Gumbel , $M_F$ es infinito, y se considera $X$ con distribucion $F$, entonces $E(X^{+k})$ es finito para todo $k$ natural.
+\end{Corolario}
+
+
+A modo de conclusión, los resultados antes vistos nos permiten reconocer que distribuciones tienen DEA y si la tienen, cual es. Adicionalmente, permiten entender que esta teoría se relaciona con el comportamiento de las colas de las distribuciones, esto es, que Fréchet corresponde a las colas más pesadas, luego la Gumbel y finalmente Weibull.
+
+\newpage
+
+\subsubsection*{GEV: Distribución de valores extremos generalizada}
+
+La GEV permite compactar en una única fórmula las tres distribuciones extremales.
+
+\begin{definition} GEV
+
+Se define la distribución de valores extremos generalizada (GEV) por sus siglas en ingles de posición $\mu$, escala $\beta$ e índice $\xi$ a
+
+\begin{align*}
+G(\mu, \beta, \xi) = \begin{cases}
+e^{ -\left ( 1+\xi(t-\mu)/\beta \right )^{-1/\xi} } & \text{si } \xi\neq 0\; \forall t \text{ donde } 1+\xi(t-\mu)/\beta>0\\ 
+e^{ -e^{\left ( -(t-\mu)/\beta \right )}} & \text{si } \xi=0 \; \forall t
+\end{cases}
+\end{align*}
+\end{definition}
+
+El caso $\xi=0$ corresponde a Gumbel, el caso $\xi<0$ a Weibull y $\alpha=-1/ \xi$, el caso $\xi>0$ a Fréchet y $\alpha=1/ \xi$\footnote{En \texttt{R} existen rutinas para estimar $\xi$ con intervalos de confianza (por máxima verosimilitud, etc.) lo cual da formas de testear si una extremal es Gumbel, Weibull o Fréchet.}.
+
 
 <!-- #######################
 ##############################
@@ -725,6 +846,10 @@ Si nos vamos al contexto de POT con datos que tienen esta estructura, encontramo
 \item[a)] Si $I(\infty)$ es trivial, entonces POT se aplica SIN modificaciones sustanciales: la distribución condicionales de los excesos del umbral sigue siendo una DPG.
 \item[b)] Si en cambio $I(\infty)$ no es trivial, entonces POT se aplica CON modificaciones sustanciales: la distribución condicionales de los excesos del umbral es una mezcla de DPG.
 \end{itemize}
+
+
+
+
 
 
 
