@@ -550,6 +550,43 @@ e^{ -e^{\left ( -(t-\mu)/\beta \right )}} & \text{si } \xi=0 \; \forall t
 El caso $\xi=0$ corresponde a Gumbel, el caso $\xi<0$ a Weibull y $\alpha=-1/ \xi$, el caso $\xi>0$ a Fréchet y $\alpha=1/ \xi$\footnote{En \texttt{R} existen rutinas para estimar $\xi$ con intervalos de confianza (por máxima verosimilitud, etc.) lo cual da formas de testear si una extremal es Gumbel, Weibull o Fréchet.}.
 
 
+\subsubsection*{Tiempos y Valores de Retorno}
+
+En Ingeniería y Ciencias Ambientales, suele pensarse los eventos extremos, en términos de tiempos de retorno, o sea, el tiempo que se espera para que ocurra un evento. Bajo las hipótesis de datos $iid$, el tiempo de retorno $T$ tiene una distribución $Geo(p)$, con $p = P(evento)$, por lo cual el tiempo de retorno medio es $E(T)=1/p$. Pueden hacerse intervalos de confianza para $E(T)$, en la medida que exista información de $P(evento)$. Cabe observar que muchas veces se utiliza la expresión Tiempo de Retorno (TR) para $E(T)$.
+
+Más precisamente, $TR(u)$, el Tiempo de retorno del valor $u$, es el valor esperado (o la media) del tiempo que se debe esperar para que la variable en estudio supere el valor $u$, es decir que $TR(u) = 1/P(X>u)$, si $X$ es la variable en estudio.
+
+Por otro la lado, en una mirada inversa, el Valor de Retorno a tiempo $t$, $VR(t)$ es el valor de $u$ para el cual $TR(u)=t$, es decir que $TR(VR(t))=t$ (y también $VR(TR(u))=u$, por lo que $TR$ y $VR$ serían funciones inversas).
+
+## Un primer enfoque de datos no iid 
+
+En la realidad, frecuentemente, los datos no son $iid$. En la teoría de series de tiempo, se suele expresar la expresión “Ruido Blanco” para referirse a datos iid. Se caracterizan por tener espectro constante. 
+
+Si los datos no necesariamente son independientes pero la estructura de distribuciones es siempre la misma, se habla de datos estacionarios (o procesos estacionarios). 
+
+Cuando los datos no son independientes pero la dependencia se va atenuando a medida que se consideran datos más lejanos (para fijar ideas, imaginemos que los datos corresponde a medidas en el tiempo, y que datos muy viejos no influirían significativamente sobre el presente, por ejemplo), se habla de datos débilmente dependientes. El caso más sencillo de esta situación es la de datos $m-$dependientes (donde $m$ es un número), que corresponde a datos que si están a distancia mayor a $m$, son independientes. Es el caso de los procesos $MA(q)$ ( Moving Averages), que son Promedios Móviles de orden $q$ de un ruido blanco ($m=q$ en este caso).
+
+Los procesos $AR(p)$ (Autoregresivos de orden $p$) son débilmente dependientes pero no $m$-dependientes para ningún $m$; cada dato es una combinación lineal de los $p$ anteriores más un término aleatorio (“Ruido”) que es un ruido blanco. Son Markovianos, es decir, con memoria infinita pero donde todo el pasado es tan informativo como los últimos $p$ datos.
+
+En la teoría clásica de series de tiempo, una estructura AR(p) a partir de un ruido MA(q) en lugar de un ruido blanco, da lugar a los procesos ARMA (p,q), que en general son débilmente dependientes y aproximan bien a cualquier proceso estacionario débilmente dependiente, lo cual es una de las razones de su popularidad. Lo opuesto a dependencia débil es dependencia fuerte. 
+
+Cuando los datos no son $iid$ pero se vuelven $iid$ al restarle una función determinística, son bastante simples de manejar. Si esta función es monótona, se habla de que los datos presentan tendencias (trends). Si en cambio la función es periódica, se dice que los datos presentan ciclos (seasonal effects).
+Se puede demostrar que si los datos se vuelven $iid$ al restar una función determinística cualquiera (lo cual no siempre es el caso!), entonces se pueden modelar aproximadamente como
+
+$$
+TENDENCIAS+CICLOS+ DATOS IID.
+$$
+Si se le restara a los datos originales los valores de las componentes determinísticas (Tendencia+Ciclo) ajustadas, los nuevos datos que resultan (llamados Residuos) deberían razonablemente superar los tests para datos iid.
+
+Como resumen final, en los más próximos capítulos tomaremos direcciones no iid, en las que veremos:
+1.Si el proceso es estacionario y débilmente dependiente, la técnica clásica de DEA puede aplicarse esencialmente igual (Leadbetter, Lindgren, Rootzén).
+2.Si el proceso no es estacionario o no es débilmente dependiente, cumple algunas propiedades condicionales a otro proceso que le pauta la “fase”, la técnica clásica de DEA puede aplicarse, pero con modificaciones no menores.
+
+Además:
+3.Puede cambiarse el enfoque y mirar el número de eventos extremos en diversos lapsos, esto lleva en el caso iid a un proceso de Poisson, para estacionarios y débilmente dependientes a un Poisson Compuesto y en el marco más general del punto 2, a mezclas de Procesos de Poisson Compuestos ( Lise Bellanger-GP).
+El conteo de eventos extremos será también la base o el “pie”, para introducir una técnica muy usada, POT (Picos Sobre Umbrales) y sus variaciones más recientes que veremos al final.
+
+
 <!-- #######################
 ##############################
 #################################

@@ -149,7 +149,7 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-04-23}
+\date{2024-04-29}
 
 \begin{document}
 \maketitle
@@ -780,6 +780,46 @@ e^{ -e^{\left ( -(t-\mu)/\beta \right )}} & \text{si } \xi=0 \; \forall t
 El caso \(\xi=0\) corresponde a Gumbel, el caso \(\xi<0\) a Weibull y
 \(\alpha=-1/ \xi\), el caso \(\xi>0\) a Fréchet y
 \(\alpha=1/ \xi\)\footnote{En \texttt{R} existen rutinas para estimar $\xi$ con intervalos de confianza (por máxima verosimilitud, etc.) lo cual da formas de testear si una extremal es Gumbel, Weibull o Fréchet.}.
+
+\subsubsection*{Tiempos y Valores de Retorno}
+
+En Ingeniería y Ciencias Ambientales, suele pensarse los eventos
+extremos, en términos de tiempos de retorno, o sea, el tiempo que se
+espera para que ocurra un evento. Bajo las hipótesis de datos \(iid\),
+el tiempo de retorno \(T\) tiene una distribución \(Geo(p)\), con
+\(p = P(evento)\), por lo cual el tiempo de retorno medio es
+\(E(T)=1/p\). Pueden hacerse intervalos de confianza para \(E(T)\), en
+la medida que exista información de \(P(evento)\). Cabe observar que
+muchas veces se utiliza la expresión Tiempo de Retorno (TR) para
+\(E(T)\).
+
+Más precisamente, \(TR(u)\), el Tiempo de retorno del valor \(u\), es el
+valor esperado (o la media) del tiempo que se debe esperar para que la
+variable en estudio supere el valor \(u\), es decir que
+\(TR(u) = 1/P(X>u)\), si \(X\) es la variable en estudio.
+
+Por otro la lado, en una mirada inversa, el Valor de Retorno a tiempo
+\(t\), \(VR(t)\) es el valor de \(u\) para el cual \(TR(u)=t\), es decir
+que \(TR(VR(t))=t\) (y también \(VR(TR(u))=u\), por lo que \(TR\) y
+\(VR\) serían funciones inversas).
+
+\subsection{Un primer enfoque de datos no
+iid}\label{un-primer-enfoque-de-datos-no-iid}
+
+En la realidad, frecuentemente, los datos no son \(iid\). En la teoría
+de series de tiempo, se suele expresar la expresión ``Ruido Blanco''
+para referirse a datos iid. Se caracterizan por tener espectro
+constante.
+
+Si los datos no necesariamente son independientes pero la estructura de
+distribuciones es siempre la misma, se habla de datos estacionarios (o
+procesos estacionarios).
+
+Cuando los datos no son independientes pero la dependencia se va
+atenuando a medida que se consideran datos más lejanos (para fijar
+ideas, imaginemos que los datos corresponde a medidas en el tiempo, y
+que datos muy viejos no influirían significativamente sobre el presente,
+por ejemplo), se habla de datos débilmente dependientes
 
 \newpage
 
