@@ -252,10 +252,16 @@ mercado estadounidense. Es considerado como un indicador representativo
 del mercado de renta variable de los Estados Unidos, y está compuesto
 por 500 empresas constituyentes.
 
-Tomando la serie de datos diaria de Se busca crear un indicador de una
+Los datos se descargan mediante una consulta a la API de yahoo!finance
+empleando el módulo de python \texttt{yfinance}. Para este estudio, se
+toman los valores al cierre de cada día para la serie temporal de
+\(S\&\;500\) desde la fecha 03/01/1928 hasta 08/12/2023. Por lo tanto,
+se cuenta con una serie temporal de frecuencia diaria con 24.195 filas.
+
+Tomando la serie de datos diaria se busca crear un indicador de una
 posible crisis bursátil denominado Índice de Variación de Precios (IVP).
 Como variable de referencia de toma la relación de precios al cierre de
-ayer sobre la de hoy
+ayer sobre la de hoy.
 
 \begin{equation}
 IVP_t=\left (\frac{Precio_{t-1}}{Precio_t}\right ) -1,\quad\text{para}\; t=1,...,T 
@@ -268,23 +274,18 @@ Interpretación del Indicador:
 \item Si el $IVP_t$ > 0, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
 \end{itemize}
 
-Los datos se descargan mediante una consulta a la API de yahoo!finance
-empleando el módulo \texttt{yfinance}.
+A partir de la columna ``Close'', que indica el valor del índice
+\(S\&P\;500\) al cierre de cada día, se crea la columna ``relacion'' a
+la que se le resta el valor 1 y sea genera la columna ``indicador'' para
+eliminar esa constante determinística en los datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ yfinance }\ImportTok{as}\NormalTok{ yf}
-\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
-
-\CommentTok{\# Define the ticker symbol for the S\&P 500}
-\NormalTok{ticker\_symbol }\OperatorTok{=} \StringTok{\textquotesingle{}\^{}GSPC\textquotesingle{}}
-
-\CommentTok{\# Fetch historical data for the S\&P 500}
-\NormalTok{sp500 }\OperatorTok{=}\NormalTok{ yf.Ticker(ticker\_symbol)}
-
-\CommentTok{\# Get historical market data}
-\NormalTok{histsp500 }\OperatorTok{=}\NormalTok{ sp500.history(period}\OperatorTok{=}\StringTok{\textquotesingle{}max\textquotesingle{}}\NormalTok{)}
-\NormalTok{histsp500\_sin\_idx}\OperatorTok{=}\NormalTok{histsp500.reset\_index()}
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{relacion =} \FunctionTok{lag}\NormalTok{(Close) }\SpecialCharTok{/}\NormalTok{ Close)}
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, ]}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(df)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{indicador}\OtherTok{=}\NormalTok{df}\SpecialCharTok{$}\NormalTok{relacion}\DecValTok{{-}1}
 \end{Highlighting}
 \end{Shaded}
 
@@ -294,13 +295,22 @@ cierre de cada día del indicador \(S\&P\;500\), desde la fecha
 
 \includegraphics{Entrega_files/figure-latex/plot1-1.pdf}
 
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-16-1.pdf}
+Una vez que se tiene la serie de datos ``indicador'', se filtran las
+filas del conjunto de datos de forma tal que los valores del \(IVP>=0\).
+Con esto se obtienen los datos del estudio que serán objeto de un
+análisis con el método POT.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#aTSA::adf.test(ts\_relacion)}
+\NormalTok{indicador\_df}\OtherTok{=}\FunctionTok{subset}\NormalTok{(ts\_relacion, indicador }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\includegraphics{Entrega_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+En la próxima sección se desarrolla el marco teórico que sirve de base
+para la entrategia empírica posterior y para el análisis de sus
+resultados.
 
 \newpage
 
@@ -885,7 +895,25 @@ constante.
 
 Si los datos no necesariamente son independientes pero la estructura de
 distribuciones es siempre la misma, se habla de datos estacionarios (o
-procesos estacionarios).
+procesos estacionarios). Siguiendo a Enders
+(\citeproc{ref-enders}{2014}), se dice que un proceso estocástico
+\(z_{t}\) con media y varianza finitas es estacionario en covarianza
+para todo \(t\) y \(t-s\) cuando
+
+\begin{align}
+    \label{eq:2_7}
+    E(z_{t})&=E(z_{t-s})=\mu\\
+    \label{eq:2_8}
+    var(z_t)&=var(z_{t-s})=\sigma^2_z\\
+    \label{eq:2_9}
+    cov(z_t,z_{t-s})&=cov(z_{t-j},z_{t-j-s})=\gamma_s
+\end{align} donde \(\mu, \sigma^2_z, \gamma_s\) con constantes.
+
+En \eqref{eq:2_8}, cuando \(s=0\) se va a tener que \(\gamma_0\) es la
+varianza de \(z_t\). Que una serie temporal sea estacionaria en
+covarianza implica que tanto la media como todas sus
+autocovarianzas\footnote{También se habla de proceso debilmente estacionario o estacionario de segundo orden.}
+no están afectadas por cambios en los orígenes temporales.
 
 Cuando los datos no son independientes pero la dependencia se va
 atenuando a medida que se consideran datos más lejanos (para fijar

@@ -72,9 +72,11 @@ Siguiendo a @notas_curso, se dice que tenemos datos extremos cuando cada dato co
 
 
 
-En este marco analítico, se pretende desarrollar un indicador de posibles crisis bursátiles a partir del índice $S\&P\;500$. En este sentido,  los índices de $S\&P$ son una familia de índices de renta variable\footnote{En inglés se llaman equity indices} diseñados para medir el rendimiento del mercado de acciones en Estados Unidos que cotizan en bolsas estadounidenses. Esta familia de índices está compuesta por una amplia variedad de indicadores basados en tamaño, sector y estilo. Los mismos pueden ser ponderados por el criterio \textit{float-adjusted market capitalization} (FMC) o de manera equitativa y con límite de capitalización de mercado, como es el caso del $S\&P\:500$. Este este sentido, el $S\&P 500$ entraría en el conjunto de índices ponderados por capitalización bursátil ajustada a la flotación (ver \href{https://www.spglobal.com/spdji/en/methodology/article/sp-us-indices-methodology/}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}). El mismo  mide el rendimiento del segmento de gran capitalización del mercado estadounidense. Es considerado como un indicador representativo del mercado de renta variable de los Estados Unidos, y está compuesto por 500 empresas constituyentes.
+En este marco analítico, se pretende desarrollar un indicador de posibles crisis bursátiles a partir del índice $S\&P\;500$. En este sentido,  los índices de $S\&P$ son una familia de índices de renta variable\footnote{En inglés se llaman equity indices} diseñados para medir el rendimiento del mercado de acciones en Estados Unidos que cotizan en bolsas estadounidenses. Esta familia de índices está compuesta por una amplia variedad de indicadores basados en tamaño, sector y estilo. Los mismos pueden ser ponderados por el criterio \textit{float-adjusted market capitalization} (FMC) o de manera equitativa y con límite de capitalización de mercado, como es el caso del $S\&P\:500$. Este este sentido, el $S\&P 500$ entraría en el conjunto de índices ponderados por capitalización bursátil ajustada a la flotación (ver \href{https://www.spglobal.com/spdji/en/methodology/article/sp-us-indices-methodology/}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}). El mismo  mide el rendimiento del segmento de gran capitalización del mercado estadounidense. Es considerado como un indicador representativo del mercado de renta variable de los Estados Unidos, y está compuesto por 500 empresas constituyentes. 
+
+Los datos se descargan mediante una consulta a la API de yahoo\!finance empleando el módulo de python \texttt{yfinance}.  Para este estudio, se toman los valores al cierre de cada día para la serie temporal de $S\&\;500$ desde la fecha 03/01/1928 hasta 08/12/2023. Por lo tanto, se cuenta con una serie temporal de frecuencia diaria con 24.195 filas.
  
-Tomando la serie de datos diaria de Se busca crear un indicador de una posible crisis bursátil denominado Índice de Variación de Precios (IVP). Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy 
+Tomando la serie de datos diaria se busca crear un indicador de una posible crisis bursátil denominado Índice de Variación de Precios (IVP). Como variable de referencia de toma la relación de precios al cierre de ayer sobre la de hoy.
 
 \begin{equation}
 IVP_t=\left (\frac{Precio_{t-1}}{Precio_t}\right ) -1,\quad\text{para}\; t=1,...,T 
@@ -87,6 +89,11 @@ Interpretación del Indicador:
 \item Si el $IVP_t$    $\leq$ 0, el precio de cierre de hoy es mayor o igual que el de ayer, lo cual podría ser considerado una señal positiva.
 \item Si el $IVP_t$ > 0, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
 \end{itemize}
+
+
+<!--------------->
+<!-- codigo ----->
+<!--------------->
 
 ```{r include=FALSE}
 source("utils/libraries.R")
@@ -115,7 +122,6 @@ use_python(path_py)
 
 
 
-
 ```{r include=FALSE}
 # /Library/Frameworks/Python.framework/Versions/3.11/bin/python3 -m pip install yfinance
 # List of Python modules to check
@@ -131,9 +137,9 @@ for (module in modules_to_check) {
 }
 ```
 
-Los datos se descargan mediante una consulta a la API de yahoo\!finance empleando el módulo \texttt{yfinance}.  
 
-```{python}
+
+```{python include=FALSE}
 import yfinance as yf
 import pandas as pd
 
@@ -151,9 +157,8 @@ histsp500_sin_idx=histsp500.reset_index()
 
 ```{r include=FALSE}
 df <- py$histsp500_sin_idx
-head(df)
+dim(df)
 ```
-
 
 ```{r include=FALSE}
 #df = read.csv('../../data/sp500_Closing_values.csv')
@@ -170,20 +175,21 @@ str(df)
 
 
 
-
-
 ```{r include=FALSE}
-# Create a new column 'relacion' with yesterday's price over today's price
-df <- df %>%
-  mutate(relacion = lag(Close) / Close)
+names(df)
 ```
 
+A partir de la columna "Close", que indica el valor del índice $S\&P\;500$ al cierre de cada día, se crea la columna "relacion" a la que se le resta el valor 1 y sea genera la columna "indicador" para eliminar esa constante determinística en los datos.
 
-```{r include=FALSE}
-# Remove the first row
+```{r}
+df <- df %>%
+  mutate(relacion = lag(Close) / Close)
 df <- df[-1, ]
 df <- na.omit(df)
 df$indicador=df$relacion-1
+```
+
+```{r include=FALSE}
 df$Date=as.Date(df$Date)
 date_range <- range(df$Date, na.rm = TRUE)
 ```
@@ -233,12 +239,16 @@ ggplot(df, aes(x = Date, y = relacion)) +
   )
 ```
 
+Una vez que se tiene la serie de datos "indicador", se filtran las filas del conjunto de datos de forma tal que los valores del $IVP>=0$. Con esto se obtienen los datos del estudio que serán objeto de un análisis con el método POT.
+
 ```{r include=FALSE}
 ts_relacion=df[,c('Date','indicador')]
-indicador_df=subset(ts_relacion, indicador >= 0)
 ```
 
 
+```{r}
+indicador_df=subset(ts_relacion, indicador >= 0)
+```
 
 
 ```{r echo=FALSE}
@@ -260,11 +270,11 @@ ggplot(indicador_df, aes(x = Date, y = indicador)) +
   )
 ```
 
+En la próxima sección se desarrolla el marco teórico que sirve de base para la entrategia empírica posterior y para el análisis de sus resultados.
 
 
 
-
-```{r}
+```{r include=FALSE}
 #aTSA::adf.test(ts_relacion)
 ```
 
@@ -731,7 +741,19 @@ Por otro la lado, en una mirada inversa, el Valor de Retorno a tiempo $t$, $VR(t
 
 En la realidad, frecuentemente, los datos no son $iid$. En la teoría de series de tiempo, se suele expresar la expresión “Ruido Blanco” para referirse a datos iid. Se caracterizan por tener espectro constante. 
 
-Si los datos no necesariamente son independientes pero la estructura de distribuciones es siempre la misma, se habla de datos estacionarios (o procesos estacionarios). 
+Si los datos no necesariamente son independientes pero la estructura de distribuciones es siempre la misma, se habla de datos estacionarios (o procesos estacionarios). Siguiendo a @enders, se dice que un proceso estocástico $z_{t}$ con media y varianza finitas es estacionario en covarianza para todo $t$ y $t-s$ cuando
+
+\begin{align}
+	\label{eq:2_7}
+	E(z_{t})&=E(z_{t-s})=\mu\\
+	\label{eq:2_8}
+	var(z_t)&=var(z_{t-s})=\sigma^2_z\\
+	\label{eq:2_9}
+	cov(z_t,z_{t-s})&=cov(z_{t-j},z_{t-j-s})=\gamma_s
+\end{align}
+donde $\mu, \sigma^2_z, \gamma_s$ con constantes.
+
+En \eqref{eq:2_8}, cuando $s=0$ se va a tener que $\gamma_0$ es la varianza de $z_t$. Que una serie temporal sea estacionaria en covarianza implica que tanto la media como todas sus autocovarianzas\footnote{También se habla de proceso debilmente estacionario o estacionario de segundo orden.} no están afectadas por cambios en los orígenes temporales.
 
 Cuando los datos no son independientes pero la dependencia se va atenuando a medida que se consideran datos más lejanos (para fijar ideas, imaginemos que los datos corresponde a medidas en el tiempo, y que datos muy viejos no influirían significativamente sobre el presente, por ejemplo), se habla de datos débilmente dependientes. El caso más sencillo de esta situación es la de datos $m-$dependientes (donde $m$ es un número), que corresponde a datos que si están a distancia mayor a $m$, son independientes. Es el caso de los procesos $MA(q)$ ( Moving Averages), que son Promedios Móviles de orden $q$ de un ruido blanco ($m=q$ en este caso).
 
