@@ -142,64 +142,18 @@ sp500 = yf.Ticker(ticker_symbol)
 
 # Get historical market data
 histsp500 = sp500.history(period='max')
-print(histsp500.columns)
+histsp500_sin_idx=histsp500.reset_index()
 ```
 
 
 ```{r}
-histsp500_r <- py$histsp500
-head(histsp500_r)
-```
-
-
-```{r}
-python_code <- "
-import yfinance as yf
-import pandas as pd
-
-# Define the ticker symbol for the S&P 500
-ticker_symbol = '^GSPC'
-
-# Fetch historical data for the S&P 500
-sp500 = yf.Ticker(ticker_symbol)
-
-# Get historical market data
-histsp500 = sp500.history(period='max')
-print(histsp500.columns)
-
-# Save the data to a CSV file
-#histsp500.to_csv('data/sp500_Closing_values.csv')
-"
-py=py_run_string(python_code)
-```
-
-```{r}
-py_run_string("x = 10"); py$x
-```
-
-
-```{r}
-library(reticulate)
-# Retrieve the 'histsp500' variable from the Python environment
-histsp500_py <- py$histsp500
-
-# Convert the Python dataframe to an R dataframe
-histsp500_r <- py_to_r(histsp500_py)
-
-# Display the first few rows of the R dataframe
-head(histsp500_r)
-```
-
-```{r}
-py_run_string("x = 10")
-
-# access the python main module via the 'py' object
-py$x
+df <- py$histsp500_sin_idx
+head(df)
 ```
 
 
 ```{r include=FALSE}
-df = read.csv('../../data/sp500_Closing_values.csv')
+#df = read.csv('../../data/sp500_Closing_values.csv')
 ```
 
 
@@ -207,22 +161,12 @@ df = read.csv('../../data/sp500_Closing_values.csv')
 head(df)
 ```
 
-
-```{r include=FALSE}
-# Convert the column to datetime format
-df$Date <- ymd_hms(df$Date)
-# Extract just the date part
-df$Date <- as.Date(df$Date)
-```
-
-```{r include=FALSE}
-head(df)
-```
-
-
-```{r include=FALSE}
+```{r}
 str(df)
 ```
+
+
+
 
 
 ```{r include=FALSE}
@@ -233,25 +177,19 @@ df <- df %>%
 
 
 ```{r include=FALSE}
-head(df)
-```
-
-```{r include=FALSE}
 # Remove the first row
 df <- df[-1, ]
+df <- na.omit(df)
+df$indicador=df$relacion-1
+df$Date=as.Date(df$Date)
+date_range <- range(df$Date, na.rm = TRUE)
 ```
 
 
 
 En las siguiente Figura se muestra la evolución histórica del valor al cierre de cada día del indicador $S\&P\;500$, desde la fecha 03/01/1928 hasta 08/12/2023.
 
-```{r echo=FALSE}
-# Check for any NA or non-finite values in Date or Close
-df <- na.omit(df)
 
-# Determine the range of dates
-date_range <- range(df$Date, na.rm = TRUE)
-```
 
 ```{r,label='plot1',echo=FALSE, r,label='plot1'}
 # Your ggplot code
@@ -292,12 +230,38 @@ ggplot(df, aes(x = Date, y = relacion)) +
   )
 ```
 
+```{r}
+ts_relacion=df[,c('Date','indicador')]
+indicador_df=subset(ts_relacion, indicador >= 0)
+```
+
 
 
 
 ```{r}
-ts_relacion=df[,c('relacion')]
+ggplot(indicador_df, aes(x = Date, y = indicador)) +
+  geom_line() +
+  ggtitle("Datos del estudio: IVP con valores iguales o mayores a cero") +
+  xlab("Fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range) +
+  scale_y_continuous(breaks = seq(0, ceiling(max(indicador_df$indicador)), by = 0.05)) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
+    axis.text = element_text(size = 10),  # Adjust the size of axis text
+    axis.title = element_text(size = 12),  # Adjust the size of axis titles
+    legend.title = element_text(size = 10),  # Adjust the size of legend title
+    legend.text = element_text(size = 8)  # Adjust the size of legend text
+  )
 ```
+
+
+
+
+
+
 
 
 
