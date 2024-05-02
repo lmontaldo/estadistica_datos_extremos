@@ -214,32 +214,48 @@ ggplot(df, aes(x = Date, y = relacion)) +
   )
 ```
 
-
-
-
 ```{r}
-ts_relacion=df[,c('relacion')]
+df$indicador=df$relacion-1
+```
+
+
+```{r echo=FALSE}
+ggplot(df, aes(x = Date, y = indicador)) +
+  geom_line() +
+  ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
+  xlab("Fecha") +
+  ylab("Valores del Indicador") +
+  scale_x_date(limits = date_range) +
+  scale_y_continuous(breaks = seq(0, ceiling(max(df$relacion)), by = 0.05)) +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20, b = 40)),
+    axis.title.y = element_text(margin = margin(r = 20, l = 40)),
+    plot.title = element_text(size = 11, hjust = 0.5),  # Center the plot title
+    axis.text = element_text(size = 10),  # Adjust the size of axis text
+    axis.title = element_text(size = 12),  # Adjust the size of axis titles
+    legend.title = element_text(size = 10),  # Adjust the size of legend title
+    legend.text = element_text(size = 8)  # Adjust the size of legend text
+  )
 ```
 
 
 
 ```{r}
-result_adf <- suppressWarnings(adf.test(ts_relacion))
-cat('p-valor adf:', result_adf$p.value ,'\n')
+ts_relacion=df[,c('indicador')]
+ts_relacion
 ```
 
 
 
 ```{r}
-result_kpss <- suppressWarnings(kpss.test(ts_relacion))
-cat('p-valor kpss:', result_kpss$p.value ,'\n')
+aTSA::adf.test(ts_relacion)
 ```
 
 ```{r}
 #install.packages('aTSA')
-aTSA::adf.test(ts_relacion)
+aTSA::kpss.test(ts_relacion)
 ```
-
+```
 
 
 
