@@ -196,15 +196,13 @@ date_range <- range(df$Date, na.rm = TRUE)
 
 
 
-En las siguiente Figura se muestra la evolución histórica del valor al cierre de cada día del indicador $S\&P\;500$, desde la fecha 03/01/1928 hasta 08/12/2023.
+En la Figura 1 se muestra la evolución histórica del valor al cierre de cada día del indicador $S\&P\;500$, desde la fecha 03/01/1928 hasta 08/12/2023.
 
 
-
-```{r,label='plot1',echo=FALSE, r,label='plot1'}
+```{r fig1, fig.cap="Valores históricos diarios de cierre del índice S&P500 (03/01/1928-08/12/2023)", echo=FALSE}
 # Your ggplot code
 ggplot(df, aes(x = Date, y = Close)) +
   geom_line() +
-  ggtitle("S&P500: valores diarios históricos al cierre (03/01/1928-08/12/2023)") +
   xlab("fecha") +
   ylab("Precio de cierre") +
   scale_x_date(limits = date_range) +
@@ -214,6 +212,8 @@ ggplot(df, aes(x = Date, y = Close)) +
     plot.title = element_text(size = 11)  # Adjust the size parameter as needed
   )
 ```
+
+
 
 ```{r include=FALSE}
 dim(df)
@@ -239,22 +239,25 @@ ggplot(df, aes(x = Date, y = relacion)) +
   )
 ```
 
-Una vez que se tiene la serie de datos "indicador", se filtran las filas del conjunto de datos de forma tal que los valores del $IVP>=0$. Con esto se obtienen los datos del estudio que serán objeto de un análisis con el método POT.
+Una vez que se tiene la serie de datos "indicador", se filtran las filas del conjunto de datos de forma tal que los valores del $IVP>=0$ con lo que se obtiene como resultado un conjunto de datos con 11.529 filas. Con esto se obtienen los datos del estudio que serán objeto de un análisis con el método POT, como se muestra en la Figura 2.
 
 ```{r include=FALSE}
 ts_relacion=df[,c('Date','indicador')]
 ```
 
 
-```{r}
+```{r include=FALSE}
 indicador_df=subset(ts_relacion, indicador >= 0)
+```
+```{r include=FALSE}
+cat("Cantidad de filas del conjunto de datos: ", dim(indicador_df)[1])
 ```
 
 
-```{r echo=FALSE}
+
+```{r fig2, fig.cap=" Conjuto de datos del estudio (IVP con valores iguales o mayores a cero)", echo=FALSE, fig.lp="fig:figure2"}
 ggplot(indicador_df, aes(x = Date, y = indicador)) +
   geom_line() +
-  ggtitle("Datos del estudio: IVP con valores iguales o mayores a cero") +
   xlab("Fecha") +
   ylab("Valores del Indicador") +
   scale_x_date(limits = date_range) +
@@ -1077,9 +1080,42 @@ Si nos vamos al contexto de POT con datos que tienen esta estructura, encontramo
 
 \newpage
 <!-- ESTRATEGIA EMPIRICA -->
-\section{Estrategia Empírica}
+# Estrategia Empírica
 
-En @notas se señala la importancia del \textit{trade-off} sobre el umbral $u$. Por un lado es preciso que sea grande, pero no lo suficiente como para que la submuestra resultante tenga pocos datos, dado que se podría perder confiabilidad en los resultados. Para este estudio se elige $u=0.04$
+## Análisis de raíz unitaria y estacionariedad 
+
+```{r include=FALSE}
+Obs=indicador_df
+rownames(Obs) <- Obs$Date
+Obs <- Obs[, -1]
+head(Obs)
+```
+
+
+
+## Implementación del método POT
+
+En @notas_curso se señala la importancia del \textit{trade-off} sobre el umbral $u$. Por un lado es necesario que sea grande, pero no lo suficiente como para que la submuestra resultante tenga pocos datos, dado que se podría perder confiabilidad en los resultados. Para este estudio se elige $u=0.025$ como se observa en la Figura 3.
+
+
+
+```{r}
+# Paso 1
+umbral<-0.025
+exceso<-which(Obs > umbral) #  valores que exceden el umbral
+# Paso 2
+p<- 1 - (length(exceso) / length(Obs)) 
+```
+
+```{r echo=FALSE}
+cat("Probabilidad de quedar bajo el umbral p=F(u): ", round(p,3))
+cat("Cantidad de datos del estudio:", length(Obs), "\n")
+cat("Cantidad de datos que exceden el umbral u=0.025:" ,length(exceso),  "\n")
+cat("Proporción de datos en exceso respecto al total del estudio:", round((length(exceso)/length(Obs)*100),2), "%")
+```
+Para aportar información adicional para la selección del umbral, también calculo el máximo valor de los datos, el valor medio y la mediana como se muestra en la Tabla \ref{tabla_1}.
+
+\vspace{1cm}
 
 ```{r include=FALSE}
 library(xtable)
@@ -1105,7 +1141,7 @@ print(summary_table, include.rownames = FALSE)
 \centering
 \begin{tabular}{lr}
   \hline
-medidas estadísticas & ValorIndicador \\ 
+medidas estadísticas & Valor \\ 
   \hline
 Máximo & 0.257 \\ 
   Media & 0.008 \\ 
@@ -1116,12 +1152,11 @@ Máximo & 0.257 \\
 \label{tabla_1}
 \end{table}
 
-```{r echo=FALSE}
-umbral=0.04
+
+```{r  fig3, fig.cap="Umbral igual a 0.025 para los datos del estudio" ,echo=FALSE, fig.lp="figure3"}
 ggplot(indicador_df, aes(x = Date, y = indicador)) +
   geom_line() +
   geom_hline(yintercept = umbral, color = "red") +  # Add horizontal line at y = 0.025
-  ggtitle("Fijo un umbral para los datos del estudio") +
   xlab("Fecha") +
   ylab("Valores del Indicador") +
   scale_x_date(limits = date_range) +
@@ -1137,6 +1172,11 @@ ggplot(indicador_df, aes(x = Date, y = indicador)) +
   )
 ```
 
+```{r}
+# Paso 3: Esto es lo que llamamos evento
+y<- Obs[exceso] - umbral 
+head(y)
+```
 
 
 

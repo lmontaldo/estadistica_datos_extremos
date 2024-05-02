@@ -189,7 +189,7 @@
 
 \title{Entrega: curso de datos extremales}
 \author{Laura Montaldo, CI: 3.512.962-7}
-\date{2024-05-01}
+\date{2024-05-02}
 
 \begin{document}
 \maketitle
@@ -289,24 +289,29 @@ eliminar esa constante determinística en los datos.
 \end{Highlighting}
 \end{Shaded}
 
-En las siguiente Figura se muestra la evolución histórica del valor al
-cierre de cada día del indicador \(S\&P\;500\), desde la fecha
-03/01/1928 hasta 08/12/2023.
+En la Figura 1 se muestra la evolución histórica del valor al cierre de
+cada día del indicador \(S\&P\;500\), desde la fecha 03/01/1928 hasta
+08/12/2023.
 
-\includegraphics{Entrega_files/figure-latex/plot1-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{Entrega_files/figure-latex/fig1-1.pdf}
+\caption{Valores históricos diarios de cierre del índice S\&P500
+(03/01/1928-08/12/2023)}
+\end{figure}
 
 Una vez que se tiene la serie de datos ``indicador'', se filtran las
-filas del conjunto de datos de forma tal que los valores del \(IVP>=0\).
-Con esto se obtienen los datos del estudio que serán objeto de un
-análisis con el método POT.
+filas del conjunto de datos de forma tal que los valores del \(IVP>=0\)
+con lo que se obtiene como resultado un conjunto de datos con 11.529
+filas. Con esto se obtienen los datos del estudio que serán objeto de un
+análisis con el método POT, como se muestra en la Figura 2.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{indicador\_df}\OtherTok{=}\FunctionTok{subset}\NormalTok{(ts\_relacion, indicador }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-18-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{Entrega_files/figure-latex/fig2-1.pdf}
+\caption{Conjuto de datos del estudio (IVP con valores iguales o mayores
+a cero)}
+\end{figure}
 
 En la próxima sección se desarrolla el marco teórico que sirve de base
 para la entrategia empírica posterior y para el análisis de sus
@@ -1366,19 +1371,60 @@ encontramos:
 
 \newpage
 
-\section{Estrategia Empírica}
+\section{Estrategia Empírica}\label{estrategia-empuxedrica}
 
-En (\citeproc{ref-notas}{\textbf{notas?}}) se señala la importancia del
-\textit{trade-off} sobre el umbral \(u\). Por un lado es preciso que sea
-grande, pero no lo suficiente como para que la submuestra resultante
-tenga pocos datos, dado que se podría perder confiabilidad en los
-resultados. Para este estudio se elige \(u=0.04\)
+Siguiendo el teorema de Pickands-Balkema-de Haan (PBdH), sigo los pasos
+para implementar POT para datos \(iid\) que como se definieron tanto en
+el teórico como en los laboratorios prácticos:
+
+\subsection{\texorpdfstring{Elección del umbral \(u\), estimación
+\(p=F(u)\) y
+submuestra}{Elección del umbral u, estimación p=F(u) y submuestra}}\label{elecciuxf3n-del-umbral-u-estimaciuxf3n-pfu-y-submuestra}
+
+En Crisci et~al. (\citeproc{ref-notas_curso}{2021}) se señala la
+importancia del \textit{trade-off} sobre el umbral \(u\). Por un lado es
+necesario que sea grande, pero no lo suficiente como para que la
+submuestra resultante tenga pocos datos, dado que se podría perder
+confiabilidad en los resultados. Para este estudio se elige \(u=0.025\)
+como se observa en la Figura 3.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Paso 1}
+\NormalTok{umbral}\OtherTok{\textless{}{-}}\FloatTok{0.025}
+\NormalTok{exceso}\OtherTok{\textless{}{-}}\FunctionTok{which}\NormalTok{(Obs }\SpecialCharTok{\textgreater{}}\NormalTok{ umbral) }\CommentTok{\#  valores que exceden el umbral}
+\CommentTok{\# Paso 2}
+\NormalTok{p}\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ (}\FunctionTok{length}\NormalTok{(exceso) }\SpecialCharTok{/} \FunctionTok{length}\NormalTok{(Obs)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Probabilidad de quedar bajo el umbral p=F(u):  0.95
+\end{verbatim}
+
+\begin{verbatim}
+Cantidad de datos del estudio: 11532 
+\end{verbatim}
+
+\begin{verbatim}
+Cantidad de datos que exceden el umbral u=0.025: 580 
+\end{verbatim}
+
+\begin{verbatim}
+Proporción de datos en exceso respecto al total del estudio: 5.03 %
+\end{verbatim}
+
+Para aportar información adicional para la selección del umbral, también
+calculo el máximo valor de los datos, el valor medio y la mediana como
+se muestra en la Tabla \ref{tabla_1}.
+
+\vspace{1cm}
 
 \begin{table}[ht]
 \centering
 \begin{tabular}{lr}
   \hline
-medidas estadísticas & ValorIndicador \\ 
+medidas estadísticas & Valor \\ 
   \hline
 Máximo & 0.257 \\ 
   Media & 0.008 \\ 
@@ -1389,7 +1435,24 @@ Máximo & 0.257 \\
 \label{tabla_1}
 \end{table}
 
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-21-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{Entrega_files/figure-latex/fig3-1.pdf}
+\caption{Umbral igual a 0.025 para los datos del estudio}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Paso 3: Esto es lo que llamamos evento}
+\NormalTok{y}\OtherTok{\textless{}{-}}\NormalTok{ Obs[exceso] }\SpecialCharTok{{-}}\NormalTok{ umbral }
+\FunctionTok{head}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.0119379295 0.0003297901 0.0142841390 0.0065661965 0.0174316197
+[6] 0.0011254641
+\end{verbatim}
 
 \newpage
 
