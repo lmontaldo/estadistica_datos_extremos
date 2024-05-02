@@ -108,7 +108,7 @@ py_available(TRUE)
 #virtualenv_deactivate()
 ```
 
-```{r}
+```{r include=FALSE}
 path_py=py_config()$python
 use_python(path_py)
 ```
@@ -116,7 +116,7 @@ use_python(path_py)
 
 
 
-```{r}
+```{r include=FALSE}
 # /Library/Frameworks/Python.framework/Versions/3.11/bin/python3 -m pip install yfinance
 # List of Python modules to check
 modules_to_check <- c("pyextremes", "yfinance", "pandas")
@@ -130,6 +130,9 @@ for (module in modules_to_check) {
   }
 }
 ```
+
+Los datos se descargan mediante una consulta a la API de yahoo\!finance empleando el módulo \texttt{yfinance}.  
+
 ```{python}
 import yfinance as yf
 import pandas as pd
@@ -146,7 +149,7 @@ histsp500_sin_idx=histsp500.reset_index()
 ```
 
 
-```{r}
+```{r include=FALSE}
 df <- py$histsp500_sin_idx
 head(df)
 ```
@@ -161,7 +164,7 @@ head(df)
 head(df)
 ```
 
-```{r}
+```{r include=FALSE}
 str(df)
 ```
 
@@ -206,12 +209,12 @@ ggplot(df, aes(x = Date, y = Close)) +
   )
 ```
 
-```{r echo=FALSE}
+```{r include=FALSE}
 dim(df)
 ```
 
 
-```{r echo=FALSE}
+```{r include=FALSE}
 ggplot(df, aes(x = Date, y = relacion)) +
   geom_line() +
   ggtitle("S&P500: Valores históricos del Indicador (03/01/1928-08/12/2023)") +
@@ -230,7 +233,7 @@ ggplot(df, aes(x = Date, y = relacion)) +
   )
 ```
 
-```{r}
+```{r include=FALSE}
 ts_relacion=df[,c('Date','indicador')]
 indicador_df=subset(ts_relacion, indicador >= 0)
 ```
@@ -238,7 +241,7 @@ indicador_df=subset(ts_relacion, indicador >= 0)
 
 
 
-```{r}
+```{r echo=FALSE}
 ggplot(indicador_df, aes(x = Date, y = indicador)) +
   geom_line() +
   ggtitle("Datos del estudio: IVP con valores iguales o mayores a cero") +
@@ -262,8 +265,7 @@ ggplot(indicador_df, aes(x = Date, y = indicador)) +
 
 
 ```{r}
-
-aTSA::adf.test(ts_relacion)
+#aTSA::adf.test(ts_relacion)
 ```
 
 

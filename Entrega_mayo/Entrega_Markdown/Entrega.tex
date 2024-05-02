@@ -239,25 +239,26 @@ sentido, los índices de \(S\&P\) son una familia de índices de renta
 variable\footnote{En inglés se llaman equity indices} diseñados para
 medir el rendimiento del mercado de acciones en Estados Unidos que
 cotizan en bolsas estadounidenses. Esta familia de índices está
-compuesta por una amplia variedad de índices basados en tamaño, sector y
-estilo. Los índices están ponderados por el criterio
-\textit{float-adjusted market capitalization} (FMC). Además, se disponen
-de índices ponderados de manera equitativa y con límite de
-capitalización de mercado, como es el caso del \(S\&P\:500\). Este este
-sentido, el \(S\&P 500\) entraría en el conjunto de índices ponderados
-por capitalización bursátil ajustada a la flotación (ver
+compuesta por una amplia variedad de indicadores basados en tamaño,
+sector y estilo. Los mismos pueden ser ponderados por el criterio
+\textit{float-adjusted market capitalization} (FMC) o de manera
+equitativa y con límite de capitalización de mercado, como es el caso
+del \(S\&P\:500\). Este este sentido, el \(S\&P 500\) entraría en el
+conjunto de índices ponderados por capitalización bursátil ajustada a la
+flotación (ver
 \href{https://www.spglobal.com/spdji/en/methodology/article/sp-us-indices-methodology/}{\textcolor{blue}{$S\&P$ Dow Jones Indices}}).
 El mismo mide el rendimiento del segmento de gran capitalización del
 mercado estadounidense. Es considerado como un indicador representativo
 del mercado de renta variable de los Estados Unidos, y está compuesto
 por 500 empresas constituyentes.
 
-Se busca crear un indicador de una posible crisis bursátil denominado
-Índice de Variación de Precios (IVP). Como variable de referencia de
-toma la relación de precios al cierre de ayer sobre la de hoy
+Tomando la serie de datos diaria de Se busca crear un indicador de una
+posible crisis bursátil denominado Índice de Variación de Precios (IVP).
+Como variable de referencia de toma la relación de precios al cierre de
+ayer sobre la de hoy
 
 \begin{equation}
-IVP_t=\left ( \frac{Precio_{t-1}}{Precio_t}\right ) -1,\quad\text{para}\; t=1,...,T 
+IVP_t=\left (\frac{Precio_{t-1}}{Precio_t}\right ) -1,\quad\text{para}\; t=1,...,T 
 \end{equation} \vspace{0.5cm}
 
 Interpretación del Indicador:
@@ -267,23 +268,41 @@ Interpretación del Indicador:
 \item Si el $IVP_t$ > 0, el precio de cierre de hoy es menor que el de ayer, lo cual podría considerarse una señal de alerta.
 \end{itemize}
 
-En la siguiente figura se muestra la evolución histórica del valor del
-índice \(S\&P\; 500\) al cierre del día desde la fecha 03/01/1928 hasta
-08/12/2023 . \vspace{0.5cm}
+Los datos se descargan mediante una consulta a la API de yahoo!finance
+empleando el módulo \texttt{yfinance}.
 
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-21-1.pdf}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ yfinance }\ImportTok{as}\NormalTok{ yf}
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+
+\CommentTok{\# Define the ticker symbol for the S\&P 500}
+\NormalTok{ticker\_symbol }\OperatorTok{=} \StringTok{\textquotesingle{}\^{}GSPC\textquotesingle{}}
+
+\CommentTok{\# Fetch historical data for the S\&P 500}
+\NormalTok{sp500 }\OperatorTok{=}\NormalTok{ yf.Ticker(ticker\_symbol)}
+
+\CommentTok{\# Get historical market data}
+\NormalTok{histsp500 }\OperatorTok{=}\NormalTok{ sp500.history(period}\OperatorTok{=}\StringTok{\textquotesingle{}max\textquotesingle{}}\NormalTok{)}
+\NormalTok{histsp500\_sin\_idx}\OperatorTok{=}\NormalTok{histsp500.reset\_index()}
+\end{Highlighting}
+\end{Shaded}
+
+En las siguiente Figura se muestra la evolución histórica del valor al
+cierre de cada día del indicador \(S\&P\;500\), desde la fecha
+03/01/1928 hasta 08/12/2023.
+
+\includegraphics{Entrega_files/figure-latex/plot1-1.pdf}
+
+\includegraphics{Entrega_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#aTSA::adf.test(ts\_relacion)}
+\end{Highlighting}
+\end{Shaded}
 
 \newpage
-
-En la siguiente figura se muestra la evolución del indicador \(IVP\)
-relativo a \(S\&P\; 500\) desde la fecha 03/01/1928 hasta 08/12/2023.
-\vspace{1cm}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-22-1.pdf}
-
-\newpage
-
-\section{Marco teórico}\label{marco-teuxf3rico}
 
 \subsection{La teoría asintótica clásica, las distribuciones extremales
 y sus dominios de
@@ -866,25 +885,7 @@ constante.
 
 Si los datos no necesariamente son independientes pero la estructura de
 distribuciones es siempre la misma, se habla de datos estacionarios (o
-procesos estacionarios). Siguiendo a Enders
-(\citeproc{ref-enders}{2014}), se dice que un proceso estocástico
-\(z_{t}\) con media y varianza finitas es estacionario en covarianza
-para todo \(t\) y \(t-s\) cuando
-
-\begin{align}
-    \label{eq:2_7}
-    E(z_{t})&=E(z_{t-s})=\mu\\
-    \label{2_8}
-    var(z_t)&=var(z_{t-s})=\sigma^2_z\\
-    \label{2_9}
-    cov(z_t,z_{t-s})&=cov(z_{t-j},z_{t-j-s})=\gamma_s
-\end{align} donde \(\mu, \sigma^2_z, \gamma_s\) con constantes.
-
-En \(var(z_t)=var(z_{t-s})=\sigma^2_z\), cuando \(s=0\) se va a tener
-que \(\gamma_0\) es la varianza de \(z_t\). Que una serie temporal sea
-estacionaria en covarianza implica que tanto la media como todas sus
-autocovarianzas\footnote{También se habla de proceso debilmente estacionario o estacionario de segundo orden.}
-no están afectadas por cambios en los orígenes temporales.
+procesos estacionarios).
 
 Cuando los datos no son independientes pero la dependencia se va
 atenuando a medida que se consideran datos más lejanos (para fijar
@@ -1337,808 +1338,7 @@ encontramos:
 
 \newpage
 
-\section{Estrategia Empírica}\label{estrategia-empuxedrica}
-
-\subsection{Pruebas de raíces unitarias y
-estacionariedad}\label{pruebas-de-rauxedces-unitarias-y-estacionariedad}
-
-\subsubsection{Prueba ADF}\label{prueba-adf}
-
-Siguiendo Enders (\citeproc{ref-enders}{2014}) a e testea para cada
-serie de datos
-
-\begin{align*}
-    &H_0)\; \gamma = 0\\
-    &H_1)\; \gamma \neq 0   
-\end{align*}
-
-En este sentido, se consideran tres ecuaciones de regresión distintas
-para poner a prueba \(H_0\),
-
-\begin{align}
-    \label{eq: modelo_c}
-    \Delta z_t=&\gamma z_{t-1} + \sum_{i=2}^p \beta_i \Delta z_{t-i+1} + \varepsilon_t \\
-    \label{eq: modelo_b}
-    \Delta z_t=&a_0+\gamma z_{t-1} + \sum_{i=2}^p \beta_i \Delta z_{t-i+1} + \varepsilon_t \\
-    \label{eq: modelo_a}
-    \Delta z_t=&a_0+\gamma z_{t-1} + a_2 t+ \sum_{i=2}^p \beta_i \Delta z_{t-i+1} + \varepsilon_t
-\end{align}
-
-Existen tres estadísticos \(\tau,\;\tau_{\mu},\;\tau_{\tau}\) para
-probar la hipótesis nula \(H_0)\:\gamma=0\) en cada caso y además, se
-tienen otros tres \(F-\)estadísticos \(\:\phi_1,\:\phi_2,\:\phi_3\) para
-hacer pruebas conjuntas sobre los coeficientes.
-
-Los estadísticos \(\:\phi_1,\:\phi_2,\:\phi_3\) se construyen como
-pruebas \(F\):
-
-\begin{equation*}
-    \phi_{i}=\frac{\left[SSR_{restringido}-SSR_{no\:restringido}\right]/r}{SSR_{no\:restringido}/(t-k)}    
-\end{equation*}
-
-donde SSR es la suma de los cuadrados de los residuos en los modelos
-restringidos y no restringidos, \(r\) es la cantidad de restricciones,
-\(T\) es la cantidad de observaciones, \(k\) es la cantidad de
-parámetros estimados en el modelo irrestricto, \(i=1,2,3\). A su vez,
-\(T-k\) van a ser los grados de libertad del modelos sin restricciones.
-Los valores de los coeficientes estimados se van a comparar con los
-valores críticos de tablas reportados por Dickey-Fuller(1981). La
-hipótesis nula indica que el proceso de generación de los datos es la
-del modelo restringido contra la hipótesis alternativa de que los datos
-son generados por el modelo sin restringir. Cuando los valores de
-\(\:\phi_1,\:\phi_2,\:\phi_3\) sean mayores a los valores críticos
-reportados por Dickey y Fuller(1981) se rechaza la hipótesis nula,
-cuando sean menores a los valores críticos entonces no se rechaza la
-hipótesis nula.
-
-En el siguiente Cuadro se consideran los tres modelos y cada una de las
-hipótesis a testear con sus respectivos estadísticos.
-
-\begin{table}[h!]
-    \centering
-    \small % Smaller font size
-    \setlength{\tabcolsep}{3pt} % Adjust column spacing
-    \caption{Modelos del test ADF}
-    \label{tab: modelos_adf}
-    \begin{tabular}{|c|c|c|c|}
-        \hline 
-        & Modelo & $H_0)$ & Estadistíco de prueba \\
-        \hline 
-        \hline 
-        c & $\Delta z_{t}=a_{0}+\gamma z_{t-1}+a_{2}t+\sum_{i=2}^{p}\beta_{i}\Delta z_{t-i+1}+\varepsilon_{t}$ & $\begin{array}{c}
-            \gamma=0\\
-            \gamma=a_{2}=0\\
-            \gamma=a_{2}=a_{0}=0
-        \end{array}$ & $\begin{array}{c}
-            \tau_{\tau}\\
-            \phi_{3}\\
-            \phi_{2}
-        \end{array}$ \\
-        \hline 
-        b & $\Delta z_{t}=a_{0}+\gamma z_{t-1}+\sum_{i=2}^{p}\beta_{i}\Delta z_{t-i+1}+\varepsilon_{t}$ & $\begin{array}{c}
-            \gamma=0\\
-            \gamma=a_{0}=0
-        \end{array}$ & $\begin{array}{c}
-            \tau_{\mu}\\
-            \phi_{1}
-        \end{array}$ \\
-        \hline 
-        a & $\Delta z_{t}=\gamma z_{t-1}+\sum_{i=2}^{p}\beta_{i}\Delta z_{t-i+1}+\varepsilon_{t}$ & $\gamma=0$ & $\tau$ \\
-        \hline 
-    \end{tabular}
-\end{table}
-
-Cuando no se conozca el proceso de generación de los datos, se sugiere
-realizar las pruebas de Dickey-Fuller Aumentado partiendo del modelo
-menos restrictivo para cada serie temporal a uno más particular.
-
-Si bien las pruebas de ADF son útiles para detectar la presencia de
-raíces unitarias, los mismos tienen sus limitaciones. Partiendo del
-modelo general al particular, cada prueba está condicionada a que las
-pruebas anteriores sean correctas. Cuando se empieza por el primer paso,
-es decir, con el modelo (c) con constante y con tendencia, se hace más
-difícil rechazar \(H_0)\), por lo tanto, cuando se rechace la hipótesis
-nula en un modelo (c) se tiende a rechazar también la hipótesis nula
-cuando no se incluyan los términos deterministas. A su vez, establece
-que el problema principal de las pruebas de Dickey-Fuller es que tanto
-el intercepto como la pendiente de la tendencia son, con frecuencia,
-estimados de manera \textit{pobre} bajo la presencia de raíces
-unitarias. En general, se tiende a no rechazar la hipótesis nula de raíz
-unitaria incluso cuando el verdadero valor de \(\gamma\) no es cero.
-Además, la prueba presenta limitaciones también frente a cambios de
-régimen.
-
-\newpage
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.df}\NormalTok{(indicador, }\AttributeTok{type =}  \StringTok{"trend"}\NormalTok{, }
-              \AttributeTok{selectlags =} \StringTok{"AIC"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-############################################### 
-# Augmented Dickey-Fuller Test Unit Root Test # 
-############################################### 
-
-Test regression trend 
-
-
-Call:
-lm(formula = z.diff ~ z.lag.1 + 1 + tt + z.diff.lag)
-
-Residuals:
-      Min        1Q    Median        3Q       Max 
--0.073478 -0.004819 -0.002059  0.002601  0.234842 
-
-Coefficients:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  4.939e-03  1.994e-04  24.768  < 2e-16 ***
-z.lag.1     -5.289e-01  1.064e-02 -49.720  < 2e-16 ***
-tt          -1.365e-07  2.612e-08  -5.226 1.76e-07 ***
-z.diff.lag  -2.329e-01  9.059e-03 -25.708  < 2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.009282 on 11526 degrees of freedom
-Multiple R-squared:  0.3802,    Adjusted R-squared:  0.3801 
-F-statistic:  2357 on 3 and 11526 DF,  p-value: < 2.2e-16
-
-
-Value of test-statistic is: -49.7201 824.0298 1236.045 
-
-Critical values for test statistics: 
-      1pct  5pct 10pct
-tau3 -3.96 -3.41 -3.12
-phi2  6.09  4.68  4.03
-phi3  8.27  6.25  5.34
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.df}\NormalTok{(indicador, }\AttributeTok{type =}  \StringTok{"drift"}\NormalTok{, }
-              \AttributeTok{selectlags =} \StringTok{"AIC"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-############################################### 
-# Augmented Dickey-Fuller Test Unit Root Test # 
-############################################### 
-
-Test regression drift 
-
-
-Call:
-lm(formula = z.diff ~ z.lag.1 + 1 + z.diff.lag)
-
-Residuals:
-      Min        1Q    Median        3Q       Max 
--0.074508 -0.004805 -0.002064  0.002503  0.234454 
-
-Coefficients:
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  0.004106   0.000120   34.22   <2e-16 ***
-z.lag.1     -0.523013   0.010590  -49.39   <2e-16 ***
-z.diff.lag  -0.235799   0.009052  -26.05   <2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.009293 on 11527 degrees of freedom
-Multiple R-squared:  0.3788,    Adjusted R-squared:  0.3787 
-F-statistic:  3514 on 2 and 11527 DF,  p-value: < 2.2e-16
-
-
-Value of test-statistic is: -49.3883 1219.604 
-
-Critical values for test statistics: 
-      1pct  5pct 10pct
-tau2 -3.43 -2.86 -2.57
-phi1  6.43  4.59  3.78
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.df}\NormalTok{(indicador, }\AttributeTok{type =}  \StringTok{"none"}\NormalTok{, }
-              \AttributeTok{selectlags =} \StringTok{"AIC"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-############################################### 
-# Augmented Dickey-Fuller Test Unit Root Test # 
-############################################### 
-
-Test regression none 
-
-
-Call:
-lm(formula = z.diff ~ z.lag.1 - 1 + z.diff.lag)
-
-Residuals:
-      Min        1Q    Median        3Q       Max 
--0.107822 -0.002247  0.000735  0.005205  0.228721 
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-z.lag.1    -0.271968   0.008015  -33.93   <2e-16 ***
-z.diff.lag -0.361306   0.008685  -41.60   <2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.009753 on 11528 degrees of freedom
-Multiple R-squared:  0.3157,    Adjusted R-squared:  0.3155 
-F-statistic:  2659 on 2 and 11528 DF,  p-value: < 2.2e-16
-
-
-Value of test-statistic is: -33.9342 
-
-Critical values for test statistics: 
-      1pct  5pct 10pct
-tau1 -2.58 -1.95 -1.62
-\end{verbatim}
-
-\subsubsection{Prueba KPSS}\label{prueba-kpss}
-
-En Shin et~al. (\citeproc{ref-kpss}{1992}), se parte de una
-representación cada serie temporal como la suma de un componente de
-tendencia determinística, un paseo aleatorio y un error estacionario. En
-este contexto, se pone a prueba
-
-\begin{align*}
-    H_0)&\text{ la serie es estacionaria alrededor de una tendencia\footnote{O constante como en este estudio.}}    \\
-    H_1)&\text{ la serie es no estacionaria}
-\end{align*}
-
-que se corresponde con la hipótesis de que la varianza del paseo
-aleatorio (\textit{random walk}) es igual a cero.
-
-Se emplea un estadístico de Multiplicadores de Lagrange (ML) para
-testear la hipótesis nula de estacionariedad. De esta manera, siendo
-\(z_t\) con \(t=1,2,...,T\) las series a las que se les quiere aplicar
-el test, se asume que se puede descomponer a la serie en la suma de un
-componente de tendencia determinística, un paseo aleatorio y un error
-estacionario se tiene que,
-
-\begin{equation}
-    \label{eq: kpss2}    
-    z_t=\xi t + r_t + \varepsilon_t
-\end{equation}
-
-Donde \(r_t\) es un paseo aleatorio:
-
-\begin{equation}
-    \label{eq: kpss3}    
-    r_t = r_{t-1} + u_t,
-\end{equation}
-
-donde \(u_t\) es \(iid(0,\sigma_u^2)\). El valor inicial \(r_0\) es fijo
-y sirve se intercepto. La hipótesis de estacionariedad es
-\(\sigma_u^2=0\) y como se asume que \(\varepsilon_t\) es estacionario,
-bajo la hipótesis nula \(z_t\) es estacionaria alrededor de una
-tendencia.
-
-En el caso particular de que en el modelo \eqref{eq: kpss2} se tenga
-\(\xi=0\), bajo la hipótesis nula \(z_t\) va a ser estacionaria
-alrededor de una constante (\(r_0\)).
-
-Sean \(e_t\) con \(t=1,2,...,T\), los residuos de la regresión \(z\) con
-un intercepto y tendencia. A su vez, sea \(\hat{\sigma_\varepsilon^2}\)
-la estimación del error de la varianza de la regresión (suma de los
-residuos al cuadrado divida \(T\)). Con lo anterior, se define el
-proceso de suma parcial de los residuos como
-
-\begin{equation}
-    \label{eq: kpss5}
-    S_t=\sum_{i=1}^t r_i, \quad t=1,....,T   
-\end{equation}
-
-Entonces el estadístico ML es
-
-\begin{equation}
-    \label{eq: kpss6}
-    ML=\sum_{t=1}^T S^2_t/\hat{\sigma^2_\varepsilon}   
-\end{equation}
-
-En el caso de que se quiera poner a prueba la hipótesis nula de
-estacionariedad alrededor de una constante se define \(e_t\) como los
-residuos de la regresión \(z\) sobre un intercepto
-(\(e_t=z_t-\bar{z})\).
-
-Cabe resaltar que es una prueba de cola superior y se reportan los
-valores críticos. Además, para este caso se asume que los errores
-\(\varepsilon_t \overset{\text{iid}}{\sim} \mathcal{N}(0,\sigma_{\varepsilon}^2)\)
-Sin embargo, se puede extender la prueba con supuestos más débiles sobre
-la distribución de los errores dado que el supuesto anterior puede ser
-poco realista.
-
-En este estudio, se lleva a cabo la prueba KPSS para distintos esquemas
-para determinar la cantidad de rezagos, como se muestra a continuación.
-
-\newpage
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.kpss}\NormalTok{(indicador, }\AttributeTok{type =} \StringTok{"mu"}\NormalTok{, }\AttributeTok{lags =} \StringTok{"short"}\NormalTok{,}
-        \AttributeTok{use.lag =} \ConstantTok{NULL}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-####################### 
-# KPSS Unit Root Test # 
-####################### 
-
-Test is of type: mu with 13 lags. 
-
-Value of test-statistic is: 4.7502 
-
-Critical value for a significance level of: 
-                10pct  5pct 2.5pct  1pct
-critical values 0.347 0.463  0.574 0.739
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.kpss}\NormalTok{(indicador, }\AttributeTok{type =} \StringTok{"mu"}\NormalTok{, }
-                \AttributeTok{lags =} \StringTok{"long"}\NormalTok{, }\AttributeTok{use.lag =} \ConstantTok{NULL}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-####################### 
-# KPSS Unit Root Test # 
-####################### 
-
-Test is of type: mu with 39 lags. 
-
-Value of test-statistic is: 2.263 
-
-Critical value for a significance level of: 
-                10pct  5pct 2.5pct  1pct
-critical values 0.347 0.463  0.574 0.739
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.kpss}\NormalTok{(indicador, }\AttributeTok{type =} \StringTok{"mu"}\NormalTok{, }
-                \AttributeTok{lags =} \StringTok{"nil"}\NormalTok{, }\AttributeTok{use.lag =} \ConstantTok{NULL}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-####################### 
-# KPSS Unit Root Test # 
-####################### 
-
-Test is of type: mu with 0 lags. 
-
-Value of test-statistic is: 21.4019 
-
-Critical value for a significance level of: 
-                10pct  5pct 2.5pct  1pct
-critical values 0.347 0.463  0.574 0.739
-\end{verbatim}
-
-\newpage
-
-\subsubsection{Aplicación del método
-POT}\label{aplicaciuxf3n-del-muxe9todo-pot}
-
-\begin{Shaded}
-\begin{Highlighting}[]
- \CommentTok{\#Paso 1}
-\NormalTok{umbral}\OtherTok{\textless{}{-}}\FloatTok{0.03}
-\NormalTok{Obs}\OtherTok{=}\NormalTok{indicador}
-\NormalTok{exceso}\OtherTok{\textless{}{-}}\FunctionTok{which}\NormalTok{( Obs}\SpecialCharTok{\textgreater{}}\NormalTok{ umbral) }\CommentTok{\# selecciono los valores que son mayores que el umbral definido}
-
-\CommentTok{\# Paso 2}
-\NormalTok{p}\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ (}\FunctionTok{length}\NormalTok{(exceso) }\SpecialCharTok{/} \FunctionTok{length}\NormalTok{(Obs)) }
-\FunctionTok{cat}\NormalTok{(}\StringTok{"Probabilidad de quedar bajo el umbral p=F(u):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(p,}\DecValTok{3}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Probabilidad de quedar bajo el umbral p=F(u): 0.966 
-\end{verbatim}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-32-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Paso 3}
-\NormalTok{y}\OtherTok{\textless{}{-}}\NormalTok{ Obs[exceso] }\SpecialCharTok{{-}}\NormalTok{ umbral }\CommentTok{\# Esto es lo que llamamos "evento"}
-\FunctionTok{length}\NormalTok{(y)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 396
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-34-1.pdf}
-
-Ahora, realizo la prueba de ADF sobre los eventos (datos que están por
-encima del umbral) para evaluar la posible presencial de raíz unitaria
-para este conjunto de datos.
-
-\begin{verbatim}
-Augmented Dickey-Fuller Test 
-alternative: stationary 
- 
-Type 1: no drift no trend 
-     lag    ADF p.value
-[1,]   0 -11.84    0.01
-[2,]   1  -7.33    0.01
-[3,]   2  -5.82    0.01
-[4,]   3  -5.25    0.01
-[5,]   4  -4.35    0.01
-[6,]   5  -4.31    0.01
-Type 2: with drift no trend 
-     lag    ADF p.value
-[1,]   0 -16.47    0.01
-[2,]   1 -10.92    0.01
-[3,]   2  -9.20    0.01
-[4,]   3  -8.77    0.01
-[5,]   4  -7.61    0.01
-[6,]   5  -7.95    0.01
-Type 3: with drift and trend 
-     lag    ADF p.value
-[1,]   0 -16.49    0.01
-[2,]   1 -10.95    0.01
-[3,]   2  -9.23    0.01
-[4,]   3  -8.81    0.01
-[5,]   4  -7.65    0.01
-[6,]   5  -8.00    0.01
----- 
-Note: in fact, p.value = 0.01 means p.value <= 0.01 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{ur.kpss}\NormalTok{(y, }\AttributeTok{type =} \StringTok{"mu"}\NormalTok{, }\AttributeTok{lags =} \StringTok{"short"}\NormalTok{,}
-        \AttributeTok{use.lag =} \ConstantTok{NULL}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-####################### 
-# KPSS Unit Root Test # 
-####################### 
-
-Test is of type: mu with 5 lags. 
-
-Value of test-statistic is: 0.0849 
-
-Critical value for a significance level of: 
-                10pct  5pct 2.5pct  1pct
-critical values 0.347 0.463  0.574 0.739
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{require}\NormalTok{(POT)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{length}\NormalTok{(y)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 396
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#i Separamos la muestra para el test de ajuste}
-\NormalTok{d}\OtherTok{=} \FunctionTok{round}\NormalTok{(}\FunctionTok{length}\NormalTok{(y)}\SpecialCharTok{*}\FloatTok{0.01}\NormalTok{,}\DecValTok{0}\NormalTok{) }\CommentTok{\# Numero de datos para muestra A (entrenamiento)}
-
-\NormalTok{selA}\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{d}
-
-\NormalTok{yA}\OtherTok{\textless{}{-}}\NormalTok{y[selA] }\CommentTok{\# Muestra entrenamiento}
-\NormalTok{yB}\OtherTok{\textless{}{-}}\NormalTok{y[}\SpecialCharTok{{-}}\NormalTok{selA] }\CommentTok{\# muestra prueba}
-
-\CommentTok{\# ii{-} ajusto a la muestra A por método de los momentos}
-\NormalTok{pwuA }\OtherTok{\textless{}{-}} \FunctionTok{fitgpd}\NormalTok{(yA, }\DecValTok{0}\NormalTok{, }\StringTok{"pwmu"}\NormalTok{)}
-\NormalTok{sigmaMomA}\OtherTok{\textless{}{-}}\NormalTok{pwuA}\SpecialCharTok{$}\NormalTok{fitted.values[}\DecValTok{1}\NormalTok{] }\CommentTok{\# scale}
-\NormalTok{kMomA}\OtherTok{\textless{}{-}}\NormalTok{pwuA}\SpecialCharTok{$}\NormalTok{fitted.values[}\DecValTok{2}\NormalTok{]  }\CommentTok{\# Shape}
-
-\FunctionTok{cat}\NormalTok{(}\StringTok{"scale:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(sigmaMomA,}\DecValTok{3}\NormalTok{), }\StringTok{"shape:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(kMomA,}\DecValTok{3}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-scale: 0.012 shape: -0.595
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{length}\NormalTok{(yB)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 392
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# iii}
-\CommentTok{\#r=2}
-\NormalTok{k}\OtherTok{=}\DecValTok{10}
-\CommentTok{\# Separamos en 15 grupos }
-\NormalTok{yBsplit}\OtherTok{\textless{}{-}}\FunctionTok{split}\NormalTok{(yB, }\DecValTok{0}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(yB) }\SpecialCharTok{\%/\%}\NormalTok{ k)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Warning in split.default(yB, 0:length(yB)%/%k): data length is not a multiple
-of split variable
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{yBsplit[[}\DecValTok{1}\NormalTok{]]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
- [1] 0.007964480 0.008016531 0.008407336 0.013177892 0.006251692 0.010028872
- [7] 0.032781957 0.003009724 0.118636812 0.083068988
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ks.test}\NormalTok{(yBsplit[[}\DecValTok{1}\NormalTok{]] ,}\StringTok{"pgpd"}\NormalTok{,}\AttributeTok{scale=}\NormalTok{sigmaMomA,}\AttributeTok{shape=}\NormalTok{kMomA)}\SpecialCharTok{$}\NormalTok{statistic}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-        D 
-0.3682378 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{Tes}\OtherTok{\textless{}{-}}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(yBsplit, }\ControlFlowTok{function}\NormalTok{(X) }\FunctionTok{ks.test}\NormalTok{(X,}\StringTok{"pgpd"}\NormalTok{,}\AttributeTok{scale=}\NormalTok{sigmaMomA,}\AttributeTok{shape=}\NormalTok{kMomA)}\SpecialCharTok{$}\NormalTok{statistic) )}
-
-\NormalTok{T}\OtherTok{\textless{}{-}}\NormalTok{Tes[}\DecValTok{1}\NormalTok{]}
-\NormalTok{T\_otros}\OtherTok{\textless{}{-}}\NormalTok{ Tes[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{]}
-
-\FunctionTok{hist}\NormalTok{(T\_otros)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\NormalTok{T)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-44-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{sum}\NormalTok{(T}\SpecialCharTok{\textgreater{}}\NormalTok{T\_otros)}\SpecialCharTok{/}\FunctionTok{length}\NormalTok{(T\_otros)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 0.4102564
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{pwuTot }\OtherTok{\textless{}{-}} \FunctionTok{fitgpd}\NormalTok{(y, }\DecValTok{0}\NormalTok{, }\StringTok{"pwmu"}\NormalTok{)}
-\NormalTok{sigmaMomTot}\OtherTok{\textless{}{-}}\NormalTok{pwuTot}\SpecialCharTok{$}\NormalTok{fitted.values[}\DecValTok{1}\NormalTok{] }\CommentTok{\# scale}
-\NormalTok{kMomTot}\OtherTok{\textless{}{-}}\NormalTok{pwuTot}\SpecialCharTok{$}\NormalTok{fitted.values[}\DecValTok{2}\NormalTok{]  }\CommentTok{\# Shape}
-
-\NormalTok{sigmaMomTot}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     scale 
-0.01112617 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{kMomTot}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-    shape 
-0.2897177 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{hist}\NormalTok{(y, }\AttributeTok{prob=}\NormalTok{T)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{, }\AttributeTok{length=}\DecValTok{100}\NormalTok{),}\FunctionTok{dgpd}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{, }\AttributeTok{length=}\DecValTok{100}\NormalTok{), }\DecValTok{0}\NormalTok{, sigmaMomTot,kMomTot))}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-48-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Ajusto a toda la serie}
-\NormalTok{DPGDatos }\OtherTok{\textless{}{-}} \FunctionTok{fitgpd}\NormalTok{(y, }\DecValTok{0}\NormalTok{, }\StringTok{"pwmu"}\NormalTok{)}
-\NormalTok{sigmatot}\OtherTok{=}\NormalTok{DPGDatos}\SpecialCharTok{$}\NormalTok{fitted.values[}\StringTok{"scale"}\NormalTok{]}
-\NormalTok{ktot}\OtherTok{=}\NormalTok{DPGDatos}\SpecialCharTok{$}\NormalTok{fitted.values[}\StringTok{"shape"}\NormalTok{] }\CommentTok{\# shape}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{umbral}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 0.03
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#Con el modelo ajustado podemos pasar a analizar la distribución de los excesos.}
-\NormalTok{t}\OtherTok{=}\FloatTok{0.05}
-\CommentTok{\# Probabilidad de no exceder un valor mayor a t (t\textgreater{}u)}
-\NormalTok{p }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p)}\SpecialCharTok{*} \FunctionTok{pgpd}\NormalTok{(t}\SpecialCharTok{{-}}\NormalTok{umbral, }\DecValTok{0}\NormalTok{, }\FunctionTok{unname}\NormalTok{(sigmatot),}\FunctionTok{unname}\NormalTok{(ktot))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 0.991921
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Probabilidad de exceder t (el complemento)}
-\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p)}\SpecialCharTok{*} \FunctionTok{pgpd}\NormalTok{(t}\SpecialCharTok{{-}}\NormalTok{umbral, }\DecValTok{0}\NormalTok{, }\FunctionTok{unname}\NormalTok{(sigmatot),}\FunctionTok{unname}\NormalTok{(ktot))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 0.06059946
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DecValTok{1}\SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(Obs}\SpecialCharTok{\textless{}}\NormalTok{t)}\SpecialCharTok{/}\FunctionTok{length}\NormalTok{(Obs)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 0.008498092
-\end{verbatim}
-
-\paragraph{Procesos estacionarios debilmente
-dependientes}\label{procesos-estacionarios-debilmente-dependientes}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(TSA)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-Attaching package: 'TSA'
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:stats':
-
-    acf, arima
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:utils':
-
-    tar
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(tseries)}
-\end{Highlighting}
-\end{Shaded}
-
-Evaluemos la independencia de la serie con un test de rachas. Recuerden
-que existen varios test para evaluar aleatoriedad, ver el Lab 2 para más
-ejemplos. Este procedimiento deben realizarlo para todos los casos
-(incluidos los anteriores).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ts\_relacion}\SpecialCharTok{$}\NormalTok{Date}\OtherTok{=}\FunctionTok{row.names}\NormalTok{(ts\_relacion)}
-\NormalTok{ts\_relacion}\SpecialCharTok{$}\NormalTok{Date}\OtherTok{=}\FunctionTok{as.Date}\NormalTok{(ts\_relacion}\SpecialCharTok{$}\NormalTok{Date)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(ts\_relacion}\SpecialCharTok{$}\NormalTok{indicador)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Entrega_files/figure-latex/unnamed-chunk-56-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{runs.test}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(ts\_relacion}\SpecialCharTok{$}\NormalTok{indicador}\SpecialCharTok{\textgreater{}}\FunctionTok{median}\NormalTok{(ts\_relacion}\SpecialCharTok{$}\NormalTok{indicador)))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-    Runs Test
-
-data:  as.factor(ts_relacion$indicador > median(ts_relacion$indicador))
-Standard Normal = -14.937, p-value < 2.2e-16
-alternative hypothesis: two.sided
-\end{verbatim}
-
-El resultado (p-valor muy pequeño) indica que no estamos en condiciones
-de asumir aleatoriedad en los datos. Veamos que pasa si consideramos
-datos sobre cierto umbral.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tsq90}\OtherTok{=}\FunctionTok{quantile}\NormalTok{(ts\_relacion}\SpecialCharTok{$}\NormalTok{indicador,}\FloatTok{0.90}\NormalTok{)}
-\NormalTok{tsq90}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-       90% 
-0.01756989 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ts}\OtherTok{=}\NormalTok{ts\_relacion}\SpecialCharTok{$}\NormalTok{indicador}
-\NormalTok{exceso\_ts}\OtherTok{\textless{}{-}}\FunctionTok{which}\NormalTok{(ts }\SpecialCharTok{\textgreater{}}\NormalTok{ tsq90)}
-\FunctionTok{length}\NormalTok{(exceso\_ts)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 1154
-\end{verbatim}
-
-Evaluemos la aleatoriedad sobre los excesos.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ts\_e}\OtherTok{=}\NormalTok{ts[exceso\_ts]}
-\FunctionTok{runs.test}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(ts\_e}\SpecialCharTok{\textgreater{}}\FunctionTok{median}\NormalTok{(ts\_e)))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-    Runs Test
-
-data:  as.factor(ts_e > median(ts_e))
-Standard Normal = -4.5353, p-value = 5.752e-06
-alternative hypothesis: two.sided
-\end{verbatim}
+\section{Estrategia Empírica}
 
 \newpage
 
@@ -2149,6 +1349,11 @@ alternative hypothesis: two.sided
 \bibitem[\citeproctext]{ref-notas_curso}
 Crisci, C., Perera, G., \& Segura, A. (2021). \emph{Curso de estadística
 de datos extremales, cap. 1 a cap. 5}.
+
+\bibitem[\citeproctext]{ref-adf}
+Dickey, D. A., \& Fuller, W. A. (1981). Likelihood Ratio Statistics for
+Autoregressive Time Series with Unit Root. \emph{Econometrica},
+\emph{49}, 1057-1072.
 
 \bibitem[\citeproctext]{ref-enders}
 Enders, W. (2014). \emph{Applied Econometric Time Series}. Wiley.
