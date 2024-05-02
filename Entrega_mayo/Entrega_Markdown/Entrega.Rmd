@@ -115,6 +115,7 @@ use_python(path_py)
 
 
 
+
 ```{r}
 # /Library/Frameworks/Python.framework/Versions/3.11/bin/python3 -m pip install yfinance
 # List of Python modules to check
@@ -143,6 +144,13 @@ sp500 = yf.Ticker(ticker_symbol)
 histsp500 = sp500.history(period='max')
 print(histsp500.columns)
 ```
+
+
+```{r}
+histsp500_r <- py$histsp500
+head(histsp500_r)
+```
+
 
 ```{r}
 python_code <- "
